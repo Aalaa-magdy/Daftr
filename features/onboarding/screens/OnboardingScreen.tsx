@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
-    top: 48,
+    height: '90%',
+    top:0,
   },
   backgroundImageFill: {
     flex: 1,
