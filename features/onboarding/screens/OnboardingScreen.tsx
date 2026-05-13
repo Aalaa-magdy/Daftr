@@ -36,64 +36,57 @@ const OnboardingScreen = () => {
   })
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        <ImageBackground
-          source={patternSource}
-          style={styles.backgroundImage}
-          resizeMode="cover"
-        >
-          <View style={styles.backgroundImageFill} />
-        </ImageBackground>
-        <View style={styles.headerRow} accessibilityRole="header">
-          <TouchableOpacity onPress={() => console.log('Get Started Pressed')} hitSlop={12}>
-            <Text style={styles.button}>Sign In</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.bottomPlaceholder} />
+       <View style={styles.header}>
+          <ImageBackground source={patternSource} style={styles.backgroundImage}>
+              <View style={styles.backgroundImageFill}/>
+          </ImageBackground>
+          <View >
+                 <TouchableOpacity >
+                    <Text style={styles.headerButton}>Sign In</Text>
+                 </TouchableOpacity>
+           </View>
+       </View>
+       <View>
+
+       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignSelf: 'stretch',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-  },
-  topContainer: {
-    flex: 1,
-    width: '100%',
-    position: 'relative',
-  },
-  backgroundImage: {
+   container:{
+     flex:1 ,
+     flexDirection:'column',
+     justifyContent:'center',
+     alignItems:'flex-start',
+     paddingHorizontal:20,
+     paddingVertical: 16,
+   },
+   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
     height: '90%',
+    width: '100%',
     top:0,
   },
   backgroundImageFill: {
     flex: 1,
   },
-  headerRow: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    zIndex: 1,
-   
-    direction: 'ltr',
-  },
-  bottomPlaceholder: {
-    minHeight: 0,
-  },
-  button: {
-    color: colors.primary,
-    fontWeight: '500',
-    fontSize: 22,
-    lineHeight: 24,
-    fontFamily: 'Changa_500Medium',
-  },
+   header:{  
+      flex:1,
+      width:'100%',
+      position:'relative',  
+      flexDirection:'row',
+      justifyContent:'flex-end',
+      top:0,
+   },
+   headerButton:{
+     
+      fontFamily:'Changa_500Medium',
+      fontSize:22,
+      fontWeight:'500',
+      color:colors.primary,
+      padding:10,    
+   }
 });
 
 export default OnboardingScreen;
