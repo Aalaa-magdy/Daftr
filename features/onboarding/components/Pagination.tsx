@@ -4,23 +4,45 @@ import { colors } from '@/theme/colors';
 
 interface Props {
   scrollX: Animated.Value;
-  pageWidth: number;
-  /** Number of horizontal bars (intro steps before the auth slide). */
-  stepCount: number;
+  currentStep: number;
 }
 
 const TRACK_W = 44;
 
-const Pagination: React.FC<Props> = ({ scrollX, pageWidth, stepCount }) => {
+const Pagination: React.FC<Props> = ({ currentStep }) => {
+  const steps = [0, 1, 2 ];
+
   return (
-    <View>
-        
+    <View style={styles.container}>
+      {steps.map((step) => (
+        <View
+          key={step}
+          style={[
+            styles.step,
+            {
+              backgroundColor:
+                step <= currentStep ? colors.primary : '#D3D3D3',
+            },
+          ]}
+        />
+      ))}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-
+  container: {
+    flexDirection: 'row',
+    height: 16,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 8,
+  },
+  step: {
+    width: TRACK_W,
+    height: 4,
+    borderRadius: 2,
+  },
 });
 
 export default Pagination;
