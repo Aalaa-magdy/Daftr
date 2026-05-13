@@ -1,16 +1,16 @@
-import { StyleSheet, View, Animated } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { colors } from '@/theme/colors';
 
 interface Props {
-  scrollX: Animated.Value;
   currentStep: number;
+  totalSteps: number;
 }
 
 const TRACK_W = 44;
 
-const Pagination: React.FC<Props> = ({ currentStep }) => {
-  const steps = [0, 1, 2 ];
+const Pagination: React.FC<Props> = ({ currentStep, totalSteps }) => {
+  const steps = Array.from({ length: totalSteps }, (_, index) => index);
 
   return (
     <View style={styles.container}>

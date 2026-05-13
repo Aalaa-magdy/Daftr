@@ -7,32 +7,36 @@ import {
 
 import {
   Changa_400Regular,
-  Changa_700Bold,
   Changa_500Medium
 } from '@expo-google-fonts/changa';
 import { onboardingData } from '../data/onboardingData'
 
-interface props {
+interface Props {
     currentStep: number;
+    onPress: () => void;
+    isLastStep: boolean;
 }
 
-const OnboardingButton = ({ currentStep }: props) => {
-       let [fontsLoaded] = useFonts({
+const OnboardingButton = ({ currentStep, onPress, isLastStep }: Props) => {
+      let [fontsLoaded] = useFonts({
         Changa_400Regular,
-        Changa_700Bold,
         Changa_500Medium
       })
+
+  const buttonText = onboardingData[currentStep]?.buttonText ?? 'Continue';
+
   return (
     <View style={styles.container}>
-         <TouchableOpacity >
-            {currentStep < onboardingData.length && (
-                <Text style={styles.continueButton}>{onboardingData[currentStep].buttonText}</Text>
+         <TouchableOpacity
+            style={isLastStep ? styles.primaryButton : undefined}
+            onPress={onPress}
+            activeOpacity={0.8}
+         >
+            {isLastStep ? (
+              <Text style={styles.primaryButtonText}>{buttonText}</Text>
+            ) : (
+              <Text style={styles.continueButton}>{buttonText}</Text>
             )}
-            {
-                currentStep === onboardingData.length - 1 && (
-                    <Text style={styles.signInButton}>Sign In</Text>
-                )
-            }
          </TouchableOpacity>    
     </View>
   )
@@ -40,23 +44,29 @@ const OnboardingButton = ({ currentStep }: props) => {
 
 const styles = StyleSheet.create({
     container:{
+        width: '100%',
         alignItems: 'center',
         marginBottom: 16,
     },
-   continueButton:{
-     color:colors.textGray,
-     fontSize: 16,
-     fontFamily: 'Changa_500Medium',
-     paddingVertical: 12,
-     paddingHorizontal: 24,  
-     lineHeight: 24, 
-    },
-    signInButton:{
-        backgroundColor: colors.primary,
+    continueButton:{
+        color:colors.textGray,
         fontSize: 16,
         fontFamily: 'Changa_500Medium',
         paddingVertical: 12,
-        paddingHorizontal: 24,  
+        lineHeight: 24, 
+    },
+    primaryButton: {
+        width: '100%',
+        backgroundColor: colors.primary,
+        borderRadius: 8,
+        paddingVertical: 14,
+        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    primaryButtonText: {
+        fontSize: 16,
+        fontFamily: 'Changa_500Medium',
         lineHeight: 24,
         color: colors.white,
     }

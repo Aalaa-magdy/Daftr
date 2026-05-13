@@ -1,74 +1,61 @@
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import { colors } from '@/theme/colors';
-import type { OnboardingItemType } from '../data/onboardingData';
-
-import { onboardingData } from '../data/onboardingData';
-
 import { 
-  Tektur_400Regular,
-  Tektur_500Medium,
-  Tektur_600SemiBold,
-  Tektur_700Bold,
-  Tektur_800ExtraBold,
-  Tektur_900Black,
   useFonts
 } from '@expo-google-fonts/tektur';
 
 import {
   Changa_400Regular,
-  Changa_700Bold,
   Changa_500Medium
 } from '@expo-google-fonts/changa';
-interface props {
-  currentStep: number;
+
+import type { OnboardingItemType } from '../data/onboardingData';
+
+interface Props {
+  item: OnboardingItemType;
+  width: number;
 }
-const OnboardingItem : React.FC<props> = ({ currentStep }) => {
-  
-   let [fontsLoaded] = useFonts({
-    Tektur_400Regular,
-    Tektur_500Medium,
-    Tektur_600SemiBold,
-    Tektur_700Bold,
-    Tektur_800ExtraBold,
-    Tektur_900Black,
+
+const OnboardingItem: React.FC<Props> = ({ item, width }) => {
+  let [fontsLoaded] = useFonts({
     Changa_400Regular,
-    Changa_700Bold,
     Changa_500Medium
-  })
+  });
+
   return (
-     <View style={styles.container}>    
-        <Text style={styles.title}> 
-          {onboardingData[currentStep].title}
+    <View style={[styles.container, { width }]}>
+        <Text style={styles.title}>
+          {item.title}
         </Text>
         <Text style={styles.description}>
-          {onboardingData[currentStep].description}
+          {item.description}
         </Text>
-      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-     container:{
-        flex: 1,
-        position: 'relative',
-       paddingHorizontal: 16,
-     },
-     title:{
-      fontSize: 26,
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    paddingBottom: 24,
+  },
+  title: {
+      fontSize: 23,
       fontFamily: 'Changa_500Medium',
       fontWeight: '500',
       color: colors.text,
       marginBottom: 12,
-     },
-      description:{
+      lineHeight: 40,
+  },
+  description: {
       fontSize: 16,
       fontFamily: 'Changa_400Regular',
       fontWeight: '400',
       color: colors.textSecondary,
-     },
-     
-  
-  } );
+      lineHeight: 24,
+  },
+});
 
 export default OnboardingItem;

@@ -28,13 +28,6 @@ export const onboardingData: OnboardingItemType[] = [
       'Set budgets, track progress, and get gentle nudges to help you save more each month.',
     buttonText: 'Get Started',
   },
-  {
-    id: 4,
-    title: 'Start your financial journey',
-    description:
-      'Track expenses, manage your budget, and stay organized every day.',
-    buttonText: 'Get Started',
-  },
 ];
 
 export const ONBOARDING_INTRO_STEPS = 3;

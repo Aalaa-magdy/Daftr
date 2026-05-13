@@ -1,9 +1,8 @@
-import { StyleSheet, View, ImageBackground, TouchableOpacity, Text, Animated } from 'react-native';
+import { StyleSheet, View, ImageBackground, TouchableOpacity, Text, FlatList, useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/theme/colors';
 import SoloLogo from '@/assets/images/SoloLogo.svg';
 const patternSource = require('@/assets/images/background-pattern-decorative.png');
-
 import { 
   Tektur_400Regular,
   Tektur_500Medium,
@@ -23,11 +22,15 @@ import Pagination from '../components/Pagination';
 import React from 'react';
 import OnboardingItem from '../components/OnboardingItem';
 import OnboardingButton from '../components/OnboardingButton';
+import { onboardingData, type OnboardingItemType } from '../data/onboardingData';
 
 const OnboardingScreen = () => {
+  const [currentStep, setCurrentStep] = React.useState(0);
+  const flatListRef = React.useRef<FlatList<OnboardingItemType>>(null);
+  const { width, height } = useWindowDimensions();
+  const contentWidth = Math.max(width - 40, 0);
 
-    const [currentStep, setCurrentStep] = React.useState(0);
-    let [fontsLoaded] = useFonts({
+  let [fontsLoaded] = useFonts({
     Tektur_400Regular,
     Tektur_500Medium,
     Tektur_600SemiBold,
@@ -37,11 +40,38 @@ const OnboardingScreen = () => {
     Changa_400Regular,
     Changa_700Bold,
     Changa_500Medium
-  })
+  });
+
+  const handleScrollEnd = React.useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const offsetX = event.nativeEvent.contentOffset.x;
+      const nextIndex = Math.round(offsetX / contentWidth);
+      setCurrentStep(nextIndex);
+    },
+    [contentWidth]
+  );
+
+  const handleNext = React.useCallback(() => {
+    if (currentStep >= onboardingData.length - 1) {
+      return;
+    }
+
+    flatListRef.current?.scrollToIndex({
+      index: currentStep + 1,
+      animated: true,
+    });
+  }, [currentStep]);
+
+  const renderItem = React.useCallback(
+    ({ item }: { item: OnboardingItemType }) => (
+      <OnboardingItem item={item} width={contentWidth} />
+    ),
+    [contentWidth]
+  );
   
   return (
     <SafeAreaView style={styles.container}>
-        <ImageBackground source={patternSource} resizeMode="cover" style={styles.backgroundImage}/>
+        <ImageBackground source={patternSource} resizeMode="cover" style={styles.backgroundImage} />
        <View style={styles.header}>
                  <TouchableOpacity >
                     <Text style={styles.headerButton}>Sign In</Text>
@@ -53,13 +83,33 @@ const OnboardingScreen = () => {
                      <Text style={styles.logoText}> Daftar</Text>     
        </View>
        <View style={styles.pagination}>
-           <Pagination scrollX={new Animated.Value(0)} currentStep={0}/>
+           <Pagination currentStep={currentStep} totalSteps={onboardingData.length} />
        </View>
-       <View style={styles.data}>
-          <OnboardingItem currentStep={0} />
-       </View>
-        <View>
-           <OnboardingButton currentStep={0} />
+        <View style={styles.listContainer}>
+          <FlatList
+            ref={flatListRef}
+            data={onboardingData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            pagingEnabled
+            bounces={false}
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleScrollEnd}
+            getItemLayout={(_, index) => ({
+              length: contentWidth,
+              offset: contentWidth * index,
+              index,
+            })}
+            style={styles.list}
+          />
+        </View>
+        <View style={styles.footer}>
+           <OnboardingButton
+             currentStep={currentStep}
+             onPress={handleNext}
+             isLastStep={currentStep === onboardingData.length - 1}
+           />
         </View>
        </View>
     </SafeAreaView>
@@ -69,8 +119,6 @@ const OnboardingScreen = () => {
 const styles = StyleSheet.create({
    container: {
      flex: 1,
-     paddingHorizontal: 20,
-     paddingVertical: 16,
      backgroundColor: colors.white,
    },
    backgroundImage: {
@@ -83,12 +131,13 @@ const styles = StyleSheet.create({
     height: '90%',
   },
    header: {  
-      height: 220,  // Fixed height
+      height: 230,
       flexDirection: 'row',
       justifyContent: 'flex-end',   
    },
    content:{
       flex: 1,
+      paddingHorizontal: 20,
    },
    headerButton: { 
       fontFamily: 'Changa_500Medium',
@@ -103,8 +152,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',  // Vertically centers content
-      gap: 8,
-      paddingHorizontal: 16,
+      gap: 4,
+      
        
    },
  
@@ -116,14 +165,18 @@ const styles = StyleSheet.create({
    },
    pagination: {
       width: '100%',
-      height: 40,  // Fixed height
-      paddingHorizontal: 16,
+      height: 40,
    },
-   data:{
-    flex:1,  
-     height:340
-   }
-
+   listContainer: {
+     flex: 1,
+   },
+   list: {
+     flex: 1,
+   },
+   footer: {
+     width: '100%',
+     paddingBottom: 16,
+   },
 });
 
 export default OnboardingScreen;
