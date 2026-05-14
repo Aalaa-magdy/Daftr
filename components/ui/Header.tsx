@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 26,
+    fontSize: 23,
     lineHeight: 40,
     fontFamily: 'Changa_500Medium',
     textAlign: 'center',
