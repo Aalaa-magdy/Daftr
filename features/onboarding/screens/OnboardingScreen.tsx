@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
    },
    headerButton: { 
       fontFamily: 'Changa_500Medium',
-      fontSize: 22,
+      fontSize: 18,
       fontWeight: '500',
       color: colors.primary,
       padding: 24,    
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
    logoText: {
       color: colors.primary,
       fontFamily: 'Tektur_400Regular',
-      fontSize: 28, 
+      fontSize: 25, 
       fontWeight: '400',
    },
    pagination: {
