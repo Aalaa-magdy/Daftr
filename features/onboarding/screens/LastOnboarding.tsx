@@ -8,7 +8,7 @@ import {
 
 import Header from "@/components/ui/Header";
 import Button from "@/components/ui/Button";
-import GoogleButton from "@/components/GoogleButton";
+import GoogleButton from "@/components/ui/GoogleButton";
 import {
   Changa_400Regular,
   Changa_500Medium
@@ -56,7 +56,7 @@ const LastOnboarding = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
   },
   content: {
     flex: 1,
