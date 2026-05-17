@@ -68,7 +68,7 @@ const OnboardingScreen = () => {
         <ImageBackground source={patternSource} resizeMode="cover" style={styles.backgroundImage} />
        <View style={styles.header}>
                  <TouchableOpacity >
-                    <Text style={styles.headerButton}>Sign In</Text>
+                    <Text style={styles.headerButton}>Skip</Text>
                  </TouchableOpacity>
        </View>
        <View style={styles.content}> 
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     height: '90%',
   },
    header: {  
-      height: 230,
+      height: 200,
       flexDirection: 'row',
       justifyContent: 'flex-end',  
       backgroundColor:"transparent"
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
    },
    logoSection: {
       width: '100%',
-      height: 55,  // Fixed height
+      height: 50,  // Fixed height
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',

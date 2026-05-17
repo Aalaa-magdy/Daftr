@@ -39,7 +39,7 @@ const Header = ({ title, subtitle }: Props) => {
 const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
-    paddingTop: 56,
+    paddingTop: 25,
     gap: 20,
   },
   logo: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: 16,
-    lineHeight: 32,
+    lineHeight: 24,
     color: colors.textGray,
     fontFamily: 'Changa_400Regular',
     textAlign: 'center',
