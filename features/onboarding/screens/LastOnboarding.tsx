@@ -43,6 +43,7 @@ const LastOnboarding = () => {
             accessibilityRole="button"
             style={styles.secondaryButton}
             activeOpacity={0.8}
+            onPress={()=>router.push('/signin')}
           >
             <Text style={styles.secondaryButtonText}>Sign in</Text>
           </TouchableOpacity>

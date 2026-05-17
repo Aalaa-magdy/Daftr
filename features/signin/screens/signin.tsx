@@ -11,14 +11,13 @@ import {
 } from "@expo-google-fonts/changa";
 import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
 import LockPasswordIcon from "@hugeicons/core-free-icons/SquareLockPasswordIcon";
-import User03Icon from "@hugeicons/core-free-icons/User03Icon";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react-native";
 import { useRouter, type Href } from "expo-router";
 import {
-  FlatList,
   ImageBackground,
-  Keyboard,
+  KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -30,9 +29,7 @@ const fieldIcon = (icon: IconSvgElement) => (
   <HugeiconsIcon icon={icon} size={22} />
 );
 
-const SIGNUP_FORM_ROWS = [{ id: "signup-form" }];
-
-const Signup = () => {
+const Signin = () => {
   const router = useRouter();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -49,36 +46,23 @@ const Signup = () => {
         style={styles.backgroundImage}
         resizeMode="cover"
       />
-      <FlatList
-        data={SIGNUP_FORM_ROWS}
-        keyExtractor={(item) => item.id}
+      <KeyboardAvoidingView
         style={{ flex: 1 }}
-        contentContainerStyle={styles.content}
-        keyboardShouldPersistTaps="handled"
-        nestedScrollEnabled
-        showsVerticalScrollIndicator
-        onScrollBeginDrag={() => Keyboard.dismiss()}
-        keyboardDismissMode="interactive"
-        renderItem={() => (
-          <View>
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ flex: 1 }}>
             <Header
-              title={"Create an account"}
-              subtitle={
-                "Create an account to save your progress and sync your data."
-              }
+              title={"Login In to your Account"}
+              subtitle={"Welcome back! Please enter your details."}
             />
 
             <View style={styles.actions}>
-              <View>
-                <Text style={styles.label}>
-                  Name <Text style={styles.star}>*</Text>
-                </Text>
-                <Input
-                  placeholder="Enter your Name"
-                  icon={fieldIcon(User03Icon)}
-                />
-              </View>
-
               <View>
                 <Text style={styles.label}>
                   Email <Text style={styles.star}>*</Text>
@@ -100,34 +84,26 @@ const Signup = () => {
                   icon={fieldIcon(LockPasswordIcon)}
                 />
               </View>
-              <View>
-                <Text style={styles.label}>
-                  Confirm Password <Text style={styles.star}>*</Text>
-                </Text>
-                <Input
-                  placeholder="........."
-                  secureTextEntry
-                  icon={fieldIcon(LockPasswordIcon)}
-                />
-              </View>
-
-              <Button title={"Create account"} />
-              <GoogleButton title={"up"} />
-
-              <View style={styles.footerAuth}>
-                <Text style={styles.footerAuthMuted}>
-                  Already have an account?
-                </Text>
-                <TextLinkButton
-                  title="Sign in"
-                  variant="inline"
-                  onPress={() => router.push("/signin" as Href)}
-                />
-              </View>
             </View>
           </View>
-        )}
-      />
+
+          <View style={styles.bottomActions}>
+            <Button title={"Create account"} />
+            <GoogleButton title={"up"} />
+
+            <View style={styles.footerAuth}>
+              <Text style={styles.footerAuthMuted}>
+                Don't have an account?
+              </Text>
+              <TextLinkButton
+                title="Sign up"
+                variant="inline"
+                onPress={() => router.push("/signup" as Href)}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -137,9 +113,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   content: {
-    flexGrow: 0.8,
+    flexGrow: 1,
     paddingHorizontal: 16,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     paddingBottom: 32,
   },
   backgroundImage: {
@@ -152,6 +128,9 @@ const styles = StyleSheet.create({
   },
   actions: {
     marginTop: 32,
+    gap: 16,
+  },
+  bottomActions: {
     gap: 16,
   },
   label: {
@@ -179,4 +158,4 @@ const styles = StyleSheet.create({
     color: colors.captionMuted,
   },
 });
-export default Signup;
+export default Signin;
