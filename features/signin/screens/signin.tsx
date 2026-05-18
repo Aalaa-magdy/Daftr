@@ -88,7 +88,7 @@ const Signin = () => {
                   <TextLinkButton
                     title="Forget Password?"
                     variant="inline"
-                    onPress={() => router.push("/forgetpassword" as Href)}
+                    onPress={() => router.push("/reset-password" as Href)}
                   />
                 </View>
               </View>

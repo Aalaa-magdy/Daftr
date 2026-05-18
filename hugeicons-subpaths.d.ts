@@ -39,3 +39,17 @@ declare module '@hugeicons/core-free-icons/ViewOffIcon' {
   const icon: IconSvgElement;
   export default icon;
 }
+
+declare module "@hugeicons/core-free-icons/Key01Icon"{
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon:IconSvgElement;
+  export default icon;
+}
+
+declare module "@hugeicons/core-free-icons/NewReleasesIcon"{
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon:IconSvgElement;
+  export default icon;
+}
