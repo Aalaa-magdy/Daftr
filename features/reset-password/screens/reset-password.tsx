@@ -1,4 +1,3 @@
-
 import { colors } from "@/theme/colors";
 import {
   Changa_400Regular,
@@ -23,50 +22,66 @@ const fieldIcon = (icon: IconSvgElement) => (
 import passwordData ,{ PasswordDataType }from "../data/passwordData";  
 import { useState } from "react";
 import Pagination from "../components/Pagination";
+
 const ResetPassword = () => {
   const router = useRouter();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
   });
-  const [currentStep,SetCurrentStep]= useState(0);
+  const [currentStep, SetCurrentStep] = useState(1);
 
   if (!fontsLoaded) {
     return null;
   }
    
   return (
-    <View style={styles.pagination}>
+    <ScrollView 
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.content}>
+        {/* Your main content goes here */}
+        <Text>Your form content here...</Text>
+      </View>
+      
+      <View style={styles.paginationContainer}>
         <Pagination
-          
           currentStep={currentStep}
           totalSteps={passwordData.length}
         />
-    </View>
+      </View>
+    </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+ 
+
     backgroundColor: colors.background,
+    
+  },
+  scrollContent: {
+    flexGrow: 1,
+  
+  
   },
   content: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 16,
-    justifyContent: "space-between",
-    paddingBottom: 32,
+    justifyContent: "center",
+    paddingBottom: 20,
   },
-  backgroundImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    width: "100%",
-    height: "48%",
-  },
-  pagination: {
+  paginationContainer: {
     width: '100%',
-    height: 40,
+    alignItems:"center",
+    paddingHorizontal: 16,
+    paddingBottom: 34,
+
   },
 });
+
 export default ResetPassword;
