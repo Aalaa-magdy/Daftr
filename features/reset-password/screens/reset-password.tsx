@@ -46,15 +46,29 @@ const ResetPassword = () => {
     [contentWidth]
   );
 
+  const handleNext = useCallback(() => {
+    if (currentStep >= passwordData.length - 1) {
+      router.back();
+      return;
+    }
+    const nextIndex = currentStep + 1;
+    setCurrentStep(nextIndex);
+    flatListRef.current?.scrollToIndex({
+      index: nextIndex,
+      animated: true,
+    });
+  }, [currentStep, router]);
+
   const renderItem = useCallback(
     ({ item }: { item: PasswordDataType }) => (
       <ResetPasswordItem
         item={item}
         width={contentWidth}
         onBackPress={() => router.back()}
+        onNext={handleNext}
       />
     ),
-    [contentWidth, router]
+    [contentWidth, router, handleNext]
   );
 
   if (!fontsLoaded) {

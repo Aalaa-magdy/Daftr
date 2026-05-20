@@ -22,9 +22,11 @@ interface Props {
   description: string;
   icon: IconSvgElement;
   onBackPress?: () => void;
+  /** Bold line shown after description (e.g. email on check step) */
+  highlightText?: string;
 }
 
-const ResetHeader = ({ title, description, icon, onBackPress }: Props) => {
+const ResetHeader = ({ title, description, icon, onBackPress, highlightText }: Props) => {
   const insets = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -65,7 +67,12 @@ const ResetHeader = ({ title, description, icon, onBackPress }: Props) => {
           <HugeiconsIcon icon={icon} size={32} color={colors.primary} />
         </View>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.description}>
+          {description}
+          {highlightText ? (
+            <Text style={styles.descriptionHighlight}> {highlightText}</Text>
+          ) : null}
+        </Text>
       </View>
     </View>
   );
@@ -74,7 +81,6 @@ const ResetHeader = ({ title, description, icon, onBackPress }: Props) => {
 const styles = StyleSheet.create({
   root: {
     width: '100%',
-    flex: 1,
     backgroundColor: colors.background,
   },
   backgroundImage: {
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    height: '55%',
+    height: '90%',
   },
   backButton: {
     position: 'absolute',
@@ -93,13 +99,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   centerContent: {
-    flex: 1,
     width: '100%',
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 56,
-    paddingBottom: 24,
+    paddingHorizontal: 4,
+    paddingTop: 40,
+    marginTop:60,
+    paddingBottom: 16,
     gap: 12,
   },
   iconContainer: {
@@ -122,6 +127,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Changa_400Regular',
     color: colors.textGray,
     textAlign: 'center',
+  },
+  descriptionHighlight: {
+    fontFamily: 'Changa_500Medium',
+    color: colors.black,
   },
 });
 

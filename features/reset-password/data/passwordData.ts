@@ -2,12 +2,16 @@ import type { IconSvgElement } from "@hugeicons/react-native";
 import Key01Icon from "@hugeicons/core-free-icons/Key01Icon";
 import NewReleasesIcon from "@hugeicons/core-free-icons/NewReleasesIcon"
 import SquareLockPasswordIcon from "@hugeicons/core-free-icons/SquareLockPasswordIcon"
+export type PasswordStepType = 'forget' | 'check' | 'verify';
+
 export interface PasswordDataType {
     id: number;
-    type:string,
+    type: PasswordStepType;
     title: string;
     subtitle: string;
-    icon: IconSvgElement; // Change to IconSvgElement type
+    icon: IconSvgElement;
+    /** Shown bold in the “check” step description */
+    email?: string;
 }
 
 export const passwordData: PasswordDataType[] = [
@@ -24,7 +28,8 @@ export const passwordData: PasswordDataType[] = [
         type:"check",
         title:"Check your email",
         subtitle:"Enter the 4-digit verification code sent to your email: ",
-        icon:NewReleasesIcon
+        icon:NewReleasesIcon,
+        email: "salmagamal119@gmail.com",
     },
       {
         id:3,
