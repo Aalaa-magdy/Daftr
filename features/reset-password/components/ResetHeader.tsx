@@ -1,88 +1,128 @@
-import { colors } from "@/theme/colors"
-import { ImageBackground, StyleSheet, Text, View } from "react-native"
-const patternSource = require('@/assets/images/background-pattern-decorative.png');
-import Key01Icon from "@hugeicons/core-free-icons/Key01Icon"
-import ArrowLeft02Icon from "@hugeicons/core-free-icons/ArrowLeft02Icon"
-import passwordData from "../data/passwordData";
-import { HugeiconsIcon } from '@hugeicons/react-native';
-interface Props {
-  currentStep:number
-}
+import { colors } from '@/theme/colors';
+import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import {
   Changa_400Regular,
   Changa_500Medium,
-  useFonts
+  useFonts,
 } from '@expo-google-fonts/changa';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const ResetHeader = ({ currentStep}: Props) => {
+const patternSource = require('@/assets/images/background-pattern-decorative.png');
+
+interface Props {
+  title: string;
+  description: string;
+  icon: IconSvgElement;
+  onBackPress?: () => void;
+}
+
+const ResetHeader = ({ title, description, icon, onBackPress }: Props) => {
+  const insets = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
-    Changa_500Medium
+    Changa_500Medium,
   });
 
   if (!fontsLoaded) {
     return null;
   }
-  
+
   return (
-    <View style={styles.container}> 
-        <ImageBackground source={patternSource} style={styles.backgroundImage} resizeMode="cover" />
-        <View style={styles.content}>
-          <View style={styles.backStep} >
-             <HugeiconsIcon icon={ArrowLeft02Icon} size={32} color={colors.textGray} />
-          </View>
-           <View style={styles.iconContainer}>
-              <HugeiconsIcon 
-                icon={passwordData[currentStep].icon} 
-                size={32} 
-                color={colors.primary} // or any color you want
-              />
-           </View>
-           <Text style={styles.stepText}>Step {currentStep + 1}</Text>
+    <View style={styles.root}>
+      <ImageBackground
+        source={patternSource}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      />
+
+      {onBackPress ? (
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          style={[styles.backButton, { top: Math.max(insets.top, 8) }]}
+          onPress={onBackPress}
+          activeOpacity={0.7}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        >
+          <HugeiconsIcon
+            icon={ArrowLeft02Icon}
+            size={28}
+            color={colors.textGray}
+          />
+        </TouchableOpacity>
+      ) : null}
+
+      <View style={styles.centerContent}>
+        <View style={styles.iconContainer}>
+          <HugeiconsIcon icon={icon} size={32} color={colors.primary} />
         </View>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
+      </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-   container: {
+  root: {
+    width: '100%',
     flex: 1,
     backgroundColor: colors.background,
-    position:"relative"
-  },
-  backStep:{
-    paddingHorizontal:20,
-    position:"absolute",
-    left:0
-  },
-  content: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginTop:80,
-    paddingHorizontal: 20,
-    gap:16
   },
   backgroundImage: {
     position: 'absolute',
-    top: -100,
+    top: 0,
     left: 0,
+    right: 0,
     width: '100%',
-    height: '90%',
+    height: '55%',
+  },
+  backButton: {
+    position: 'absolute',
+    left: 0,
+    zIndex: 10,
+    paddingLeft: 4,
+    paddingVertical: 8,
+  },
+  centerContent: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 56,
+    paddingBottom: 24,
+    gap: 12,
   },
   iconContainer: {
-    marginBottom:12,
-    padding:8,
-    borderRadius:12,
-    marginTop:70,
-    backgroundColor:colors.secondary
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: colors.secondary,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  stepText: {
-    fontSize: 18,
-    fontFamily: "Changa_500Medium",
-    color: colors.text,
-    textAlign: "center",
-  }
-})
+  title: {
+    fontSize: 23,
+    lineHeight: 36,
+    fontFamily: 'Changa_500Medium',
+    color: colors.black,
+    textAlign: 'center',
+  },
+  description: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontFamily: 'Changa_400Regular',
+    color: colors.textGray,
+    textAlign: 'center',
+  },
+});
 
-export default ResetHeader
+export default ResetHeader;

@@ -59,6 +59,7 @@ const OnboardingScreen = () => {
     ),
     [contentWidth]
   );
+  
     if (!fontsLoaded) {
       return null;
     }
