@@ -20,6 +20,7 @@ const VerificationCodeInput = ({ value = '', onChange }: Props) => {
   const [digits, setDigits] = useState<string[]>(() =>
     Array.from({ length: CODE_LENGTH }, (_, i) => value[i] ?? '')
   );
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
   const updateDigits = (next: string[]) => {
     setDigits(next);
@@ -54,10 +55,17 @@ const VerificationCodeInput = ({ value = '', onChange }: Props) => {
           ref={(ref) => {
             inputsRef.current[index] = ref;
           }}
-          style={[styles.cell, digit ? styles.cellFilled : null]}
+          style={[
+            styles.cell,
+            digit || focusedIndex === index ? styles.cellActive : null,
+          ]}
           value={digit}
           onChangeText={(text) => handleChange(text, index)}
           onKeyPress={(event) => handleKeyPress(event, index)}
+          onFocus={() => setFocusedIndex(index)}
+          onBlur={() =>
+            setFocusedIndex((current) => (current === index ? null : current))
+          }
           keyboardType="number-pad"
           maxLength={1}
           selectTextOnFocus
@@ -86,8 +94,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Changa_500Medium',
     color: colors.black,
   },
-  cellFilled: {
+  cellActive: {
     borderColor: colors.primary,
+    borderWidth: 1,
   },
 });
 

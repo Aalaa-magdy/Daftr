@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   root: {
     width: '100%',
     backgroundColor: colors.background,
+    marginBottom:16
   },
   backgroundImage: {
     position: 'absolute',

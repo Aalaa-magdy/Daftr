@@ -33,8 +33,8 @@ const ResetPasswordItem: React.FC<Props> = ({
     switch (item.type) {
       case 'forget':
         return (
-          <>
-            <View>
+          <View style={styles.stepBody}>
+            <View style={styles.fieldGroup}>
               <Text style={styles.label}>
                 Email <Text style={styles.star}>*</Text>
               </Text>
@@ -42,47 +42,56 @@ const ResetPasswordItem: React.FC<Props> = ({
                 placeholder="me@example.com"
                 keyboardType="email-address"
                 icon={fieldIcon(Mail01Icon)}
+                containerStyle={styles.fieldInput}
               />
             </View>
-            <Button title="Reset Password" onPress={onNext} />
-          </>
+            <View style={styles.buttonWrap}>
+              <Button title="Reset Password" onPress={onNext} />
+            </View>
+          </View>
         );
 
       case 'check':
         return (
-          <>
+          <View style={styles.stepBody}>
             <VerificationCodeInput />
-            <Button title="Verify Email" onPress={onNext} />
+            <View style={styles.buttonWrap}>
+              <Button title="Verify Email" onPress={onNext} />
+            </View>
             <View style={styles.resendRow}>
               <Text style={styles.resendMuted}>Didn't receive the email </Text>
               <TextLinkButton title="Resend" variant="inline" onPress={() => {}} />
             </View>
-          </>
+          </View>
         );
 
       case 'verify':
         return (
-          <>
-            <View>
+          <View style={styles.stepBody}>
+            <View style={styles.fieldGroup}>
               <Text style={styles.label}>
                 Password <Text style={styles.star}>*</Text>
               </Text>
               <PasswordInput
                 placeholder="........"
                 icon={fieldIcon(SquareLockPasswordIcon)}
+                containerStyle={styles.fieldInput}
               />
             </View>
-            <View>
+            <View style={styles.fieldGroup}>
               <Text style={styles.label}>
                 Confirm Password <Text style={styles.star}>*</Text>
               </Text>
               <PasswordInput
                 placeholder="........"
                 icon={fieldIcon(SquareLockPasswordIcon)}
+                containerStyle={styles.fieldInput}
               />
             </View>
-            <Button title="Reset password" onPress={onNext} />
-          </>
+            <View style={styles.buttonWrap}>
+              <Button title="Reset password" onPress={onNext} />
+            </View>
+          </View>
         );
 
       default:
@@ -116,30 +125,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    gap: 16,
   },
   formScroll: {
     flex: 1,
   },
   formContent: {
-    gap: 16,
+    gap: 8,
     paddingBottom: 24,
+  },
+  stepBody: {
+    gap: 8,
+  },
+  fieldGroup: {
+    gap: 8,
+  },
+  fieldInput: {
+    marginBottom: 0,
   },
   label: {
     fontFamily: 'Changa_400Regular',
     color: colors.black,
     fontSize: 16,
     lineHeight: 20,
-    marginBottom: 6,
   },
   star: {
     color: 'red',
+  },
+  buttonWrap: {
+    marginTop: 16,
+    width: '100%',
   },
   resendRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 4,
+    gap: 8,
   },
   resendMuted: {
     fontFamily: 'Changa_400Regular',
