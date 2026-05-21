@@ -87,13 +87,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
   },
   secondaryButtonText: {
     fontSize: 16,
     lineHeight: 24,
     fontFamily: 'Changa_500Medium',
     color: colors.primary,
+
   },
 })
 
