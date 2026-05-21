@@ -59,3 +59,31 @@ declare module "@hugeicons/core-free-icons/ArrowLeft02Icon"{
   const icon:IconSvgElement;
   export default icon;
 }
+
+declare module '@hugeicons/core-free-icons/MoneyBag01Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
+declare module '@hugeicons/core-free-icons/Calendar03Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
+declare module '@hugeicons/core-free-icons/ArrowRight02Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
+declare module '@hugeicons/core-free-icons/ArrowDown01Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}

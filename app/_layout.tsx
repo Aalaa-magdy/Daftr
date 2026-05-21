@@ -16,6 +16,7 @@ export default function RootLayout() {
       <Stack.Screen name="signup" />
       <Stack.Screen name="signin" />
       <Stack.Screen name="reset-password" />
+      <Stack.Screen name="set-salary" />
     </Stack>
   );
 }

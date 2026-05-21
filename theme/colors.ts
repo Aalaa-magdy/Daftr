@@ -17,6 +17,8 @@ export const colors = {
   border: '#E5E5E5',
   buttonSecondaryBg: '#F0F0F0',
   progressInactive: '#E0E0E0',
+  /** Disabled primary actions (e.g. Continue before form is valid) */
+  gray: '#D3D3D3',
 } as const;
 
 export type ColorKey = keyof typeof colors;

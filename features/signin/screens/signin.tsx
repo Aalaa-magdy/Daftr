@@ -96,7 +96,7 @@ const Signin = () => {
           </View>
 
           <View style={styles.bottomActions}>
-            <Button title={"Sign in"} />
+            <Button title={"Sign in"}    onPress={() => router.push("/set-salary" as Href)} />
             <GoogleButton title={"in"} />
 
 
