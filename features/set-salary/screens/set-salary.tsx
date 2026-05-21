@@ -74,7 +74,7 @@ const SetSalary = () => {
       >
         <Header
           title="Let's set your monthly salary"
-          subtitle="Add your salary and payday to automatically track your monthly spending cycle."
+          subtitle="This helps us understand your spending and organize your finances better."
         />
 
         <View style={styles.form}>
@@ -168,8 +168,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    paddingHorizontal: 16,
-    paddingTop: 30,
+    paddingHorizontal: 14,
+    paddingTop: 18,
     paddingBottom: 32,
     gap: 8,
   },
