@@ -1,50 +1,83 @@
-# Welcome to your Expo app 👋
+## 🎯 Overview
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+MoneyTrack helps users manage their personal finances by providing an intuitive interface to record, categorize, and analyze income and expenses. The app features a clean history view with filtering capabilities, category-based organization, and visual transaction summaries.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+### Core Features
+- **Add Transactions** - Record income and expenses with amount, category, and date
+- **Transaction History** - View all transactions in chronological order
+- **Filtering System** - Filter by:
+  - Date ranges (This Week, This Month, Last Month, This Year, Custom Range)
+  - Transaction type (Income/Expense/All)
+  - Categories (Food, Shopping, Education, Bills, etc.)
+- **Category Management** - Predefined categories with icons for common expense types
+- **Balance Calculator** - Real-time balance calculation based on income and expenses
+- **Visual Indicators** - Color-coded entries (green for income, red for expenses)
 
-   ```bash
-   npm install
-   ```
+### Advanced Features
+- Custom date range picker
+- Persistent storage using AsyncStorage
+- Transaction editing and deletion
+- Monthly/yearly summaries
+- Export transaction history (CSV)
+- Charts and statistics (coming soon)
 
-2. Start the app
+## 🛠 Tech Stack
 
-   ```bash
-   npx expo start
-   ```
+| Technology | Purpose |
+|------------|---------|
+| **React Native** (0.72+) | Mobile framework |
+| **Expo** | Development platform |
+| **React Navigation** (v6) | Screen navigation |
+| **AsyncStorage** | Local data persistence |
+| **React Native Paper** | UI components |
+| **React Native Calendars** | Date picking |
+| **React Native Vector Icons** | Icons and graphics |
+| **Moment.js** | Date manipulation |
+| **React Native Chart Kit** | Data visualization (planned) |
 
-In the output, you'll find options to open the app in a
+## 📦 Installation
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Prerequisites
+- Node.js (v16 or later)
+- npm or yarn
+- Expo CLI (`npm install -g expo-cli`)
+- iOS Simulator (Mac only) or Android Emulator
+- Expo Go app on physical device
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Setup Instructions
 
 ```bash
-npm run reset-project
-```
+# 1. Clone the repository
+git clone https://github.com/yourusername/moneytrack.git
+cd moneytrack
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# 2. Install dependencies
+npm install
+# or
+yarn install
 
-## Learn more
+# 3. Install additional required packages
+npm install @react-navigation/native @react-navigation/stack
+npm install @react-navigation/bottom-tabs
+npm install react-native-screens react-native-safe-area-context
+npm install @react-native-async-storage/async-storage
+npm install react-native-paper
+npm install react-native-vector-icons
+npm install react-native-calendars
+npm install moment
+npm install react-native-gesture-handler
 
-To learn more about developing your project with Expo, look at the following resources:
+# 4. For iOS (Mac only)
+cd ios && pod install && cd ..
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# 5. Start the development server
+npm start
+# or
+expo start
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# 6. Run on device/emulator
+# Press 'i' for iOS simulator
+# Press 'a' for Android emulator
+# Scan QR code with Expo Go app for physical device
