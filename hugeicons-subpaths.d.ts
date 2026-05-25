@@ -87,3 +87,17 @@ declare module '@hugeicons/core-free-icons/ArrowDown01Icon' {
   const icon: IconSvgElement;
   export default icon;
 }
+
+declare module '@hugeicons/core-free-icons/ArrowDownRight01Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
+declare module '@hugeicons/core-free-icons/ArrowUpLeft01Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
