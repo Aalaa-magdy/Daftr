@@ -38,7 +38,6 @@ const HomeHeader = () => {
 const styles = StyleSheet.create({
     container: {
         marginTop: 15,
-        paddingHorizontal: 5,
         paddingVertical: 16,
         flexDirection: "row",
         alignItems: "center",

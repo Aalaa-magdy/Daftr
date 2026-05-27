@@ -101,3 +101,10 @@ declare module '@hugeicons/core-free-icons/ArrowUpLeft01Icon' {
   const icon: IconSvgElement;
   export default icon;
 }
+
+declare module '@hugeicons/core-free-icons/Add01Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}

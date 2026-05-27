@@ -77,7 +77,7 @@ const HomeInfo = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '90%',
+    width: '93%',
     height: 240,
     padding: 20,
     borderRadius:25,

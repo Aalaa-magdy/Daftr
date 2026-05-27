@@ -1,14 +1,42 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeHeader from '../components/HomeHeader';
 import HomeInfo from '../components/HomeInfo';
+import { colors } from '@/theme/colors';
+import {
+  Changa_400Regular,
+  Changa_500Medium,
+  useFonts,
+} from '@expo-google-fonts/changa';
+import { HugeiconsIcon } from '@hugeicons/react-native';
+import Add01Icon from '@hugeicons/core-free-icons/Add01Icon';
 
 const Home = () => {
+  const [fontsLoaded] = useFonts({
+    Changa_400Regular,
+    Changa_500Medium,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.content}>
         <HomeHeader />
         <HomeInfo />
+        <View style={styles.buttons}>
+          <TouchableOpacity style={[styles.actionButton, styles.expenseButton]} activeOpacity={0.8}>
+            <HugeiconsIcon icon={Add01Icon} size={24} color={colors.primary} />
+            <Text style={styles.buttonText}>Add Expense</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, styles.incomeButton]} activeOpacity={0.8}>
+            <HugeiconsIcon icon={Add01Icon} size={24} color={colors.primary} />
+            <Text style={styles.buttonText}>Add Income</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -17,12 +45,41 @@ const Home = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-   
   },
   content: {
     flex: 1,
     alignItems: 'center',
-    gap:8,
+    gap: 8,
+    paddingHorizontal: 12,
+  },
+  buttons: {
+    flexDirection: 'row',
+    width: '90%',
+    gap: 10,
+    marginTop: 8,
+  },
+  actionButton: {
+    flex: 1,
+    height: 44,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    borderWidth: 1,
+  },
+  expenseButton: {
+    borderColor: colors.border,
+  },
+  incomeButton: {
+    backgroundColor: colors.secondary,
+    borderColor: colors.secondary,
+  },
+  buttonText: {
+    color: colors.primary,
+    fontSize: 16,
+    lineHeight: 24,
+    fontFamily: 'Changa_500Medium',
   },
 });
 
