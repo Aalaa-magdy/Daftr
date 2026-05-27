@@ -10,6 +10,7 @@ import {
 } from '@expo-google-fonts/changa';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import Add01Icon from '@hugeicons/core-free-icons/Add01Icon';
+import TextLinkButton from '@/components/ui/TextLinkButton';
 
 const Home = () => {
   const [fontsLoaded] = useFonts({
@@ -37,6 +38,12 @@ const Home = () => {
             <Text style={styles.buttonText}>Add Income</Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.intro}>
+          <Text style={styles.introText}>History</Text>
+          <View style={styles.viewAllButton}>
+            <TextLinkButton title="View All" />
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     gap: 8,
-    paddingHorizontal: 12,
+  
   },
   buttons: {
     flexDirection: 'row',
@@ -60,10 +67,10 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    height: 44,
+    height: 48,
     borderRadius: 8,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center',   
     justifyContent: 'center',
     gap: 6,
     borderWidth: 1,
@@ -77,10 +84,27 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.primary,
-    fontSize: 16,
+    fontSize: 17,
     lineHeight: 24,
     fontFamily: 'Changa_500Medium',
   },
+  intro: {
+    width: "94%",
+    flexDirection: "row",
+    justifyContent: "space-between", // Changed from alignContent to justifyContent
+    alignItems: "center", // Added to vertically center items
+    marginTop: 10,
+    paddingHorizontal:12,
+  },
+  introText: {
+    fontFamily: "Changa_500Medium",
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  viewAllButton: {
+    // Ensures the button aligns to the right
+    alignSelf: "flex-end",
+  }
 });
 
 export default Home;
