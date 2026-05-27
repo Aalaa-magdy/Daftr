@@ -78,9 +78,9 @@ const HomeInfo = () => {
 const styles = StyleSheet.create({
   container: {
     width: '93%',
-    height: 240,
+    height: 230,
     padding: 20,
-    borderRadius:25,
+    borderRadius:12,
     backgroundColor: colors.primary,
   },
   currentBalance:{
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   lastRow:{
     flexDirection:'row',
     justifyContent:'space-between',
+    paddingVertical:2
   },
   spans:{
     color:colors.white,    fontSize: 14,
