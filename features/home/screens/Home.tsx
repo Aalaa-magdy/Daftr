@@ -12,6 +12,7 @@ import { HugeiconsIcon } from '@hugeicons/react-native';
 import Add01Icon from '@hugeicons/core-free-icons/Add01Icon';
 import TextLinkButton from '@/components/ui/TextLinkButton';
 import TransactionCard from '../components/TransactionCard';
+import Navbar from '../components/Navbar';
 
 const Home = () => {
   const [fontsLoaded] = useFonts({
@@ -49,6 +50,7 @@ const Home = () => {
               <TransactionCard type="expense" />
                <TransactionCard type="income" />
         {/* </FlatList> */}
+        <Navbar />
       </View>
     </SafeAreaView>
   );

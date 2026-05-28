@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   container: {
     width: "94%",
     paddingHorizontal:10,
+    paddingVertical:5,
     gap: 12,
   },
   content: {
