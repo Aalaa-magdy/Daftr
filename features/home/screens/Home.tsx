@@ -1,8 +1,10 @@
+import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeHeader from '../components/HomeHeader';
 import HomeInfo from '../components/HomeInfo';
 import { colors } from '@/theme/colors';
+import { addTransactionHref } from '@/features/transaction/lib/transaction-links';
 import {
   Changa_400Regular,
   Changa_500Medium,
@@ -15,6 +17,7 @@ import TransactionCard from '../components/TransactionCard';
 import Navbar from '../components/Navbar';
 
 const Home = () => {
+  const router = useRouter();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -34,12 +37,20 @@ const Home = () => {
         <HomeHeader />
         <HomeInfo />
         <View style={styles.buttons}>
-          <TouchableOpacity style={[styles.actionButton, styles.expenseButton]} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={[styles.actionButton, styles.expenseButton]}
+            activeOpacity={0.8}
+            onPress={() => router.push(addTransactionHref('expense'))}
+          >
             <HugeiconsIcon icon={Add01Icon} size={24} color={colors.primary} />
             <Text style={styles.buttonText}>Add Expense</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.actionButton, styles.incomeButton]} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={[styles.actionButton, styles.incomeButton]}
+            activeOpacity={0.8}
+            onPress={() => router.push(addTransactionHref('income'))}
+          >
             <HugeiconsIcon icon={Add01Icon} size={24} color={colors.primary} />
             <Text style={styles.buttonText}>Add Income</Text>
           </TouchableOpacity>
