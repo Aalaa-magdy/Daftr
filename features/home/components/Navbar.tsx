@@ -46,6 +46,8 @@ const RIGHT_TABS: TabConfig[] = [
 ];
 
 const ICON_SIZE = 24;
+const ICON_STROKE_INACTIVE = 1.5;
+const ICON_STROKE_ACTIVE = 2.5;
 
 const Navbar = ({
   activeTab = 'history',
@@ -86,6 +88,7 @@ const Navbar = ({
           icon={tab.icon}
           size={ICON_SIZE}
           color={isActive ? colors.primary : colors.textSecondary}
+          strokeWidth={isActive ? ICON_STROKE_ACTIVE : ICON_STROKE_INACTIVE}
         />
         <Text style={[styles.label, isActive && styles.labelActive]}>
           {tab.label}
@@ -109,7 +112,7 @@ const Navbar = ({
         accessibilityLabel="Add transaction"
         android_ripple={{ color: 'rgba(255,255,255,0.25)', borderless: true, radius: 28 }}
       >
-        <HugeiconsIcon icon={Add01Icon} size={36} color={colors.white} />
+        <HugeiconsIcon icon={Add01Icon} size={28} color={colors.white} />
       </Pressable>
     </View>
   );
@@ -206,4 +209,3 @@ const styles = StyleSheet.create({
 });
 
 export default Navbar;
- 
