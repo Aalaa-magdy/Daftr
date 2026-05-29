@@ -32,6 +32,7 @@ interface InputProps {
   rightIcon?: React.ReactNode;
   onRightIconPress?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
+  multiline?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -46,6 +47,7 @@ const Input: React.FC<InputProps> = ({
   rightIcon,
   onRightIconPress,
   containerStyle,
+  multiline = false,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const hasText = Boolean(value && value.length > 0);
@@ -71,6 +73,7 @@ const Input: React.FC<InputProps> = ({
         <TextInput
           style={[
             styles.input,
+            multiline && styles.inputMultiline,
             useMutedTextColor ? styles.inputTextMuted : styles.inputTextTyped,
             icon ? styles.inputWithLeftIcon : null,
             rightIcon ? styles.inputWithRightIcon : null,
@@ -81,6 +84,8 @@ const Input: React.FC<InputProps> = ({
           placeholderTextColor={INPUT_MUTED}
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
+          multiline={multiline}
+          textAlignVertical={multiline ? 'top' : 'center'}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
@@ -152,6 +157,11 @@ const styles = StyleSheet.create({
   },
   inputWithRightIcon: {
     paddingRight: 0,
+  },
+  inputMultiline: {
+    minHeight: 100,
+    paddingTop: 12,
+    paddingBottom: 12,
   },
   leftIcon: {
     paddingLeft: 16,
