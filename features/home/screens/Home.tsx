@@ -61,6 +61,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   scroll: {
     flex: 1,
