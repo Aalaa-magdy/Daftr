@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: 'Changa_400Regular',
     color: colors.black,
-    fontSize: 16,
+    fontSize: 17,
     lineHeight: 20,
   },
   star: {

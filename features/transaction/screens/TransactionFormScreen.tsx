@@ -295,6 +295,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+
   },
   scroll: {
     flex: 1,
@@ -302,9 +303,10 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingBottom: 32,
+    gap:12,
   },
   fieldInput: {
-    marginBottom: 0,
+    marginBottom: 4,
   },
   buttonWrap: {
     marginTop: 24,
