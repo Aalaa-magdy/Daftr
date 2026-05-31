@@ -193,6 +193,8 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 16,
     lineHeight: 20,
+    marginBottom: 4,
+    marginTop:8,
   },
   star: {
     color: 'red',
