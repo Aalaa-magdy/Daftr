@@ -1,7 +1,8 @@
 import ProgressBar from '@/components/ui/ProgressBar';
 import { colors } from '@/theme/colors';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ViewIcon from '@hugeicons/core-free-icons/ViewIcon';
+import ViewOffIcon from '@hugeicons/core-free-icons/ViewOffIcon';
 import ArrowUpLeft01Icon from '@hugeicons/core-free-icons/ArrowUpLeft01Icon';
 import ArrowDownRight01Icon from '@hugeicons/core-free-icons/ArrowDownRight01Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
@@ -11,70 +12,85 @@ import {
   Changa_500Medium,
   useFonts,
 } from '@expo-google-fonts/changa';
+import { useState } from 'react';
+
+const MASK = '***';
+
 const HomeInfo = () => {
-     const [fontsLoaded] = useFonts({
-        Changa_400Regular,
-        Changa_500Medium,
-      });
-    
-      if (!fontsLoaded) {
-        return null;
-      }
+  const [amountsVisible, setAmountsVisible] = useState(true);
+  const [fontsLoaded] = useFonts({
+    Changa_400Regular,
+    Changa_500Medium,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const balanceDisplay = amountsVisible ? '15,000' : MASK;
+  const incomeDisplay = amountsVisible ? '20,000 EGP' : `${MASK} EGP`;
+  const expenseDisplay = amountsVisible ? '20,000 EGP' : `${MASK} EGP`;
+  const spentDisplay = amountsVisible ? 'spent 5,000 EGP' : `spent ${MASK} EGP`;
+
   return (
     <View style={styles.container}>
-        <View style={styles.firstRow}>
-            <Text style={styles.currentBalance}>TOTAL BALANCE</Text>
-             <HugeiconsIcon
-              icon={ViewIcon}
-              size={24}
-              color={colors.white}
+      <View style={styles.firstRow}>
+        <Text style={styles.currentBalance}>TOTAL BALANCE</Text>
+        <TouchableOpacity
+          onPress={() => setAmountsVisible((visible) => !visible)}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          accessibilityRole="button"
+          accessibilityLabel={amountsVisible ? 'Hide amounts' : 'Show amounts'}
+        >
+          <HugeiconsIcon
+            icon={amountsVisible ? ViewOffIcon : ViewIcon}
+            size={24}
+            color={colors.white}
           />
-        </View>
-        <View style={styles.secondRow}>
-            <Text style={styles.balance}>15,000</Text> 
-             <Text style={styles.currency}>EGP</Text>
-        </View>
-        <View style={styles.thirdRow}>
-          <View style={styles.item}>
-            <View style={styles.icon}>
-             <HugeiconsIcon
-               icon={ArrowDownRight01Icon }
-               size={20}
-               color={'#17B26A'}
-             />
-            </View>
-             <View>
-                 <Text style={styles.type}>Income</Text>
-                 <Text style={styles.amount}>20,000 EGP</Text>
-              </View>
-         </View>
-        <View style={styles.item}>
-       <View style={styles.icon}>
-             <HugeiconsIcon
-               icon={ArrowUpLeft01Icon }
-               size={20}
-               color={'#F04438'}
-               style={{backgroundColor:'#FEF3F2'}}
-             />
-            </View>
-             <View>
-                 <Text style={styles.type}>Expense</Text>
-                 <Text style={styles.amount}>20,000 EGP</Text>
-              </View>
-              </View>
-        </View>
-        <View>
-          <View style={styles.lastRow}>
-             <Text style={styles.spans}>spent 5,000 EGP</Text>
-             <Text style={styles.spans}>20 days remaining</Text>
-           </View>
-            <ProgressBar progress={0.5} color={colors.secondary} trackColor={'#144718'} />
-         </View>
-        
+        </TouchableOpacity>
       </View>
+      <View style={styles.secondRow}>
+        <Text style={styles.balance}>{balanceDisplay}</Text>
+        <Text style={styles.currency}>EGP</Text>
+      </View>
+      <View style={styles.thirdRow}>
+        <View style={styles.item}>
+          <View style={styles.icon}>
+            <HugeiconsIcon
+              icon={ArrowDownRight01Icon}
+              size={20}
+              color="#17B26A"
+            />
+          </View>
+          <View>
+            <Text style={styles.type}>Income</Text>
+            <Text style={styles.amount}>{incomeDisplay}</Text>
+          </View>
+        </View>
+        <View style={styles.item}>
+          <View style={[styles.icon, styles.expenseIcon]}>
+            <HugeiconsIcon
+              icon={ArrowUpLeft01Icon}
+              size={20}
+              color="#F04438"
+            />
+          </View>
+          <View>
+            <Text style={styles.type}>Expense</Text>
+            <Text style={styles.amount}>{expenseDisplay}</Text>
+          </View>
+        </View>
+      </View>
+      <View>
+        <View style={styles.lastRow}>
+          <Text style={styles.spans}>{spentDisplay}</Text>
+          <Text style={styles.spans}>20 days remaining</Text>
+        </View>
+        <ProgressBar progress={0.5} color={colors.secondary} trackColor="#144718" />
+      </View>
+    </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     width: '93%',
@@ -115,15 +131,17 @@ const styles = StyleSheet.create({
     bottom:0,
     left:115,
   },
-  icon:{
-    backgroundColor:'#ECFDF3',
-    width:30,
-    height:30,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius:20,  
+  icon: {
+    backgroundColor: '#ECFDF3',
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
   },
-  thirdRow:{
+  expenseIcon: {
+    backgroundColor: '#FEF3F2',
+  },  thirdRow:{
     flexDirection:'row',
     gap:20,
     marginBottom:22,
