@@ -212,6 +212,13 @@ declare module '@hugeicons/core-free-icons/AnalyticsUpIcon' {
   const icon: IconSvgElement;
   export default icon;
 }
+declare module '@hugeicons/core-free-icons/Delete02Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
 declare module '@hugeicons/core-free-icons/Delete01Icon' {
   import type { IconSvgElement } from '@hugeicons/react-native';
 

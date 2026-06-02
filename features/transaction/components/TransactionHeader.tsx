@@ -1,6 +1,6 @@
 import { colors } from '@/theme/colors';
 import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
-import Delete01Icon from '@hugeicons/core-free-icons/Delete01Icon';
+import Delete02Icon from '@hugeicons/core-free-icons/Delete02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -30,7 +30,7 @@ const TransactionHeader = ({ title, onBack, onDelete }: Props) => (
         accessibilityRole="button"
         accessibilityLabel="Delete transaction"
       >
-        <HugeiconsIcon icon={Delete01Icon} size={24} color={colors.red} />
+        <HugeiconsIcon icon={Delete02Icon} size={24} color={colors.red} />
       </TouchableOpacity>
     ) : (
       <View style={styles.spacer} />

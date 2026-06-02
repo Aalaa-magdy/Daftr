@@ -2,13 +2,15 @@ import { colors } from '@/theme/colors';
 import Add01Icon from '@hugeicons/core-free-icons/Add01Icon';
 import PencilEdit02Icon from '@hugeicons/core-free-icons/PencilEdit02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   EXPENSE_CATEGORIES,
   type CategoryDialogueMode,
+  type ExpenseCategory,
 } from '../data/form-options';
 import CategoryDialogue from './CategoryDialogue';
+import EditCategoriesDialogue from './EditCategoriesDialogue';
 
 interface Props {
   selectedId: string | null;
@@ -16,17 +18,27 @@ interface Props {
 }
 
 const CategoryGrid = ({ selectedId, onSelect }: Props) => {
-  const [dialogueVisible, setDialogueVisible] = useState(false);
-  const [dialogueMode, setDialogueMode] = useState<CategoryDialogueMode>('add');
-
-  const selectedCategory = useMemo(
-    () => EXPENSE_CATEGORIES.find((category) => category.id === selectedId) ?? null,
-    [selectedId]
+  const [listVisible, setListVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+  const [formMode, setFormMode] = useState<CategoryDialogueMode>('add');
+  const [editingCategory, setEditingCategory] = useState<ExpenseCategory | null>(
+    null
   );
 
-  const openDialogue = (mode: CategoryDialogueMode) => {
-    setDialogueMode(mode);
-    setDialogueVisible(true);
+  const openForm = (mode: CategoryDialogueMode, category: ExpenseCategory | null) => {
+    setFormMode(mode);
+    setEditingCategory(category);
+    setFormVisible(true);
+  };
+
+  const handleEditFromList = (category: ExpenseCategory) => {
+    setListVisible(false);
+    setTimeout(() => openForm('edit', category), 280);
+  };
+
+  const handleAddFromList = () => {
+    setListVisible(false);
+    setTimeout(() => openForm('add', null), 280);
   };
 
   return (
@@ -37,10 +49,9 @@ const CategoryGrid = ({ selectedId, onSelect }: Props) => {
           <Text style={styles.star}> *</Text>
         </Text>
         <TouchableOpacity
-          style={[styles.editButton, !selectedCategory && styles.editButtonDisabled]}
+          style={styles.editButton}
           activeOpacity={0.85}
-          disabled={!selectedCategory}
-          onPress={() => openDialogue('edit')}
+          onPress={() => setListVisible(true)}
         >
           <HugeiconsIcon icon={PencilEdit02Icon} size={16} color={colors.primary} />
           <Text style={styles.editText}>Edit</Text>
@@ -70,17 +81,27 @@ const CategoryGrid = ({ selectedId, onSelect }: Props) => {
       <TouchableOpacity
         style={styles.addChip}
         activeOpacity={0.8}
-        onPress={() => openDialogue('add')}
+        onPress={() => openForm('add', null)}
       >
         <HugeiconsIcon icon={Add01Icon} size={18} color={colors.primary} />
         <Text style={styles.addChipText}>Add Category</Text>
       </TouchableOpacity>
 
+      <EditCategoriesDialogue
+        visible={listVisible}
+        onClose={() => setListVisible(false)}
+        onEditCategory={handleEditFromList}
+        onAddCategory={handleAddFromList}
+        onDeleteCategory={() => {
+          // TODO: delete category
+        }}
+      />
+
       <CategoryDialogue
-        visible={dialogueVisible}
-        mode={dialogueMode}
-        category={dialogueMode === 'edit' ? selectedCategory : null}
-        onClose={() => setDialogueVisible(false)}
+        visible={formVisible}
+        mode={formMode}
+        category={formMode === 'edit' ? editingCategory : null}
+        onClose={() => setFormVisible(false)}
         onSave={() => {
           // TODO: persist category create/update
         }}
@@ -116,9 +137,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 8,
-  },
-  editButtonDisabled: {
-    opacity: 0.5,
   },
   editText: {
     fontFamily: 'Changa_500Medium',
