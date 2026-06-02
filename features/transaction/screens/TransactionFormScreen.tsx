@@ -202,12 +202,10 @@ const TransactionFormScreen = () => {
               />
             </FormField>
 
-            <FormField label="Category" required>
               <CategoryGrid
                 selectedId={categoryId}
                 onSelect={setCategoryId}
               />
-            </FormField>
 
             <FormField label="Date" required>
               <TouchableOpacity

@@ -219,6 +219,20 @@ declare module '@hugeicons/core-free-icons/Delete01Icon' {
   export default icon;
 }
 
+declare module '@hugeicons/core-free-icons/PencilEdit02Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
+declare module '@hugeicons/core-free-icons/Edit02Icon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}
+
 declare module '@hugeicons/core-free-icons/Home01Icon' {
   import type { IconSvgElement } from '@hugeicons/react-native';
 
