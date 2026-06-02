@@ -38,3 +38,14 @@ export const INCOME_TYPES = [
 ] as const;
 
 export const REPEAT_OPTIONS = ['Monthly', 'One-time'] as const;
+
+export const CATEGORY_COLOR_OPTIONS = [
+  '#1B5E20',
+  '#EAAA08',
+  '#F04438',
+  '#EE46BC',
+  '#7A5AF8',
+  '#717680',
+] as const;
+
+export type CategoryDialogueMode = 'add' | 'edit';
