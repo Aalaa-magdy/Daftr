@@ -8,8 +8,8 @@ import {
 } from '@expo-google-fonts/changa';
 import Logout03Icon from '@hugeicons/core-free-icons/Logout03Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -19,17 +19,27 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LogoutDialogue from '../components/LogoutDialogue';
 import ProfileMenuSection from '../components/ProfileMenuSection';
+import ProfileSuccessBanner from '../components/ProfileSuccessBanner';
 import ProfileUserCard from '../components/ProfileUserCard';
 import { PROFILE_MENU_SECTIONS } from '../data/profile-menu';
 
 const Profile = () => {
   const router = useRouter();
+  const { passwordChanged } = useLocalSearchParams<{ passwordChanged?: string }>();
   const { onTabPress, onAddPress } = useNavbarNavigation('profile');
   const [logoutVisible, setLogoutVisible] = useState(false);
+  const [showSuccessBanner, setShowSuccessBanner] = useState(false);
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
   });
+
+  useEffect(() => {
+    if (passwordChanged === 'true') {
+      setShowSuccessBanner(true);
+      router.setParams({ passwordChanged: undefined });
+    }
+  }, [passwordChanged, router]);
 
   if (!fontsLoaded) {
     return null;
@@ -44,6 +54,10 @@ const Profile = () => {
     if (itemId === 'edit-profile') {
       router.push('/edit-profile');
     }
+
+    if (itemId === 'change-password') {
+      router.push('/change-password');
+    }
   };
 
   return (
@@ -54,6 +68,12 @@ const Profile = () => {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.title}>Profile</Text>
+
+        <ProfileSuccessBanner
+          visible={showSuccessBanner}
+          message="Password changed successfully."
+          onDismiss={() => setShowSuccessBanner(false)}
+        />
 
         <ProfileUserCard />
 
