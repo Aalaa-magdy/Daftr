@@ -602,3 +602,10 @@ declare module '@hugeicons/core-free-icons/Cancel01Icon' {
   const icon: IconSvgElement;
   export default icon;
 }
+
+declare module '@hugeicons/core-free-icons/MinusSignIcon' {
+  import type { IconSvgElement } from '@hugeicons/react-native';
+
+  const icon: IconSvgElement;
+  export default icon;
+}

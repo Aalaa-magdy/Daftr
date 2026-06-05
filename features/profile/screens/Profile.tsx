@@ -58,6 +58,10 @@ const Profile = () => {
     if (itemId === 'change-password') {
       router.push('/change-password');
     }
+
+    if (itemId === 'faq') {
+      router.push('/faq');
+    }
   };
 
   return (

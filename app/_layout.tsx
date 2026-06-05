@@ -24,6 +24,7 @@ export default function RootLayout() {
       <Stack.Screen name="edit-profile" />
       <Stack.Screen name="verify-email" />
       <Stack.Screen name="change-password" />
+      <Stack.Screen name="faq" />
       <Stack.Screen name="transaction/[id]" />
     </Stack>
   );
