@@ -72,15 +72,15 @@ const FaqScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
   },
   scroll: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
   },
   scrollContent: {
     flexGrow: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
     paddingHorizontal: 10,
     paddingBottom: 32,
   },

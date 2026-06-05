@@ -24,9 +24,17 @@ interface Props {
   onBackPress?: () => void;
   /** Bold line shown after description (e.g. email on check step) */
   highlightText?: string;
+  whiteBackground?: boolean;
 }
 
-const ResetHeader = ({ title, description, icon, onBackPress, highlightText }: Props) => {
+const ResetHeader = ({
+  title,
+  description,
+  icon,
+  onBackPress,
+  highlightText,
+  whiteBackground = false,
+}: Props) => {
   const insets = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -38,7 +46,7 @@ const ResetHeader = ({ title, description, icon, onBackPress, highlightText }: P
   }
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, whiteBackground && styles.rootWhite]}>
       <ImageBackground
         source={patternSource}
         style={styles.backgroundImage}
@@ -83,6 +91,9 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.background,
     marginBottom:16
+  },
+  rootWhite: {
+    backgroundColor: colors.white,
   },
   backgroundImage: {
     position: 'absolute',

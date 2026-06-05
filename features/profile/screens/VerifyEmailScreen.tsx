@@ -37,6 +37,7 @@ const VerifyEmailScreen = () => {
           icon={NewReleasesIcon}
           onBackPress={() => router.back()}
           highlightText={displayEmail}
+          whiteBackground
         />
 
         <ScrollView
@@ -62,7 +63,7 @@ const VerifyEmailScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.white,
   },
   content: {
     flex: 1,

@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(8, 27, 10, 0.25)',
   },
   sheet: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: 20,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 8,

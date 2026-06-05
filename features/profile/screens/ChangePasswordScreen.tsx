@@ -41,6 +41,7 @@ const ChangePasswordScreen = () => {
           description="Set a new password for your account."
           icon={SquareLockPasswordIcon}
           onBackPress={() => router.back()}
+          whiteBackground
         />
 
         <ScrollView
@@ -94,7 +95,7 @@ const ChangePasswordScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.white,
   },
   content: {
     flex: 1,

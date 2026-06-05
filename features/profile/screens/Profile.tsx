@@ -62,6 +62,14 @@ const Profile = () => {
     if (itemId === 'faq') {
       router.push('/faq');
     }
+
+    if (itemId === 'terms') {
+      router.push('/terms');
+    }
+
+    if (itemId === 'privacy') {
+      router.push('/privacy-policy');
+    }
   };
 
   return (
@@ -119,15 +127,15 @@ const Profile = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
   },
   scroll: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
   },
   scrollContent: {
     flexGrow: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.white,
     paddingHorizontal: 10,
     paddingTop: 8,
     paddingBottom: 96,
