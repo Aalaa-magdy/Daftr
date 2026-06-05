@@ -20,6 +20,7 @@ export default function RootLayout() {
       <Stack.Screen name="home" />
       <Stack.Screen name="history" />
       <Stack.Screen name="statistics" />
+      <Stack.Screen name="profile" />
       <Stack.Screen name="transaction/[id]" />
     </Stack>
   );

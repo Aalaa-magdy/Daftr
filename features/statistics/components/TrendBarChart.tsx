@@ -9,11 +9,18 @@ interface Props {
   data: TrendPoint[];
 }
 
-const CHART_HEIGHT = 160;
-const BAR_MAX_WIDTH = 28;
+const CHART_HEIGHT = 200;
+const X_LABEL_HEIGHT = 24;
 
 function buildTicks(maxValue: number): number[] {
-  const step = maxValue <= 10000 ? 2000 : maxValue <= 50000 ? 10000 : 20000;
+  const step =
+    maxValue <= 8000
+      ? 1000
+      : maxValue <= 12000
+        ? 2000
+        : maxValue <= 50000
+          ? 10000
+          : 20000;
   const ticks: number[] = [];
 
   for (let value = maxValue; value >= 0; value -= step) {
@@ -33,6 +40,8 @@ function formatTick(value: number): string {
 
 const TrendBarChart = ({ title, subtitle, maxValue, data }: Props) => {
   const ticks = buildTicks(maxValue);
+  const isWeeklyChart =
+    data.length === 4 && data.every((point) => point.label.startsWith('Week'));
 
   return (
     <View style={styles.card}>
@@ -59,11 +68,14 @@ const TrendBarChart = ({ title, subtitle, maxValue, data }: Props) => {
             />
           ))}
 
-          <View style={styles.barsRow}>
+          <View style={[styles.barsRow, isWeeklyChart && styles.barsRowWeekly]}>
             {data.map((point) => {
               if (point.variant === 'placeholder') {
                 return (
-                  <View key={point.label} style={styles.barColumn}>
+                  <View
+                    key={point.label}
+                    style={[styles.barColumn, isWeeklyChart && styles.barColumnWeekly]}
+                  >
                     <View style={styles.barArea}>
                       <View style={styles.placeholderDot} />
                     </View>
@@ -77,15 +89,19 @@ const TrendBarChart = ({ title, subtitle, maxValue, data }: Props) => {
                 point.variant === 'active' ? colors.primary : colors.light;
 
               return (
-                <View key={point.label} style={styles.barColumn}>
+                <View
+                  key={point.label}
+                  style={[styles.barColumn, isWeeklyChart && styles.barColumnWeekly]}
+                >
                   <View style={styles.barArea}>
                     <View
                       style={[
                         styles.bar,
+                        isWeeklyChart && styles.barWeekly,
                         {
                           height: barHeight,
                           backgroundColor: barColor,
-                          maxWidth: BAR_MAX_WIDTH,
+                          maxWidth: 28,
                         },
                       ]}
                     />
@@ -104,8 +120,8 @@ const TrendBarChart = ({ title, subtitle, maxValue, data }: Props) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: 8,
+    padding: 12,
     gap: 12,
   },
   title: {
@@ -124,13 +140,14 @@ const styles = StyleSheet.create({
   chartWrap: {
     flexDirection: 'row',
     gap: 8,
-    marginTop: 4,
+    width: '100%',
+    minHeight: CHART_HEIGHT + X_LABEL_HEIGHT,
   },
   yAxis: {
     width: 32,
-    height: CHART_HEIGHT + 24,
+    height: CHART_HEIGHT + X_LABEL_HEIGHT,
     justifyContent: 'space-between',
-    paddingBottom: 24,
+    paddingBottom: X_LABEL_HEIGHT,
   },
   yLabel: {
     fontFamily: 'Changa_400Regular',
@@ -141,7 +158,7 @@ const styles = StyleSheet.create({
   },
   plotArea: {
     flex: 1,
-    height: CHART_HEIGHT + 24,
+    height: CHART_HEIGHT + X_LABEL_HEIGHT,
     position: 'relative',
   },
   gridLine: {
@@ -156,17 +173,25 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 24,
+    bottom: X_LABEL_HEIGHT,
     height: CHART_HEIGHT,
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     gap: 4,
   },
+  barsRowWeekly: {
+    justifyContent: 'flex-start',
+    gap: 18,
+  },
   barColumn: {
     flex: 1,
     alignItems: 'center',
     minWidth: 0,
+  },
+  barColumnWeekly: {
+    flex: 0,
+    width: 36,
   },
   barArea: {
     height: CHART_HEIGHT,
@@ -179,6 +204,10 @@ const styles = StyleSheet.create({
     minWidth: 8,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+  },
+  barWeekly: {
+    width: 28,
+    minWidth: 28,
   },
   placeholderDot: {
     width: 8,

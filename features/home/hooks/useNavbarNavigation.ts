@@ -7,6 +7,7 @@ const TAB_ROUTES: Partial<Record<NavTab, Href>> = {
   home: '/home',
   history: '/history',
   statistics: '/statistics',
+  profile: '/profile',
 };
 
 export function useNavbarNavigation(activeTab: NavTab) {

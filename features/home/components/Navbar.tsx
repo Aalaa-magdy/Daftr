@@ -74,13 +74,17 @@ const Navbar = ({
     onTabPress?.(tab);
   };
 
-  const renderTab = (tab: TabConfig) => {
+  const renderTab = (tab: TabConfig, side: 'left' | 'right') => {
     const isActive = selectedTab === tab.id;
 
     return (
       <TouchableOpacity
         key={tab.id}
-        style={styles.item}
+        style={[
+          styles.item,
+          side === 'left' && tab.id === 'history' && styles.historyItem,
+          side === 'right' && tab.id === 'statistics' && styles.statisticsItem,
+        ]}
         activeOpacity={0.7}
         onPress={() => handleTabPress(tab.id)}
       >
@@ -101,8 +105,8 @@ const Navbar = ({
     <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 8) }]}>
       <View style={styles.fabNotch} pointerEvents="none" />
       <View style={styles.bar}>
-        <View style={styles.side}>{LEFT_TABS.map(renderTab)}</View>
-        <View style={styles.side}>{RIGHT_TABS.map(renderTab)}</View>
+        <View style={styles.sideLeft}>{LEFT_TABS.map((tab) => renderTab(tab, 'left'))}</View>
+        <View style={styles.sideRight}>{RIGHT_TABS.map((tab) => renderTab(tab, 'right'))}</View>
       </View>
 
       <Pressable
@@ -157,11 +161,29 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     zIndex: 0,
   },
-  side: {
+  sideLeft: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingLeft: 16,
+    paddingRight: 52,
+    gap: 32,
+  },
+  sideRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingRight: 16,
+    paddingLeft: 52,
+    gap: 32,
+  },
+  historyItem: {
+    marginLeft: -4,
+  },
+  statisticsItem: {
+    marginRight: -4,
   },
   item: {
     alignItems: 'center',
