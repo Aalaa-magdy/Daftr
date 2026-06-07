@@ -154,15 +154,15 @@ const EditProfileScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   scroll: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   scrollContent: {
     flexGrow: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
     paddingHorizontal: 10,
     paddingBottom: 32,
   },

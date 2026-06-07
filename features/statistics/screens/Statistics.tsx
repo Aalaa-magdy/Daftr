@@ -19,6 +19,7 @@ import {
   STATISTICS_BY_PERIOD,
   type StatisticsPeriod,
 } from '../data/mock-statistics';
+import { formatTrendLabel } from '../lib/format-trend-label';
 
 const Statistics = () => {
   const { t } = useTranslation();
@@ -35,9 +36,7 @@ const Statistics = () => {
     () =>
       stats.trend.map((point) => ({
         ...point,
-        label:
-          point.label ??
-          t(point.labelKey!, point.labelParams),
+        label: formatTrendLabel(point, t),
       })),
     [stats.trend, t],
   );
@@ -75,6 +74,7 @@ const Statistics = () => {
           maxValue={stats.trendMax}
           data={trendData}
           isWeeklyChart={period === 'week'}
+          isMonthlyChart={period === 'month'}
         />
       </ScrollView>
 

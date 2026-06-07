@@ -1,5 +1,6 @@
 import { colors } from '@/theme/colors';
-import { StyleSheet, Text, View } from 'react-native';
+import { useAppDirection } from '@/hooks/useAppDirection';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { TrendPoint } from '../data/mock-statistics';
 
 interface Props {
@@ -8,10 +9,12 @@ interface Props {
   maxValue: number;
   data: TrendPoint[];
   isWeeklyChart?: boolean;
+  isMonthlyChart?: boolean;
 }
 
 const CHART_HEIGHT = 200;
-const X_LABEL_HEIGHT = 24;
+const X_LABEL_HEIGHT = 32;
+const MONTH_COLUMN_WIDTH = 48;
 
 function buildTicks(maxValue: number): number[] {
   const step =
@@ -45,15 +48,114 @@ const TrendBarChart = ({
   maxValue,
   data,
   isWeeklyChart = false,
+  isMonthlyChart = false,
 }: Props) => {
+  const { isRTL } = useAppDirection();
   const ticks = buildTicks(maxValue);
+  const monthlyPlotWidth = data.length * MONTH_COLUMN_WIDTH;
+
+  const renderBarColumn = (point: TrendPoint) => {
+    const columnStyle = [
+      styles.barColumn,
+      isWeeklyChart && styles.barColumnWeekly,
+      isMonthlyChart && styles.barColumnMonthly,
+    ];
+    const labelStyle = [
+      styles.xLabel,
+      isMonthlyChart && styles.xLabelMonthly,
+      isRTL && styles.xLabelRtl,
+    ];
+
+    if (point.variant === 'placeholder') {
+      return (
+        <View key={point.label} style={columnStyle}>
+          <View style={styles.barArea}>
+            <View style={styles.placeholderDot} />
+          </View>
+          <Text
+            style={labelStyle}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.75}
+          >
+            {point.label}
+          </Text>
+        </View>
+      );
+    }
+
+    const barHeight = Math.max(6, (point.value / maxValue) * CHART_HEIGHT);
+    const barColor =
+      point.variant === 'active' ? colors.primary : colors.light;
+
+    return (
+      <View key={point.label} style={columnStyle}>
+        <View style={styles.barArea}>
+          <View
+            style={[
+              styles.bar,
+              isWeeklyChart && styles.barWeekly,
+              {
+                height: barHeight,
+                backgroundColor: barColor,
+                maxWidth: 28,
+              },
+            ]}
+          />
+        </View>
+        <Text
+          style={labelStyle}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.75}
+        >
+          {point.label}
+        </Text>
+      </View>
+    );
+  };
+
+  const barsRow = (
+    <View
+      style={[
+        styles.barsRow,
+        isWeeklyChart && styles.barsRowWeekly,
+        isMonthlyChart && [
+          styles.barsRowMonthly,
+          { width: monthlyPlotWidth },
+        ],
+      ]}
+    >
+      {data.map((point) => renderBarColumn(point))}
+    </View>
+  );
+
+  const plotContent = (
+    <View
+      style={[
+        styles.plotArea,
+        isMonthlyChart && { width: monthlyPlotWidth },
+      ]}
+    >
+      {ticks.map((tick) => (
+        <View
+          key={`grid-${tick}`}
+          style={[
+            styles.gridLine,
+            { bottom: `${(tick / maxValue) * 100}%` },
+          ]}
+        />
+      ))}
+      {barsRow}
+    </View>
+  );
 
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
 
-      <View style={styles.chartWrap}>
+      <View style={[styles.chartWrap, { direction: 'ltr' }]}>
         <View style={styles.yAxis}>
           {ticks.map((tick) => (
             <Text key={tick} style={styles.yLabel}>
@@ -62,61 +164,18 @@ const TrendBarChart = ({
           ))}
         </View>
 
-        <View style={styles.plotArea}>
-          {ticks.map((tick) => (
-            <View
-              key={`grid-${tick}`}
-              style={[
-                styles.gridLine,
-                { bottom: `${(tick / maxValue) * 100}%` },
-              ]}
-            />
-          ))}
-
-          <View style={[styles.barsRow, isWeeklyChart && styles.barsRowWeekly]}>
-            {data.map((point) => {
-              if (point.variant === 'placeholder') {
-                return (
-                  <View
-                    key={point.label}
-                    style={[styles.barColumn, isWeeklyChart && styles.barColumnWeekly]}
-                  >
-                    <View style={styles.barArea}>
-                      <View style={styles.placeholderDot} />
-                    </View>
-                    <Text style={styles.xLabel}>{point.label}</Text>
-                  </View>
-                );
-              }
-
-              const barHeight = Math.max(6, (point.value / maxValue) * CHART_HEIGHT);
-              const barColor =
-                point.variant === 'active' ? colors.primary : colors.light;
-
-              return (
-                <View
-                  key={point.label}
-                  style={[styles.barColumn, isWeeklyChart && styles.barColumnWeekly]}
-                >
-                  <View style={styles.barArea}>
-                    <View
-                      style={[
-                        styles.bar,
-                        isWeeklyChart && styles.barWeekly,
-                        {
-                          height: barHeight,
-                          backgroundColor: barColor,
-                          maxWidth: 28,
-                        },
-                      ]}
-                    />
-                  </View>
-                  <Text style={styles.xLabel}>{point.label}</Text>
-                </View>
-              );
-            })}
-          </View>
-        </View>
+        {isMonthlyChart ? (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.monthlyScroll}
+            contentContainerStyle={styles.monthlyScrollContent}
+          >
+            {plotContent}
+          </ScrollView>
+        ) : (
+          <View style={styles.plotAreaFlex}>{plotContent}</View>
+        )}
       </View>
     </View>
   );
@@ -161,8 +220,16 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'right',
   },
-  plotArea: {
+  plotAreaFlex: {
     flex: 1,
+  },
+  monthlyScroll: {
+    flex: 1,
+  },
+  monthlyScrollContent: {
+    flexGrow: 1,
+  },
+  plotArea: {
     height: CHART_HEIGHT + X_LABEL_HEIGHT,
     position: 'relative',
   },
@@ -189,6 +256,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     gap: 18,
   },
+  barsRowMonthly: {
+    justifyContent: 'flex-start',
+    gap: 0,
+  },
   barColumn: {
     flex: 1,
     alignItems: 'center',
@@ -197,6 +268,11 @@ const styles = StyleSheet.create({
   barColumnWeekly: {
     flex: 0,
     width: 36,
+  },
+  barColumnMonthly: {
+    flex: 0,
+    width: MONTH_COLUMN_WIDTH,
+    minWidth: MONTH_COLUMN_WIDTH,
   },
   barArea: {
     height: CHART_HEIGHT,
@@ -223,11 +299,22 @@ const styles = StyleSheet.create({
   },
   xLabel: {
     marginTop: 8,
+    width: '100%',
+    minHeight: 20,
     fontFamily: 'Changa_400Regular',
     fontSize: 11,
-    lineHeight: 14,
+    lineHeight: 16,
     color: colors.textSecondary,
     textAlign: 'center',
+  },
+  xLabelMonthly: {
+    fontSize: 12,
+    lineHeight: 18,
+    minHeight: 24,
+    paddingHorizontal: 2,
+  },
+  xLabelRtl: {
+    writingDirection: 'rtl',
   },
 });
 

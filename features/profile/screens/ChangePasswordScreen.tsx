@@ -97,7 +97,7 @@ const ChangePasswordScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   content: {
     flex: 1,
