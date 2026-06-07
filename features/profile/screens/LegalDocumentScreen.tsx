@@ -6,17 +6,19 @@ import {
   useFonts,
 } from '@expo-google-fonts/changa';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LegalDocumentContent from '../components/LegalDocumentContent';
-import type { LegalDocument } from '../data/legal-documents';
+import type { LegalDocumentConfig } from '../data/legal-documents';
 
 interface Props {
-  document: LegalDocument;
+  document: LegalDocumentConfig;
 }
 
 const LegalDocumentScreen = ({ document }: Props) => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -35,7 +37,7 @@ const LegalDocumentScreen = ({ document }: Props) => {
         showsVerticalScrollIndicator={false}
       >
         <TransactionHeader
-          title={document.headerTitle}
+          title={t(document.headerTitleKey)}
           onBack={() => router.back()}
         />
 

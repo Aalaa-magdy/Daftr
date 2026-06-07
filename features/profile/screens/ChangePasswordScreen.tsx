@@ -10,6 +10,7 @@ import {
 import SquareLockPasswordIcon from '@hugeicons/core-free-icons/SquareLockPasswordIcon';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,6 +20,7 @@ const fieldIcon = (icon: IconSvgElement) => (
 
 const ChangePasswordScreen = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -37,8 +39,8 @@ const ChangePasswordScreen = () => {
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.content}>
         <ResetHeader
-          title="Set new password"
-          description="Set a new password for your account."
+          title={t('resetPassword.setNewPasswordTitle')}
+          description={t('resetPassword.setNewPasswordSubtitle')}
           icon={SquareLockPasswordIcon}
           onBackPress={() => router.back()}
           whiteBackground
@@ -52,10 +54,10 @@ const ChangePasswordScreen = () => {
         >
           <View style={styles.fieldGroup}>
             <Text style={styles.label}>
-              Current Password <Text style={styles.star}>*</Text>
+              {t('profile.currentPassword')} <Text style={styles.star}>{t('common.required')}</Text>
             </Text>
             <PasswordInput
-              placeholder="........"
+              placeholder={t('common.passwordPlaceholder')}
               icon={fieldIcon(SquareLockPasswordIcon)}
               containerStyle={styles.fieldInput}
             />
@@ -63,10 +65,10 @@ const ChangePasswordScreen = () => {
 
           <View style={[styles.fieldGroup, styles.fieldGroupSpaced]}>
             <Text style={styles.label}>
-              New Password <Text style={styles.star}>*</Text>
+              {t('profile.newPassword')} <Text style={styles.star}>{t('common.required')}</Text>
             </Text>
             <PasswordInput
-              placeholder="........"
+              placeholder={t('common.passwordPlaceholder')}
               icon={fieldIcon(SquareLockPasswordIcon)}
               containerStyle={styles.fieldInput}
             />
@@ -74,17 +76,17 @@ const ChangePasswordScreen = () => {
 
           <View style={[styles.fieldGroup, styles.fieldGroupSpaced]}>
             <Text style={styles.label}>
-              Confirm New Password <Text style={styles.star}>*</Text>
+              {t('profile.confirmNewPassword')} <Text style={styles.star}>{t('common.required')}</Text>
             </Text>
             <PasswordInput
-              placeholder="........"
+              placeholder={t('common.passwordPlaceholder')}
               icon={fieldIcon(SquareLockPasswordIcon)}
               containerStyle={styles.fieldInput}
             />
           </View>
 
           <View style={styles.buttonWrap}>
-            <Button title="Update password" onPress={handleUpdate} />
+            <Button title={t('profile.updatePassword')} onPress={handleUpdate} />
           </View>
         </ScrollView>
       </View>

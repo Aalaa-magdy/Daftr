@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { initI18n } from '@/lib/i18n';
 import { colors } from '@/theme/colors';
 
@@ -13,6 +14,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const [i18nReady, setI18nReady] = useState(false);
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     initI18n()
@@ -41,8 +43,14 @@ export default function RootLayout() {
     );
   }
 
+  const isRTL = i18n.language === 'ar';
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <View
+      key={i18n.language}
+      style={{ flex: 1, direction: isRTL ? 'rtl' : 'ltr' }}
+    >
+      <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="lastOnboarding" />
@@ -62,6 +70,7 @@ export default function RootLayout() {
       <Stack.Screen name="privacy-policy" />
       <Stack.Screen name="language" />
       <Stack.Screen name="transaction/[id]" />
-    </Stack>
+      </Stack>
+    </View>
   );
 }

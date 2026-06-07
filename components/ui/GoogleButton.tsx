@@ -16,7 +16,7 @@ const GoogleButton = ({ title, onPress }: Props) => {
       activeOpacity={0.8}
       onPress={onPress}
     >
-      <Text style={styles.primaryButtonText}>Sign {title} with Google</Text>
+      <Text style={styles.primaryButtonText}>{title}</Text>
       <GoogleLogo width={20} height={20} />
     </TouchableOpacity>
   )

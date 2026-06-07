@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeHeader from '../components/HomeHeader';
@@ -19,6 +20,7 @@ import { useNavbarNavigation } from '../hooks/useNavbarNavigation';
 
 const Home = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const { onTabPress, onAddPress } = useNavbarNavigation('home');
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -45,7 +47,7 @@ const Home = () => {
             onPress={() => router.push(addTransactionHref('expense'))}
           >
             <HugeiconsIcon icon={Add01Icon} size={24} color={colors.primary} />
-            <Text style={styles.buttonText}>Add Expense</Text>
+            <Text style={styles.buttonText}>{t('home.addExpense')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -54,14 +56,14 @@ const Home = () => {
             onPress={() => router.push(addTransactionHref('income'))}
           >
             <HugeiconsIcon icon={Add01Icon} size={24} color={colors.primary} />
-            <Text style={styles.buttonText}>Add Income</Text>
+            <Text style={styles.buttonText}>{t('home.addIncome')}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.intro}>
-          <Text style={styles.introText}>History</Text>
+          <Text style={styles.introText}>{t('home.history')}</Text>
           <View style={styles.viewAllButton}>
             <TextLinkButton
-              title="View All"
+              title={t('home.viewAll')}
               variant="inline"
               onPress={() => router.push('/history')}
             />

@@ -1,4 +1,5 @@
 import { colors } from '@/theme/colors';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { formatSummaryAmount } from '../lib/format-stat-amount';
 
@@ -7,19 +8,27 @@ interface Props {
   totalIncome: number;
 }
 
-const SummaryCards = ({ totalSpent, totalIncome }: Props) => (
-  <View style={styles.row}>
-    <View style={styles.card}>
-      <Text style={styles.label}>TOTAL SPENT</Text>
-      <Text style={styles.spent}>{formatSummaryAmount(totalSpent, 'spent')}</Text>
-    </View>
+const SummaryCards = ({ totalSpent, totalIncome }: Props) => {
+  const { t } = useTranslation();
 
-    <View style={styles.card}>
-      <Text style={styles.label}>TOTAL INCOME</Text>
-      <Text style={styles.income}>{formatSummaryAmount(totalIncome, 'income')}</Text>
+  return (
+    <View style={styles.row}>
+      <View style={styles.card}>
+        <Text style={styles.label}>{t('statistics.totalSpent')}</Text>
+        <Text style={styles.spent}>
+          {formatSummaryAmount(totalSpent, 'spent', t('common.egp'))}
+        </Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>{t('statistics.totalIncome')}</Text>
+        <Text style={styles.income}>
+          {formatSummaryAmount(totalIncome, 'income', t('common.egp'))}
+        </Text>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   row: {

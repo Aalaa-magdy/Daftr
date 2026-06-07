@@ -1,44 +1,38 @@
 export type FaqItemData = {
   id: string;
-  question: string;
-  answer: string;
+  questionKey: string;
+  answerKey: string;
 };
 
 export const FAQ_ITEMS: FaqItemData[] = [
   {
     id: 'what-is-daftr',
-    question: 'What is Daftr?',
-    answer:
-      'Daftr is a personal finance app that helps you track your income, expenses, and spending habits in a simple way.',
+    questionKey: 'profile.faq.whatIsDaftr.question',
+    answerKey: 'profile.faq.whatIsDaftr.answer',
   },
   {
     id: 'add-expense',
-    question: 'How do I add an expense?',
-    answer:
-      "Tap the '+' button from the home screen, enter the amount, choose a category, and save the expense.",
+    questionKey: 'profile.faq.addExpense.question',
+    answerKey: 'profile.faq.addExpense.answer',
   },
   {
     id: 'edit-delete-expenses',
-    question: 'Can I edit or delete expenses?',
-    answer:
-      'Yes, you can edit or delete any expense by tapping on its card. All your expenses are also available in the Transactions screen under the Expenses tab.',
+    questionKey: 'profile.faq.editDeleteExpenses.question',
+    answerKey: 'profile.faq.editDeleteExpenses.answer',
   },
   {
     id: 'payday-feature',
-    question: 'How does the payday feature work?',
-    answer:
-      'Your balance automatically resets every month based on the payday you selected during setup.',
+    questionKey: 'profile.faq.paydayFeature.question',
+    answerKey: 'profile.faq.paydayFeature.answer',
   },
   {
     id: 'extra-income',
-    question: 'Can I add extra income?',
-    answer:
-      'Yes, you can add additional income sources like freelance work, bonuses, or any custom income.',
+    questionKey: 'profile.faq.extraIncome.question',
+    answerKey: 'profile.faq.extraIncome.answer',
   },
   {
     id: 'data-saved',
-    question: 'Is my data saved?',
-    answer:
-      'If you use Daftr as a guest, your data is stored only on your device. If you delete the app or log out, all guest data will be permanently removed. To keep your data safe and synced, you need to create an account or sign in.',
+    questionKey: 'profile.faq.dataSaved.question',
+    answerKey: 'profile.faq.dataSaved.answer',
   },
 ];

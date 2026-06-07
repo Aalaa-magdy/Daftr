@@ -31,6 +31,7 @@ import FilterIcon from '@hugeicons/core-free-icons/FilterIcon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
 
@@ -61,7 +62,7 @@ import { DEFAULT_HISTORY_FILTER } from '../types/history-filter';
 
 
 const History = () => {
-
+  const { t } = useTranslation();
   const { onTabPress, onAddPress } = useNavbarNavigation('history');
 
   const [typeFilter, setTypeFilter] = useState<TransactionFilter>('all');
@@ -114,7 +115,7 @@ const History = () => {
 
       <View style={styles.header}>
 
-        <Text style={styles.title}>History</Text>
+        <Text style={styles.title}>{t('history.title')}</Text>
 
         <TouchableOpacity
 
@@ -124,7 +125,7 @@ const History = () => {
 
           accessibilityRole="button"
 
-          accessibilityLabel="Filter transactions"
+          accessibilityLabel={t('history.filterTransactions')}
 
           onPress={() => setFilterDialogVisible(true)}
 

@@ -1,4 +1,5 @@
 import { colors } from '@/theme/colors';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import type { ProfileMenuSection as ProfileMenuSectionType } from '../data/profile-menu';
 import ProfileMenuItem from './ProfileMenuItem';
@@ -8,22 +9,26 @@ interface Props {
   onItemPress?: (itemId: string) => void;
 }
 
-const ProfileMenuSection = ({ section, onItemPress }: Props) => (
-  <View style={styles.wrap}>
-    <Text style={styles.title}>{section.title}</Text>
-    <View style={styles.card}>
-      {section.items.map((item, index) => (
-        <ProfileMenuItem
-          key={item.id}
-          label={item.label}
-          icon={item.icon}
-          showDivider={index < section.items.length - 1}
-          onPress={() => onItemPress?.(item.id)}
-        />
-      ))}
+const ProfileMenuSection = ({ section, onItemPress }: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <View style={styles.wrap}>
+      <Text style={styles.title}>{t(section.titleKey)}</Text>
+      <View style={styles.card}>
+        {section.items.map((item, index) => (
+          <ProfileMenuItem
+            key={item.id}
+            label={t(item.labelKey)}
+            icon={item.icon}
+            showDivider={index < section.items.length - 1}
+            onPress={() => onItemPress?.(item.id)}
+          />
+        ))}
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   wrap: {

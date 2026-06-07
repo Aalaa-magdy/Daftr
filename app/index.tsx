@@ -4,11 +4,13 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useRouter, type Href } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import Logo from '@/assets/images/Logo.svg';
+import { useAppDirection } from '@/hooks/useAppDirection';
 
 const SPLASH_MS = 3000;
 
 const SplashScreenComponent = () => {
   const router = useRouter();
+  const { directionStyle } = useAppDirection();
 
   useEffect(() => {
     let cancelled = false;
@@ -28,7 +30,7 @@ const SplashScreenComponent = () => {
   }, [router]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, directionStyle]}>
       <Animated.View entering={FadeInDown.duration(800).springify()}>
         <Logo width={200} height={200} />
       </Animated.View>

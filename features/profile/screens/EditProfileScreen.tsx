@@ -13,6 +13,7 @@ import User03Icon from '@hugeicons/core-free-icons/User03Icon';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Image,
   ScrollView,
@@ -33,6 +34,7 @@ const fieldIcon = (icon: IconSvgElement) => (
 
 const EditProfileScreen = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const [name, setName] = useState(PROFILE_USER.name);
   const [email, setEmail] = useState(PROFILE_USER.email);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -71,7 +73,7 @@ const EditProfileScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <TransactionHeader
-          title="Edit Profile Information"
+          title={t('profile.editProfileTitle')}
           onBack={() => router.back()}
         />
 
@@ -84,15 +86,15 @@ const EditProfileScreen = () => {
             style={styles.changePhotoButton}
             activeOpacity={0.85}
             accessibilityRole="button"
-            accessibilityLabel="Change profile picture"
+            accessibilityLabel={t('profile.changeProfilePictureA11y')}
           >
             <HugeiconsIcon icon={PencilEdit02Icon} size={16} color={colors.primary} />
-            <Text style={styles.changePhotoText}>Change Profile Picture</Text>
+            <Text style={styles.changePhotoText}>{t('profile.changeProfilePicture')}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.form}>
-          <FormField label="Name">
+          <FormField label={t('common.name')}>
             <Input
               value={name}
               onChangeText={setName}
@@ -101,7 +103,7 @@ const EditProfileScreen = () => {
             />
           </FormField>
 
-          <FormField label="Email">
+          <FormField label={t('common.email')}>
             <Input
               value={email}
               onChangeText={setEmail}
@@ -111,15 +113,15 @@ const EditProfileScreen = () => {
             />
             <View style={styles.emailStatusRow}>
               {isEmailVerified ? (
-                <Text style={styles.verifiedText}>Verified</Text>
+                <Text style={styles.verifiedText}>{t('common.verified')}</Text>
               ) : (
                 <TouchableOpacity
                   activeOpacity={0.7}
                   accessibilityRole="link"
-                  accessibilityLabel="Verify email"
+                  accessibilityLabel={t('profile.verifyEmailA11y')}
                   onPress={goToVerifyEmail}
                 >
-                  <Text style={styles.verifyLink}>Verify Email</Text>
+                  <Text style={styles.verifyLink}>{t('profile.verifyEmail')}</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -130,14 +132,14 @@ const EditProfileScreen = () => {
           style={styles.deleteAccount}
           activeOpacity={0.7}
           accessibilityRole="button"
-          accessibilityLabel="Delete account"
+          accessibilityLabel={t('profile.deleteAccountA11y')}
           onPress={() => setDeleteVisible(true)}
         >
           <HugeiconsIcon icon={Delete02Icon} size={20} color={colors.red} />
-          <Text style={styles.deleteAccountText}>Delete Account</Text>
+          <Text style={styles.deleteAccountText}>{t('profile.deleteAccount')}</Text>
         </TouchableOpacity>
 
-        <Button title="Save Changes" onPress={handleSave} />
+        <Button title={t('common.saveChanges')} onPress={handleSave} />
       </ScrollView>
 
       <DeleteAccountDialogue

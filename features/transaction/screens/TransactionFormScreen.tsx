@@ -14,6 +14,7 @@ import RepeatIcon from '@hugeicons/core-free-icons/RepeatIcon';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Pressable,
@@ -42,14 +43,15 @@ const fieldIcon = (icon: IconSvgElement) => (
 
 const TransactionFormScreen = () => {
   const router = useRouter();
-  const { kind: initialKind, isEdit, title } = useTransactionFormMode();
+  const { t } = useTranslation();
+  const { kind: initialKind, isEdit, titleKey } = useTransactionFormMode();
 
   const [kind, setKind] = useState<TransactionKind>(initialKind);
   const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [incomeType, setIncomeType] = useState('');
   const [date, setDate] = useState<Date | null>(null);
-  const [repeat, setRepeat] = useState('Monthly');
+  const [repeat, setRepeat] = useState('monthly');
   const [note, setNote] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showDeleteDialogue, setShowDeleteDialogue] = useState(false);
@@ -59,6 +61,33 @@ const TransactionFormScreen = () => {
     Changa_400Regular,
     Changa_500Medium,
   });
+
+  const incomeTypeLabels = useMemo(
+    () => INCOME_TYPES.map((key) => t(`transaction.incomeTypes.${key}`)),
+    [t]
+  );
+
+  const repeatLabels = useMemo(
+    () =>
+      REPEAT_OPTIONS.map((key) =>
+        key === 'monthly' ? t('common.monthly') : t('common.oneTime')
+      ),
+    [t]
+  );
+
+  const incomeTypeDisplay = useMemo(() => {
+    const index = INCOME_TYPES.indexOf(
+      incomeType as (typeof INCOME_TYPES)[number]
+    );
+    return index >= 0 ? incomeTypeLabels[index] : '';
+  }, [incomeType, incomeTypeLabels]);
+
+  const repeatDisplay = useMemo(() => {
+    const index = REPEAT_OPTIONS.indexOf(
+      repeat as (typeof REPEAT_OPTIONS)[number]
+    );
+    return index >= 0 ? repeatLabels[index] : '';
+  }, [repeat, repeatLabels]);
 
   useEffect(() => {
     setKind(initialKind);
@@ -75,10 +104,10 @@ const TransactionFormScreen = () => {
       return;
     }
 
-    setIncomeType('Part Time');
+    setIncomeType('partTime');
     setAmount('10000');
     setDate(new Date(2026, 5, 1));
-    setRepeat('Monthly');
+    setRepeat('monthly');
   }, [isEdit, initialKind]);
 
   const dateDisplay = date ? formatDisplayDate(date) : '';
@@ -94,7 +123,7 @@ const TransactionFormScreen = () => {
   }, [amount, date, kind, categoryId, incomeType]);
 
   const saveLabel =
-    kind === 'income' ? 'Save Income' : 'Save Expense';
+    kind === 'income' ? t('transaction.saveIncome') : t('transaction.saveExpense');
 
   if (!fontsLoaded) {
     return null;
@@ -125,7 +154,7 @@ const TransactionFormScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <TransactionHeader
-          title={title}
+          title={t(titleKey)}
           onBack={() => router.back()}
           onDelete={isEdit ? () => setShowDeleteDialogue(true) : undefined}
         />
@@ -134,21 +163,24 @@ const TransactionFormScreen = () => {
 
         {kind === 'income' ? (
           <>
-            <FormField label="Income Type" required>
+            <FormField label={t('transaction.incomeType')} required>
               <SelectField
-                value={incomeType}
-                placeholder="Choose income type"
-                options={INCOME_TYPES}
-                onSelect={setIncomeType}
+                value={incomeTypeDisplay}
+                placeholder={t('transaction.chooseIncomeType')}
+                options={incomeTypeLabels}
+                onSelect={(label) => {
+                  const index = incomeTypeLabels.indexOf(label);
+                  if (index >= 0) setIncomeType(INCOME_TYPES[index]);
+                }}
                 icon={fieldIcon(ArrowUpLeft01Icon)}
                 open={activePicker === 'incomeType'}
                 onToggle={() => togglePicker('incomeType')}
               />
             </FormField>
 
-            <FormField label="Amount" required>
+            <FormField label={t('transaction.amount')} required>
               <Input
-                placeholder="Enter amount"
+                placeholder={t('common.amountPlaceholder')}
                 value={amount}
                 onChangeText={setAmount}
                 keyboardType="numeric"
@@ -158,9 +190,9 @@ const TransactionFormScreen = () => {
             </FormField>
 
             <FormField
-              label="Payday"
+              label={t('transaction.payday')}
               required
-              helper="Your balance resets on this day each month."
+              helper={t('transaction.paydayHelper')}
             >
               <TouchableOpacity
                 activeOpacity={0.85}
@@ -171,7 +203,7 @@ const TransactionFormScreen = () => {
               >
                 <View pointerEvents="none">
                   <Input
-                    placeholder="DD/MM/YYYY"
+                    placeholder={t('common.datePlaceholder')}
                     value={dateDisplay}
                     icon={fieldIcon(Calendar03Icon)}
                     containerStyle={styles.fieldInput}
@@ -180,12 +212,15 @@ const TransactionFormScreen = () => {
               </TouchableOpacity>
             </FormField>
 
-            <FormField label="Repeat" required>
+            <FormField label={t('transaction.repeat')} required>
               <SelectField
-                value={repeat}
-                placeholder="Monthly"
-                options={REPEAT_OPTIONS}
-                onSelect={setRepeat}
+                value={repeatDisplay}
+                placeholder={t('common.monthly')}
+                options={repeatLabels}
+                onSelect={(label) => {
+                  const index = repeatLabels.indexOf(label);
+                  if (index >= 0) setRepeat(REPEAT_OPTIONS[index]);
+                }}
                 icon={fieldIcon(RepeatIcon)}
                 open={activePicker === 'repeat'}
                 onToggle={() => togglePicker('repeat')}
@@ -194,9 +229,9 @@ const TransactionFormScreen = () => {
           </>
         ) : (
           <>
-            <FormField label="Amount" required>
+            <FormField label={t('transaction.amount')} required>
               <Input
-                placeholder="Enter amount"
+                placeholder={t('common.amountPlaceholder')}
                 value={amount}
                 onChangeText={setAmount}
                 keyboardType="numeric"
@@ -210,7 +245,7 @@ const TransactionFormScreen = () => {
                 onSelect={setCategoryId}
               />
 
-            <FormField label="Date" required>
+            <FormField label={t('transaction.date')} required>
               <TouchableOpacity
                 activeOpacity={0.85}
                 onPress={() => {
@@ -220,7 +255,7 @@ const TransactionFormScreen = () => {
               >
                 <View pointerEvents="none">
                   <Input
-                    placeholder="DD/MM/YYYY"
+                    placeholder={t('common.datePlaceholder')}
                     value={dateDisplay}
                     icon={fieldIcon(Calendar03Icon)}
                     containerStyle={styles.fieldInput}
@@ -229,9 +264,9 @@ const TransactionFormScreen = () => {
               </TouchableOpacity>
             </FormField>
 
-            <FormField label="Note">
+            <FormField label={t('transaction.note')}>
               <Input
-                placeholder="Optional"
+                placeholder={t('common.optional')}
                 value={note}
                 onChangeText={setNote}
                 multiline

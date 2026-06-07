@@ -7,6 +7,7 @@ import {
 } from '@expo-google-fonts/changa';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FaqItem from '../components/FaqItem';
@@ -14,6 +15,7 @@ import { FAQ_ITEMS } from '../data/faq-items';
 
 const FaqScreen = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
   const [fontsLoaded] = useFonts({
@@ -45,13 +47,11 @@ const FaqScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <TransactionHeader
-          title="Frequently Asked Questions"
+          title={t('profile.faqTitle')}
           onBack={() => router.back()}
         />
 
-        <Text style={styles.subtitle}>
-          Find answers to the most frequently asked questions about the app.
-        </Text>
+        <Text style={styles.subtitle}>{t('profile.faqSubtitle')}</Text>
 
         <View style={styles.list}>
           {FAQ_ITEMS.map((item, index) => (

@@ -7,6 +7,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/changa';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CategoryBreakdown from '../components/CategoryBreakdown';
@@ -20,6 +21,7 @@ import {
 } from '../data/mock-statistics';
 
 const Statistics = () => {
+  const { t } = useTranslation();
   const { onTabPress, onAddPress } = useNavbarNavigation('statistics');
   const [period, setPeriod] = useState<StatisticsPeriod>('month');
   const [fontsLoaded] = useFonts({
@@ -28,6 +30,17 @@ const Statistics = () => {
   });
 
   const stats = useMemo(() => STATISTICS_BY_PERIOD[period], [period]);
+
+  const trendData = useMemo(
+    () =>
+      stats.trend.map((point) => ({
+        ...point,
+        label:
+          point.label ??
+          t(point.labelKey!, point.labelParams),
+      })),
+    [stats.trend, t],
+  );
 
   if (!fontsLoaded) {
     return null;
@@ -40,7 +53,7 @@ const Statistics = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Statistics</Text>
+        <Text style={styles.title}>{t('statistics.title')}</Text>
 
         <PeriodToggle value={period} onChange={setPeriod} />
 
@@ -57,10 +70,11 @@ const Statistics = () => {
         />
 
         <TrendBarChart
-          title={stats.trendTitle}
+          title={t(stats.titleKey)}
           subtitle={stats.trendSubtitle}
           maxValue={stats.trendMax}
-          data={stats.trend}
+          data={trendData}
+          isWeeklyChart={period === 'week'}
         />
       </ScrollView>
 

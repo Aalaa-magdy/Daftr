@@ -1,6 +1,9 @@
 import { colors } from '@/theme/colors';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDirection } from '@/hooks/useAppDirection';
 import {
+  Platform,
   StyleProp,
   StyleSheet,
   Text,
@@ -49,34 +52,50 @@ const Input: React.FC<InputProps> = ({
   containerStyle,
   multiline = false,
 }) => {
+  const { t } = useTranslation();
+  const { isRTL, writingDirection } = useAppDirection();
   const [isFocused, setIsFocused] = useState(false);
   const hasText = Boolean(value && value.length > 0);
+
+  /** TextInput uses physical alignment — it does not mirror like Text under direction: rtl. */
+  const inputTextAlign = isRTL ? 'right' : 'left';
 
   /** Unfocused + empty: align typed `color` with placeholder so Android does not tint hint wrong vs icons. */
   const useMutedTextColor = !isFocused && !hasText;
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label && <Text style={styles.label}>{label}</Text>}
+      {label ? (
+        <Text
+          style={[
+            styles.label,
+            { textAlign: inputTextAlign, writingDirection },
+          ]}
+        >
+          {label}
+        </Text>
+      ) : null}
 
       <View
         style={[
           styles.inputWrapper,
+          { direction: isRTL ? 'rtl' : 'ltr' },
           isFocused && styles.inputWrapperFocused,
           error && styles.inputWrapperError,
         ]}
       >
-        {icon && (
-          <View style={styles.leftIcon}>{withInputMutedIconColor(icon)}</View>
-        )}
+        {icon ? (
+          <View style={styles.leadingIcon}>{withInputMutedIconColor(icon)}</View>
+        ) : null}
 
         <TextInput
           style={[
             styles.input,
             multiline && styles.inputMultiline,
             useMutedTextColor ? styles.inputTextMuted : styles.inputTextTyped,
-            icon ? styles.inputWithLeftIcon : null,
-            rightIcon ? styles.inputWithRightIcon : null,
+            icon ? styles.inputWithLeadingIcon : null,
+            rightIcon ? styles.inputWithTrailingIcon : null,
+            { textAlign: inputTextAlign, writingDirection },
           ]}
           value={value}
           onChangeText={onChangeText}
@@ -90,20 +109,20 @@ const Input: React.FC<InputProps> = ({
           onBlur={() => setIsFocused(false)}
         />
 
-        {rightIcon && (
+        {rightIcon ? (
           <TouchableOpacity
-            style={styles.rightIcon}
+            style={styles.trailingIcon}
             onPress={onRightIconPress}
             disabled={!onRightIconPress}
             accessibilityRole="button"
-            accessibilityLabel="Toggle password visibility"
+            accessibilityLabel={t('accessibility.togglePasswordVisibility')}
           >
             {withInputMutedIconColor(rightIcon)}
           </TouchableOpacity>
-        )}
+        ) : null}
       </View>
 
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
 };
@@ -114,14 +133,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
+    width: '100%',
     fontSize: 14,
     fontWeight: '500',
     color: colors.text,
     marginBottom: 6,
-    lineHeight:29,
+    lineHeight: 22,
   },
   inputWrapper: {
     width: '100%',
+    minHeight: 48,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.white,
@@ -138,13 +159,18 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    minHeight: 48,
     backgroundColor: colors.white,
     borderRadius: 8,
-    paddingVertical: 8,
+    paddingVertical: Platform.OS === 'android' ? 10 : 12,
     paddingHorizontal: 16,
     fontSize: 16,
+    lineHeight: 24,
     fontFamily: 'Changa_400Regular',
-    color:colors.black
+    color: colors.black,
+    ...Platform.select({
+      android: { includeFontPadding: false },
+    }),
   },
   inputTextMuted: {
     color: INPUT_MUTED,
@@ -152,31 +178,35 @@ const styles = StyleSheet.create({
   inputTextTyped: {
     color: colors.black,
   },
-  inputWithLeftIcon: {
-    paddingLeft: 0,
+  inputWithLeadingIcon: {
+    paddingStart: 8,
+    paddingEnd: 12,
   },
-  inputWithRightIcon: {
-    paddingRight: 0,
+  inputWithTrailingIcon: {
+    paddingEnd: 8,
+    paddingStart: 12,
   },
   inputMultiline: {
     minHeight: 100,
     paddingTop: 12,
     paddingBottom: 12,
+    textAlignVertical: 'top',
   },
-  leftIcon: {
-    paddingLeft: 16,
-    paddingRight: 8,
+  leadingIcon: {
+    paddingStart: 16,
+    paddingEnd: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  rightIcon: {
-    paddingRight: 16,
-    paddingLeft: 8,
+  trailingIcon: {
+    paddingEnd: 16,
+    paddingStart: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
   errorText: {
     fontSize: 12,
+    lineHeight: 18,
     color: 'red',
     marginTop: 4,
   },

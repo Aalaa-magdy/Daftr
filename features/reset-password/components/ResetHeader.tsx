@@ -14,6 +14,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 const patternSource = require('@/assets/images/background-pattern-decorative.png');
 
@@ -35,6 +36,7 @@ const ResetHeader = ({
   highlightText,
   whiteBackground = false,
 }: Props) => {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -56,7 +58,7 @@ const ResetHeader = ({
       {onBackPress ? (
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel="Go back"
+          accessibilityLabel={t('common.goBack')}
           style={[styles.backButton, { top: Math.max(insets.top, 8) }]}
           onPress={onBackPress}
           activeOpacity={0.7}

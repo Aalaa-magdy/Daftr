@@ -13,6 +13,7 @@ import {
 import Calendar03Icon from '@hugeicons/core-free-icons/Calendar03Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Pressable,
@@ -38,7 +39,13 @@ interface Props {
   onSave: (value: HistoryFilterState) => void;
 }
 
+function categoryLabelKey(categoryId: string) {
+  const key = categoryId === 'self-care' ? 'selfCare' : categoryId;
+  return `transaction.categories.${key}` as const;
+}
+
 const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
+  const { t } = useTranslation();
   const [draft, setDraft] = useState<HistoryFilterState>(DEFAULT_HISTORY_FILTER);
   const [activeDateField, setActiveDateField] = useState<DateField>(null);
   const [fontsLoaded] = useFonts({
@@ -125,7 +132,7 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
           <Pressable style={styles.backdrop} onPress={onClose} />
           <View style={styles.sheet}>
             <View style={styles.handle} />
-            <Text style={styles.title}>Filter All History</Text>
+            <Text style={styles.title}>{t('history.filterTitle')}</Text>
 
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -152,7 +159,7 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
                           isSelected && styles.presetTextSelected,
                         ]}
                       >
-                        {preset.label}
+                        {t(preset.labelKey)}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -161,20 +168,20 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
 
               <View style={styles.dividerRow}>
                 <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>or choose custom range</Text>
+                <Text style={styles.dividerText}>{t('history.customRange')}</Text>
                 <View style={styles.dividerLine} />
               </View>
 
               <View style={styles.dateRow}>
                 <View style={styles.dateField}>
-                  <Text style={styles.dateLabel}>From</Text>
+                  <Text style={styles.dateLabel}>{t('history.from')}</Text>
                   <TouchableOpacity
                     activeOpacity={0.85}
                     onPress={() => setActiveDateField('from')}
                   >
                     <View pointerEvents="none">
                       <Input
-                        placeholder="DD/MM/YYYY"
+                        placeholder={t('common.datePlaceholder')}
                         value={
                           draft.fromDate ? formatDisplayDate(draft.fromDate) : ''
                         }
@@ -188,14 +195,14 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
                 </View>
 
                 <View style={styles.dateField}>
-                  <Text style={styles.dateLabel}>To</Text>
+                  <Text style={styles.dateLabel}>{t('history.to')}</Text>
                   <TouchableOpacity
                     activeOpacity={0.85}
                     onPress={() => setActiveDateField('to')}
                   >
                     <View pointerEvents="none">
                       <Input
-                        placeholder="DD/MM/YYYY"
+                        placeholder={t('common.datePlaceholder')}
                         value={draft.toDate ? formatDisplayDate(draft.toDate) : ''}
                         icon={
                           <HugeiconsIcon icon={Calendar03Icon} size={22} />
@@ -207,7 +214,7 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
                 </View>
               </View>
 
-              <FormField label="Category">
+              <FormField label={t('history.category')}>
                 <View style={styles.categoryGrid}>
                   {EXPENSE_CATEGORIES.map((category) => {
                     const isSelected = draft.categoryIds.includes(category.id);
@@ -233,7 +240,7 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
                             { color: category.color },
                           ]}
                         >
-                          {category.label}
+                          {t(categoryLabelKey(category.id))}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -248,10 +255,10 @@ const HistoryFilterDialogue = ({ visible, value, onClose, onSave }: Props) => {
                 activeOpacity={0.85}
                 onPress={onClose}
               >
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={styles.cancelText}>{t('common.cancel')}</Text>
               </TouchableOpacity>
               <View style={styles.saveWrap}>
-                <Button title="Save" onPress={handleSave} />
+                <Button title={t('common.save')} onPress={handleSave} />
               </View>
             </View>
           </View>

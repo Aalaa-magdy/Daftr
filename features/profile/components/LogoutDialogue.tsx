@@ -6,6 +6,7 @@ import {
 } from '@expo-google-fonts/changa';
 import Logout03Icon from '@hugeicons/core-free-icons/Logout03Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Pressable,
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const LogoutDialogue = ({ visible, onClose, onConfirm }: Props) => {
+  const { t } = useTranslation();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -47,8 +49,8 @@ const LogoutDialogue = ({ visible, onClose, onConfirm }: Props) => {
             <HugeiconsIcon icon={Logout03Icon} size={28} color={colors.red} />
           </View>
 
-          <Text style={styles.message}>Are you sure you want to log out?</Text>
-          <Text style={styles.subtitle}>You can log back in at any time.</Text>
+          <Text style={styles.message}>{t('profile.logoutConfirmTitle')}</Text>
+          <Text style={styles.subtitle}>{t('profile.logoutConfirmSubtitle')}</Text>
 
           <View style={styles.actions}>
             <TouchableOpacity
@@ -56,7 +58,7 @@ const LogoutDialogue = ({ visible, onClose, onConfirm }: Props) => {
               activeOpacity={0.85}
               onPress={onConfirm}
             >
-              <Text style={styles.confirmText}>Yes, Log Out</Text>
+              <Text style={styles.confirmText}>{t('profile.yesLogout')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -64,7 +66,7 @@ const LogoutDialogue = ({ visible, onClose, onConfirm }: Props) => {
               activeOpacity={0.85}
               onPress={onClose}
             >
-              <Text style={styles.cancelText}>No, Cancel</Text>
+              <Text style={styles.cancelText}>{t('common.noCancel')}</Text>
             </TouchableOpacity>
           </View>
         </View>

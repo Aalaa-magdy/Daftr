@@ -25,6 +25,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useTranslation } from "react-i18next";
+import { useAppDirection } from "@/hooks/useAppDirection";
 
 const patternSource = require("@/assets/images/background-pattern-decorative.png");
 
@@ -33,6 +35,8 @@ const fieldIcon = (icon: IconSvgElement) => (
 );
 
 const Signup = () => {
+  const { t } = useTranslation();
+  const { directionStyle, textAlign, writingDirection } = useAppDirection();
   const router = useRouter();
 
   const [fontsLoaded] = useFonts({
@@ -43,7 +47,7 @@ const Signup = () => {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, directionStyle]}>
       <ImageBackground
         source={patternSource}
         style={styles.backgroundImage}
@@ -62,62 +66,62 @@ const Signup = () => {
           extraScrollHeight={120}
         >
           <Header
-            title="Create an account"
-            subtitle="Create an account to save your progress and sync your data."
+            title={t("auth.signUpTitle")}
+            subtitle={t("auth.signUpSubtitle")}
           />
 
           <View style={styles.actions}>
             <View>
-              <Text style={styles.label}>
-                Name <Text style={styles.star}>*</Text>
+              <Text style={[styles.label, { textAlign, writingDirection }]}>
+                {t("common.name")} <Text style={styles.star}>{t("common.required")}</Text>
               </Text>
               <Input
-                placeholder="Enter your Name"
+                placeholder={t("auth.enterYourName")}
                 icon={fieldIcon(User03Icon)}
               />
             </View>
 
             <View>
-              <Text style={styles.label}>
-                Email <Text style={styles.star}>*</Text>
+              <Text style={[styles.label, { textAlign, writingDirection }]}>
+                {t("common.email")} <Text style={styles.star}>{t("common.required")}</Text>
               </Text>
               <Input
-                placeholder="me@example.com"
+                placeholder={t("common.emailPlaceholder")}
                 keyboardType="email-address"
                 icon={fieldIcon(Mail01Icon)}
               />
             </View>
 
             <View>
-              <Text style={styles.label}>
-                Password <Text style={styles.star}>*</Text>
+              <Text style={[styles.label, { textAlign, writingDirection }]}>
+                {t("common.password")} <Text style={styles.star}>{t("common.required")}</Text>
               </Text>
               <PasswordInput
-                placeholder="........"
+                placeholder={t("common.passwordPlaceholder")}
                 icon={fieldIcon(LockPasswordIcon)}
               />
             </View>
 
             <View>
-              <Text style={styles.label}>
-                Confirm Password <Text style={styles.star}>*</Text>
+              <Text style={[styles.label, { textAlign, writingDirection }]}>
+                {t("auth.confirmPasswordLabel")} <Text style={styles.star}>{t("common.required")}</Text>
               </Text>
               <PasswordInput
-                placeholder="........"
+                placeholder={t("common.passwordPlaceholder")}
                 icon={fieldIcon(LockPasswordIcon)}
               />
             </View>
 
-            <Button title="Create account" />
-            <GoogleButton title="up" />
+            <Button title={t("auth.createAccount")} />
+            <GoogleButton title={t("auth.googleSignUp")} />
 
             <View style={styles.footerAuth}>
               <Text style={styles.footerAuthMuted}>
-                Already have an account?
+                {t("auth.hasAccount")}
               </Text>
 
               <TextLinkButton
-                title="Sign in"
+                title={t("auth.signIn")}
                 variant="inline"
                 onPress={() => router.push("/signin" as Href)}
               />
@@ -159,10 +163,11 @@ const styles = StyleSheet.create({
   },
 
   label: {
+    width: '100%',
     fontFamily: "Changa_400Regular",
     color: colors.black,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 24,
     marginBottom: 6,
   },
 

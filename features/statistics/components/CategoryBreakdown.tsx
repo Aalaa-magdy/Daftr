@@ -2,6 +2,7 @@ import ProgressBar from '@/components/ui/ProgressBar';
 import { EXPENSE_CATEGORIES } from '@/features/transaction/data/form-options';
 import { colors } from '@/theme/colors';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import type { CategoryStat } from '../data/mock-statistics';
 import { formatCompactAmount, formatPercentage } from '../lib/format-stat-amount';
@@ -11,20 +12,31 @@ interface Props {
   totalSpent: number;
 }
 
+function categoryLabelKey(categoryId: string) {
+  const key = categoryId === 'self-care' ? 'selfCare' : categoryId;
+  return `transaction.categories.${key}` as const;
+}
+
 const CategoryBreakdown = ({ categories, totalSpent }: Props) => {
+  const { t } = useTranslation();
   const categoryCount = categories.length;
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>By Category</Text>
+      <Text style={styles.title}>{t('statistics.byCategory')}</Text>
       <Text style={styles.subtitle}>
-        {categoryCount} Categories · {totalSpent.toLocaleString('en-US')} EGP total
+        {t('statistics.categoriesSummary', {
+          count: categoryCount,
+          amount: totalSpent.toLocaleString('en-US'),
+        })}
       </Text>
 
       <View style={styles.list}>
         {categories.map((item, index) => {
           const category = EXPENSE_CATEGORIES.find((entry) => entry.id === item.categoryId);
-          const label = item.label ?? category?.label ?? item.categoryId;
+          const label = item.labelKey
+            ? t(item.labelKey)
+            : t(categoryLabelKey(item.categoryId));
           const icon = item.icon ?? category?.icon;
           const color = item.color ?? category?.color ?? colors.textSecondary;
           const iconBackground = `${color}1A`;
@@ -44,7 +56,7 @@ const CategoryBreakdown = ({ categories, totalSpent }: Props) => {
                 <View style={styles.topLine}>
                   <Text style={styles.name}>{label}</Text>
                   <Text style={styles.meta}>
-                    {formatCompactAmount(item.amount)}{' '}
+                    {formatCompactAmount(item.amount, t('common.egp'))}{' '}
                     {formatPercentage(item.percentage)}
                   </Text>
                 </View>

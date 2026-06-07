@@ -11,6 +11,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/changa';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
   Text,
@@ -36,9 +37,9 @@ interface Props {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-function formatAmount(value: number, type: TransactionKind) {
+function formatAmount(value: number, type: TransactionKind, currency: string) {
   const formatted = value.toLocaleString('en-US');
-  return `${type === 'income' ? '+' : '-'}${formatted} EGP`;
+  return `${type === 'income' ? '+' : '-'}${formatted} ${currency}`;
 }
 
 export const TransactionDateHeader = ({
@@ -57,11 +58,11 @@ export const TransactionDateHeader = ({
 const TransactionCard = ({
   id,
   type,
-  title = 'Shopping',
+  title,
   amount = type === 'income' ? 3000 : 4000,
   time = '4:45',
   note,
-  repeat = 'Monthly',
+  repeat,
   categoryIcon = Calendar03Icon,
   categoryIconColor = '#9176F9',
   iconBackgroundColor = '#ede9fa',
@@ -70,6 +71,7 @@ const TransactionCard = ({
   containerStyle,
 }: Props) => {
   const router = useRouter();
+  const { t } = useTranslation();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -80,7 +82,10 @@ const TransactionCard = ({
   }
 
   const isIncome = type === 'income';
-  const expenseNote = note ?? (type === 'expense' ? 'React Native Course' : undefined);
+  const displayTitle = title ?? t('home.defaultTransactionTitle');
+  const displayRepeat = repeat ?? t('home.defaultRepeat');
+  const expenseNote =
+    note ?? (type === 'expense' ? t('home.defaultNote') : undefined);
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -112,7 +117,7 @@ const TransactionCard = ({
                   isIncome ? styles.incomeTitle : styles.expenseTitle,
                 ]}
               >
-                {title}
+                {displayTitle}
               </Text>
               <Text
                 style={[
@@ -120,7 +125,7 @@ const TransactionCard = ({
                   isIncome ? styles.incomeMoney : styles.expenseMoney,
                 ]}
               >
-                {formatAmount(amount, type)}
+                {formatAmount(amount, type, t('common.egp'))}
               </Text>
             </View>
             <View style={styles.section}>
@@ -142,7 +147,7 @@ const TransactionCard = ({
                     size={16}
                     color={colors.textSecondary}
                   />
-                  <Text style={styles.metaText}>{repeat}</Text>
+                  <Text style={styles.metaText}>{displayRepeat}</Text>
                 </View>
               ) : null}
             </View>

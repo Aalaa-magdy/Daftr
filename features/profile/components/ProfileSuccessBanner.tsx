@@ -2,6 +2,7 @@ import { colors } from '@/theme/colors';
 import Cancel01Icon from '@hugeicons/core-free-icons/Cancel01Icon';
 import Tick01Icon from '@hugeicons/core-free-icons/Tick01Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const ProfileSuccessBanner = ({ visible, message, onDismiss }: Props) => {
+  const { t } = useTranslation();
+
   if (!visible) {
     return null;
   }
@@ -27,7 +30,7 @@ const ProfileSuccessBanner = ({ visible, message, onDismiss }: Props) => {
         onPress={onDismiss}
         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         accessibilityRole="button"
-        accessibilityLabel="Dismiss"
+        accessibilityLabel={t('common.dismiss')}
       >
         <HugeiconsIcon icon={Cancel01Icon} size={18} color={colors.textSecondary} />
       </TouchableOpacity>

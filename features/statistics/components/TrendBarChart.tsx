@@ -7,6 +7,7 @@ interface Props {
   subtitle: string;
   maxValue: number;
   data: TrendPoint[];
+  isWeeklyChart?: boolean;
 }
 
 const CHART_HEIGHT = 200;
@@ -38,10 +39,14 @@ function formatTick(value: number): string {
   return String(value);
 }
 
-const TrendBarChart = ({ title, subtitle, maxValue, data }: Props) => {
+const TrendBarChart = ({
+  title,
+  subtitle,
+  maxValue,
+  data,
+  isWeeklyChart = false,
+}: Props) => {
   const ticks = buildTicks(maxValue);
-  const isWeeklyChart =
-    data.length === 4 && data.every((point) => point.label.startsWith('Week'));
 
   return (
     <View style={styles.card}>

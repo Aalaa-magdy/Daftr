@@ -11,6 +11,7 @@ import Home01Icon from '@hugeicons/core-free-icons/Home01Icon';
 import User03Icon from '@hugeicons/core-free-icons/User03Icon';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Platform,
   Pressable,
@@ -31,29 +32,28 @@ interface Props {
 
 type TabConfig = {
   id: NavTab;
-  label: string;
+  labelKey: string;
   icon: IconSvgElement;
 };
 
-const LEFT_TABS: TabConfig[] = [
-  { id: 'home', label: 'Home', icon: Home01Icon },
-  { id: 'history', label: 'History', icon: DollarCircleIcon },
-];
-
-const RIGHT_TABS: TabConfig[] = [
-  { id: 'statistics', label: 'Statistics', icon: AnalyticsUpIcon },
-  { id: 'profile', label: 'Profile', icon: User03Icon },
+const TABS: TabConfig[] = [
+  { id: 'home', labelKey: 'nav.home', icon: Home01Icon },
+  { id: 'history', labelKey: 'nav.history', icon: DollarCircleIcon },
+  { id: 'statistics', labelKey: 'nav.statistics', icon: AnalyticsUpIcon },
+  { id: 'profile', labelKey: 'nav.profile', icon: User03Icon },
 ];
 
 const ICON_SIZE = 24;
 const ICON_STROKE_INACTIVE = 1.5;
 const ICON_STROKE_ACTIVE = 2.5;
+const FAB_SIZE = 50;
 
 const Navbar = ({
   activeTab = 'history',
   onTabPress,
   onAddPress,
 }: Props) => {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [selectedTab, setSelectedTab] = useState<NavTab>(activeTab);
   const [fontsLoaded] = useFonts({
@@ -74,47 +74,60 @@ const Navbar = ({
     onTabPress?.(tab);
   };
 
-  const renderTab = (tab: TabConfig, side: 'left' | 'right') => {
+  const renderTab = (tab: TabConfig) => {
     const isActive = selectedTab === tab.id;
 
     return (
       <TouchableOpacity
-        key={tab.id}
-        style={[
-          styles.item,
-          side === 'left' && tab.id === 'history' && styles.historyItem,
-          side === 'right' && tab.id === 'statistics' && styles.statisticsItem,
-        ]}
+        style={styles.item}
         activeOpacity={0.7}
         onPress={() => handleTabPress(tab.id)}
       >
-        <HugeiconsIcon
-          icon={tab.icon}
-          size={ICON_SIZE}
-          color={isActive ? colors.primary : colors.textSecondary}
-          strokeWidth={isActive ? ICON_STROKE_ACTIVE : ICON_STROKE_INACTIVE}
-        />
-        <Text style={[styles.label, isActive && styles.labelActive]}>
-          {tab.label}
+        <View style={styles.iconWrap}>
+          <HugeiconsIcon
+            icon={tab.icon}
+            size={ICON_SIZE}
+            color={isActive ? colors.primary : colors.textSecondary}
+            strokeWidth={isActive ? ICON_STROKE_ACTIVE : ICON_STROKE_INACTIVE}
+          />
+        </View>
+        <Text
+          style={[styles.label, isActive && styles.labelActive]}
+          numberOfLines={1}
+        >
+          {t(tab.labelKey)}
         </Text>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+    <View
+      style={[
+        styles.wrapper,
+        { paddingBottom: Math.max(insets.bottom, 8), direction: 'ltr' },
+      ]}
+    >
       <View style={styles.fabNotch} pointerEvents="none" />
+
       <View style={styles.bar}>
-        <View style={styles.sideLeft}>{LEFT_TABS.map((tab) => renderTab(tab, 'left'))}</View>
-        <View style={styles.sideRight}>{RIGHT_TABS.map((tab) => renderTab(tab, 'right'))}</View>
+        <View style={styles.slot}>{renderTab(TABS[0])}</View>
+        <View style={styles.slot}>{renderTab(TABS[1])}</View>
+        <View style={styles.centerSlot} />
+        <View style={styles.slot}>{renderTab(TABS[2])}</View>
+        <View style={styles.slot}>{renderTab(TABS[3])}</View>
       </View>
 
       <Pressable
         style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
         onPress={onAddPress}
         accessibilityRole="button"
-        accessibilityLabel="Add transaction"
-        android_ripple={{ color: 'rgba(255,255,255,0.25)', borderless: true, radius: 28 }}
+        accessibilityLabel={t('nav.addTransaction')}
+        android_ripple={{
+          color: 'rgba(255,255,255,0.25)',
+          borderless: true,
+          radius: 28,
+        }}
       >
         <HugeiconsIcon icon={Add01Icon} size={28} color={colors.white} />
       </Pressable>
@@ -125,6 +138,7 @@ const Navbar = ({
 const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
+    alignSelf: 'stretch',
     backgroundColor: colors.white,
     borderTopWidth: 1,
     borderTopColor: colors.border,
@@ -145,7 +159,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -20,
     alignSelf: 'center',
-    width: 50,
+    width: FAB_SIZE,
     height: 36,
     backgroundColor: colors.background,
     borderTopLeftRadius: 30,
@@ -155,47 +169,39 @@ const styles = StyleSheet.create({
   bar: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'space-between',
+    width: '100%',
     height: 64,
-    paddingHorizontal: 20,
     paddingTop: 8,
     zIndex: 0,
   },
-  sideLeft: {
+  slot: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingLeft: 16,
-    paddingRight: 52,
-    gap: 32,
-  },
-  sideRight: {
-    flex: 1,
-    flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingRight: 16,
-    paddingLeft: 52,
-    gap: 32,
+    paddingBottom: 6,
   },
-  historyItem: {
-    marginLeft: -4,
-  },
-  statisticsItem: {
-    marginRight: -4,
+  centerSlot: {
+    flex: 1,
   },
   item: {
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    minWidth: 56,
+  },
+  iconWrap: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   label: {
+    width: '100%',
     fontSize: 14,
     lineHeight: 18,
     fontFamily: 'Changa_400Regular',
     color: colors.textSecondary,
+    textAlign: 'center',
   },
   labelActive: {
     fontFamily: 'Changa_500Medium',
@@ -205,8 +211,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -28,
     alignSelf: 'center',
-    width: 50,
-    height: 50,
+    width: FAB_SIZE,
+    height: FAB_SIZE,
     borderRadius: 28,
     backgroundColor: colors.primary,
     alignItems: 'center',

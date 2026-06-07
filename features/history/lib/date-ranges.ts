@@ -2,12 +2,12 @@ import type { TimeRangePreset } from '../types/history-filter';
 
 export const TIME_RANGE_PRESETS: {
   id: TimeRangePreset;
-  label: string;
+  labelKey: string;
 }[] = [
-  { id: 'this-week', label: 'This Week' },
-  { id: 'this-month', label: 'This Month' },
-  { id: 'last-month', label: 'Last Month' },
-  { id: 'this-year', label: 'This Year' },
+  { id: 'this-week', labelKey: 'history.thisWeek' },
+  { id: 'this-month', labelKey: 'history.thisMonth' },
+  { id: 'last-month', labelKey: 'history.lastMonth' },
+  { id: 'this-year', labelKey: 'history.thisYear' },
 ];
 
 function startOfDay(date: Date) {

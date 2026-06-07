@@ -10,6 +10,7 @@ import Logout03Icon from '@hugeicons/core-free-icons/Logout03Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ScrollView,
   StyleSheet,
@@ -25,6 +26,7 @@ import { PROFILE_MENU_SECTIONS } from '../data/profile-menu';
 
 const Profile = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const { passwordChanged } = useLocalSearchParams<{ passwordChanged?: string }>();
   const { onTabPress, onAddPress } = useNavbarNavigation('profile');
   const [logoutVisible, setLogoutVisible] = useState(false);
@@ -83,11 +85,11 @@ const Profile = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>{t('profile.title')}</Text>
 
         <ProfileSuccessBanner
           visible={showSuccessBanner}
-          message="Password changed successfully."
+          message={t('profile.passwordChangedSuccess')}
           onDismiss={() => setShowSuccessBanner(false)}
         />
 
@@ -106,9 +108,9 @@ const Profile = () => {
           activeOpacity={0.85}
           onPress={() => setLogoutVisible(true)}
           accessibilityRole="button"
-          accessibilityLabel="Log out"
+          accessibilityLabel={t('profile.logoutA11y')}
         >
-          <Text style={styles.logoutText}>Log out</Text>
+          <Text style={styles.logoutText}>{t('profile.logout')}</Text>
           <HugeiconsIcon icon={Logout03Icon} size={20} color={colors.red} />
         </TouchableOpacity>
       </ScrollView>

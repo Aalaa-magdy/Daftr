@@ -11,6 +11,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { PasswordDataType } from '../data/passwordData';
 import ResetHeader from './ResetHeader';
 import VerificationCodeInput from './VerificationCodeInput';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   item: PasswordDataType;
@@ -29,6 +30,8 @@ const ResetPasswordItem: React.FC<Props> = ({
   onBackPress,
   onNext,
 }) => {
+  const { t } = useTranslation();
+
   const renderStepBody = () => {
     switch (item.type) {
       case 'forget':
@@ -36,17 +39,17 @@ const ResetPasswordItem: React.FC<Props> = ({
           <View style={styles.stepBody}>
             <View style={styles.fieldGroup}>
               <Text style={styles.label}>
-                Email <Text style={styles.star}>*</Text>
+                {t('common.email')} <Text style={styles.star}>{t('common.required')}</Text>
               </Text>
               <Input
-                placeholder="me@example.com"
+                placeholder={t('common.emailPlaceholder')}
                 keyboardType="email-address"
                 icon={fieldIcon(Mail01Icon)}
                 containerStyle={styles.fieldInput}
               />
             </View>
             <View style={styles.buttonWrap}>
-              <Button title="Reset Password" onPress={onNext} />
+              <Button title={t('resetPassword.resetPassword')} onPress={onNext} />
             </View>
           </View>
         );
@@ -56,11 +59,11 @@ const ResetPasswordItem: React.FC<Props> = ({
           <View style={styles.stepBody}>
             <VerificationCodeInput />
             <View style={styles.buttonWrap}>
-              <Button title="Verify Email" onPress={onNext} />
+              <Button title={t('resetPassword.verifyEmail')} onPress={onNext} />
             </View>
             <View style={styles.resendRow}>
-              <Text style={styles.resendMuted}>Didn't receive the email </Text>
-              <TextLinkButton title="Resend" variant="inline" onPress={() => {}} />
+              <Text style={styles.resendMuted}>{t('resetPassword.didntReceiveEmail')} </Text>
+              <TextLinkButton title={t('common.resend')} variant="inline" onPress={() => {}} />
             </View>
           </View>
         );
@@ -70,26 +73,26 @@ const ResetPasswordItem: React.FC<Props> = ({
           <View style={styles.stepBody}>
             <View style={styles.fieldGroup}>
               <Text style={styles.label}>
-                Password <Text style={styles.star}>*</Text>
+                {t('common.password')} <Text style={styles.star}>{t('common.required')}</Text>
               </Text>
               <PasswordInput
-                placeholder="........"
+                placeholder={t('common.passwordPlaceholder')}
                 icon={fieldIcon(SquareLockPasswordIcon)}
                 containerStyle={styles.fieldInput}
               />
             </View>
             <View style={styles.fieldGroup}>
               <Text style={styles.label}>
-                Confirm Password <Text style={styles.star}>*</Text>
+                {t('common.confirmPassword')} <Text style={styles.star}>{t('common.required')}</Text>
               </Text>
               <PasswordInput
-                placeholder="........"
+                placeholder={t('common.passwordPlaceholder')}
                 icon={fieldIcon(SquareLockPasswordIcon)}
                 containerStyle={styles.fieldInput}
               />
             </View>
             <View style={styles.buttonWrap}>
-              <Button title="Reset password" onPress={onNext} />
+              <Button title={t('resetPassword.resetPasswordButton')} onPress={onNext} />
             </View>
           </View>
         );
@@ -102,8 +105,8 @@ const ResetPasswordItem: React.FC<Props> = ({
   return (
     <View style={[styles.container, { width }]}>
       <ResetHeader
-        title={item.title}
-        description={item.subtitle}
+        title={t(item.titleKey)}
+        description={t(item.subtitleKey)}
         icon={item.icon}
         onBackPress={onBackPress}
         highlightText={item.type === 'check' ? item.email : undefined}

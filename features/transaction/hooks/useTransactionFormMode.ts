@@ -12,13 +12,13 @@ export function useTransactionFormMode() {
   return useMemo(() => {
     const isEdit = id !== TRANSACTION_NEW_ID;
     const kind: TransactionKind = type === 'income' ? 'income' : 'expense';
-    const title = isEdit ? 'Edit Transactions' : 'Add Transactions';
+    const titleKey = isEdit ? 'transaction.editTitle' : 'transaction.addTitle';
 
     return {
       id: id ?? TRANSACTION_NEW_ID,
       kind,
       isEdit,
-      title,
+      titleKey,
     };
   }, [id, type]);
 }

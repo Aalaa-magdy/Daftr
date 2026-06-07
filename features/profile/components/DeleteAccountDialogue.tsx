@@ -6,6 +6,7 @@ import {
 } from '@expo-google-fonts/changa';
 import Delete02Icon from '@hugeicons/core-free-icons/Delete02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Pressable,
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const DeleteAccountDialogue = ({ visible, onClose, onConfirm }: Props) => {
+  const { t } = useTranslation();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -48,11 +50,10 @@ const DeleteAccountDialogue = ({ visible, onClose, onConfirm }: Props) => {
           </View>
 
           <Text style={styles.message}>
-            Are you sure you want to delete your account?
+            {t('profile.deleteAccountConfirmTitle')}
           </Text>
           <Text style={styles.subtitle}>
-            Your data and progress will be permanently deleted. This action
-            cannot be undone.
+            {t('profile.deleteAccountConfirmSubtitle')}
           </Text>
 
           <View style={styles.actions}>
@@ -61,7 +62,7 @@ const DeleteAccountDialogue = ({ visible, onClose, onConfirm }: Props) => {
               activeOpacity={0.85}
               onPress={onConfirm}
             >
-              <Text style={styles.confirmText}>Yes, Delete Account</Text>
+              <Text style={styles.confirmText}>{t('profile.yesDeleteAccount')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -69,7 +70,7 @@ const DeleteAccountDialogue = ({ visible, onClose, onConfirm }: Props) => {
               activeOpacity={0.85}
               onPress={onClose}
             >
-              <Text style={styles.cancelText}>No, Cancel</Text>
+              <Text style={styles.cancelText}>{t('common.noCancel')}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -1,4 +1,5 @@
 import { colors } from '@/theme/colors';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { StatisticsPeriod } from '../data/mock-statistics';
 
@@ -7,32 +8,36 @@ interface Props {
   onChange: (value: StatisticsPeriod) => void;
 }
 
-const OPTIONS: { id: StatisticsPeriod; label: string }[] = [
-  { id: 'week', label: 'Week' },
-  { id: 'month', label: 'Month' },
-  { id: 'year', label: 'Year' },
+const OPTIONS: { id: StatisticsPeriod; labelKey: string }[] = [
+  { id: 'week', labelKey: 'statistics.week' },
+  { id: 'month', labelKey: 'statistics.month' },
+  { id: 'year', labelKey: 'statistics.year' },
 ];
 
-const PeriodToggle = ({ value, onChange }: Props) => (
-  <View style={styles.track}>
-    {OPTIONS.map((option) => {
-      const isActive = value === option.id;
+const PeriodToggle = ({ value, onChange }: Props) => {
+  const { t } = useTranslation();
 
-      return (
-        <TouchableOpacity
-          key={option.id}
-          style={[styles.tab, isActive && styles.tabActive]}
-          onPress={() => onChange(option.id)}
-          activeOpacity={0.85}
-        >
-          <Text style={[styles.tabText, isActive && styles.tabTextActive]}>
-            {option.label}
-          </Text>
-        </TouchableOpacity>
-      );
-    })}
-  </View>
-);
+  return (
+    <View style={styles.track}>
+      {OPTIONS.map((option) => {
+        const isActive = value === option.id;
+
+        return (
+          <TouchableOpacity
+            key={option.id}
+            style={[styles.tab, isActive && styles.tabActive]}
+            onPress={() => onChange(option.id)}
+            activeOpacity={0.85}
+          >
+            <Text style={[styles.tabText, isActive && styles.tabTextActive]}>
+              {t(option.labelKey)}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   track: {

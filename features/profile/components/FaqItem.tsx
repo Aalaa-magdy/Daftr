@@ -2,6 +2,7 @@ import { colors } from '@/theme/colors';
 import Add01Icon from '@hugeicons/core-free-icons/Add01Icon';
 import MinusSignIcon from '@hugeicons/core-free-icons/MinusSignIcon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { FaqItemData } from '../data/faq-items';
 
@@ -12,30 +13,34 @@ interface Props {
   showDivider?: boolean;
 }
 
-const FaqItem = ({ item, expanded, onToggle, showDivider = true }: Props) => (
-  <View style={styles.wrap}>
-    <TouchableOpacity
-      style={styles.row}
-      activeOpacity={0.7}
-      onPress={onToggle}
-      accessibilityRole="button"
-      accessibilityState={{ expanded }}
-    >
-      <View style={styles.iconCircle}>
-        <HugeiconsIcon
-          icon={expanded ? MinusSignIcon : Add01Icon}
-          size={16}
-          color={colors.textSecondary}
-        />
-      </View>
-      <Text style={styles.question}>{item.question}</Text>
-    </TouchableOpacity>
+const FaqItem = ({ item, expanded, onToggle, showDivider = true }: Props) => {
+  const { t } = useTranslation();
 
-    {expanded ? <Text style={styles.answer}>{item.answer}</Text> : null}
+  return (
+    <View style={styles.wrap}>
+      <TouchableOpacity
+        style={styles.row}
+        activeOpacity={0.7}
+        onPress={onToggle}
+        accessibilityRole="button"
+        accessibilityState={{ expanded }}
+      >
+        <View style={styles.iconCircle}>
+          <HugeiconsIcon
+            icon={expanded ? MinusSignIcon : Add01Icon}
+            size={16}
+            color={colors.textSecondary}
+          />
+        </View>
+        <Text style={styles.question}>{t(item.questionKey)}</Text>
+      </TouchableOpacity>
 
-    {showDivider ? <View style={styles.divider} /> : null}
-  </View>
-);
+      {expanded ? <Text style={styles.answer}>{t(item.answerKey)}</Text> : null}
+
+      {showDivider ? <View style={styles.divider} /> : null}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   wrap: {

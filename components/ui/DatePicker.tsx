@@ -4,6 +4,7 @@ import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
 import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ScrollView,
   StyleSheet,
@@ -12,21 +13,29 @@ import {
   View,
 } from 'react-native';
 
-const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const;
+const WEEKDAY_KEYS = [
+  'datePicker.weekdays.sun',
+  'datePicker.weekdays.mon',
+  'datePicker.weekdays.tue',
+  'datePicker.weekdays.wed',
+  'datePicker.weekdays.thu',
+  'datePicker.weekdays.fri',
+  'datePicker.weekdays.sat',
+] as const;
 
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+const MONTH_KEYS = [
+  'datePicker.months.january',
+  'datePicker.months.february',
+  'datePicker.months.march',
+  'datePicker.months.april',
+  'datePicker.months.may',
+  'datePicker.months.june',
+  'datePicker.months.july',
+  'datePicker.months.august',
+  'datePicker.months.september',
+  'datePicker.months.october',
+  'datePicker.months.november',
+  'datePicker.months.december',
 ] as const;
 
 const DAY_CELL = 32;
@@ -65,6 +74,7 @@ function buildCalendarDays(year: number, month: number): (number | null)[] {
 }
 
 const DatePicker = ({ value, onChange }: Props) => {
+  const { t } = useTranslation();
   const today = useMemo(() => new Date(), []);
   const initial = value ?? today;
 
@@ -115,10 +125,10 @@ const DatePicker = ({ value, onChange }: Props) => {
             activeOpacity={0.7}
             onPress={() => setShowMonthMenu((open) => !open)}
             accessibilityRole="button"
-            accessibilityLabel="Choose month"
+            accessibilityLabel={t('datePicker.chooseMonth')}
           >
             <Text style={styles.monthYearText}>
-              {MONTH_NAMES[viewMonth]} {viewYear}
+              {t(MONTH_KEYS[viewMonth])} {viewYear}
             </Text>
             <HugeiconsIcon
               icon={ArrowDown01Icon}
@@ -134,9 +144,9 @@ const DatePicker = ({ value, onChange }: Props) => {
                 nestedScrollEnabled
                 keyboardShouldPersistTaps="handled"
               >
-                {MONTH_NAMES.map((name, index) => (
+                {MONTH_KEYS.map((key, index) => (
                   <TouchableOpacity
-                    key={name}
+                    key={key}
                     style={[
                       styles.monthOption,
                       index === viewMonth && styles.monthOptionActive,
@@ -150,7 +160,7 @@ const DatePicker = ({ value, onChange }: Props) => {
                         index === viewMonth && styles.monthOptionTextActive,
                       ]}
                     >
-                      {name}
+                      {t(key)}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -164,7 +174,7 @@ const DatePicker = ({ value, onChange }: Props) => {
             onPress={goToPreviousMonth}
             style={styles.navButton}
             accessibilityRole="button"
-            accessibilityLabel="Previous month"
+            accessibilityLabel={t('datePicker.previousMonth')}
           >
             <HugeiconsIcon
               icon={ArrowLeft02Icon}
@@ -176,7 +186,7 @@ const DatePicker = ({ value, onChange }: Props) => {
             onPress={goToNextMonth}
             style={styles.navButton}
             accessibilityRole="button"
-            accessibilityLabel="Next month"
+            accessibilityLabel={t('datePicker.nextMonth')}
           >
             <HugeiconsIcon
               icon={ArrowRight02Icon}
@@ -188,9 +198,9 @@ const DatePicker = ({ value, onChange }: Props) => {
       </View>
 
       <View style={styles.weekRow}>
-        {WEEKDAYS.map((label, index) => (
-          <Text key={`${label}-${index}`} style={styles.weekday}>
-            {label}
+        {WEEKDAY_KEYS.map((key, index) => (
+          <Text key={`${key}-${index}`} style={styles.weekday}>
+            {t(key)}
           </Text>
         ))}
       </View>

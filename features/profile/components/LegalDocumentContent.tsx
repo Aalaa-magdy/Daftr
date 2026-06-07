@@ -1,36 +1,41 @@
 import { colors } from '@/theme/colors';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
-import type { LegalDocument } from '../data/legal-documents';
+import type { LegalDocumentConfig } from '../data/legal-documents';
 
 interface Props {
-  document: LegalDocument;
+  document: LegalDocumentConfig;
 }
 
-const LegalDocumentContent = ({ document }: Props) => (
-  <View style={styles.card}>
-    <Text style={styles.documentTitle}>{document.documentTitle}</Text>
-    <Text style={styles.intro}>{document.intro}</Text>
+const LegalDocumentContent = ({ document }: Props) => {
+  const { t } = useTranslation();
 
-    {document.sections.map((section) => (
-      <View key={section.number} style={styles.section}>
-        <Text style={styles.sectionTitle}>
-          {section.number}. {section.title}
-        </Text>
+  return (
+    <View style={styles.card}>
+      <Text style={styles.documentTitle}>{t(document.documentTitleKey)}</Text>
+      <Text style={styles.intro}>{t(document.introKey)}</Text>
 
-        {section.intro ? (
-          <Text style={styles.sectionIntro}>{section.intro}</Text>
-        ) : null}
+      {document.sections.map((section) => (
+        <View key={section.number} style={styles.section}>
+          <Text style={styles.sectionTitle}>
+            {section.number}. {t(section.titleKey)}
+          </Text>
 
-        {section.bullets.map((bullet) => (
-          <View key={bullet} style={styles.bulletRow}>
-            <Text style={styles.bulletMarker}>•</Text>
-            <Text style={styles.bulletText}>{bullet}</Text>
-          </View>
-        ))}
-      </View>
-    ))}
-  </View>
-);
+          {section.introKey ? (
+            <Text style={styles.sectionIntro}>{t(section.introKey)}</Text>
+          ) : null}
+
+          {section.bulletKeys.map((bulletKey) => (
+            <View key={bulletKey} style={styles.bulletRow}>
+              <Text style={styles.bulletMarker}>•</Text>
+              <Text style={styles.bulletText}>{t(bulletKey)}</Text>
+            </View>
+          ))}
+        </View>
+      ))}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {

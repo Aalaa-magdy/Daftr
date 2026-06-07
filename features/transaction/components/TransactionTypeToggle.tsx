@@ -1,5 +1,6 @@
 import { colors } from '@/theme/colors';
 import type { TransactionKind } from '../types';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export type TransactionFilter = TransactionKind | 'all';
@@ -19,6 +20,7 @@ type FilterProps = {
 type Props = BaseProps | FilterProps;
 
 const TransactionTypeToggle = (props: Props) => {
+  const { t } = useTranslation();
   const includeAll = props.includeAll === true;
 
   return (
@@ -32,7 +34,7 @@ const TransactionTypeToggle = (props: Props) => {
           <Text
             style={[styles.tabText, props.value === 'all' && styles.tabTextActive]}
           >
-            All
+            {t('common.all')}
           </Text>
         </TouchableOpacity>
       ) : null}
@@ -44,7 +46,7 @@ const TransactionTypeToggle = (props: Props) => {
         <Text
           style={[styles.tabText, props.value === 'expense' && styles.tabTextActive]}
         >
-          Expense
+          {t('common.expense')}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -55,7 +57,7 @@ const TransactionTypeToggle = (props: Props) => {
         <Text
           style={[styles.tabText, props.value === 'income' && styles.tabTextActive]}
         >
-          Income
+          {t('common.income')}
         </Text>
       </TouchableOpacity>
     </View>

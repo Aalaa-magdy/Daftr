@@ -8,6 +8,7 @@ import {
 } from '@expo-google-fonts/changa';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Pressable,
@@ -19,6 +20,7 @@ import {
 } from 'react-native';
 import {
   CATEGORY_COLOR_OPTIONS,
+  getCategoryLabelKey,
   type CategoryDialogueMode,
   type ExpenseCategory,
 } from '../data/form-options';
@@ -49,6 +51,7 @@ const CategoryDialogue = ({
   onClose,
   onSave,
 }: Props) => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [selectedColor, setSelectedColor] = useState<string>(
     CATEGORY_COLOR_OPTIONS[0]
@@ -62,7 +65,7 @@ const CategoryDialogue = ({
   });
 
   const isEdit = mode === 'edit';
-  const title = isEdit ? 'Edit Category' : 'Add Category';
+  const title = isEdit ? t('transaction.editCategory') : t('transaction.addCategory');
 
   useEffect(() => {
     if (!visible) {
@@ -71,7 +74,9 @@ const CategoryDialogue = ({
     }
 
     if (isEdit && category) {
-      setName(category.label);
+      setName(
+        t(`transaction.categories.${getCategoryLabelKey(category.id)}`)
+      );
       setSelectedColor(category.color);
       setSelectedIcon(category.icon);
       return;
@@ -80,7 +85,7 @@ const CategoryDialogue = ({
     setName('');
     setSelectedColor(CATEGORY_COLOR_OPTIONS[0]);
     setSelectedIcon(DEFAULT_CATEGORY_ICON);
-  }, [visible, isEdit, category]);
+  }, [visible, isEdit, category, t]);
 
   const canSave = useMemo(() => name.trim().length > 0, [name]);
 
@@ -117,9 +122,9 @@ const CategoryDialogue = ({
 
           <Text style={styles.title}>{title}</Text>
 
-          <FormField label="Category Name" required>
+          <FormField label={t('transaction.categoryName')} required>
             <Input
-              placeholder="Enter category name"
+              placeholder={t('transaction.enterCategoryName')}
               value={name}
               onChangeText={setName}
               icon={
@@ -135,7 +140,7 @@ const CategoryDialogue = ({
             />
           </FormField>
 
-          <FormField label="Icon" required>
+          <FormField label={t('transaction.icon')} required>
             <View style={styles.iconFieldWrap}>
               {showIconPicker ? (
                 <View style={styles.iconPicker}>
@@ -179,7 +184,7 @@ const CategoryDialogue = ({
               >
                 <View pointerEvents="none">
                   <Input
-                    placeholder="Choose Icon"
+                    placeholder={t('transaction.chooseIcon')}
                     value=""
                     icon={
                       <HugeiconsIcon
@@ -195,7 +200,7 @@ const CategoryDialogue = ({
             </View>
           </FormField>
 
-          <FormField label="Color" required>
+          <FormField label={t('transaction.color')} required>
             <View style={styles.colors}>
               {CATEGORY_COLOR_OPTIONS.map((color) => {
                 const isSelected = selectedColor === color;
@@ -225,11 +230,11 @@ const CategoryDialogue = ({
               activeOpacity={0.85}
               onPress={onClose}
             >
-              <Text style={styles.cancelText}>Cancel</Text>
+              <Text style={styles.cancelText}>{t('common.cancel')}</Text>
             </TouchableOpacity>
             <View style={styles.saveWrap}>
               <Button
-                title="Save"
+                title={t('common.save')}
                 onPress={handleSave}
                 disabled={!canSave}
               />

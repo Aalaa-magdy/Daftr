@@ -2,10 +2,12 @@ import { colors } from '@/theme/colors';
 import Add01Icon from '@hugeicons/core-free-icons/Add01Icon';
 import PencilEdit02Icon from '@hugeicons/core-free-icons/PencilEdit02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   EXPENSE_CATEGORIES,
+  getCategoryLabelKey,
   type CategoryDialogueMode,
   type ExpenseCategory,
 } from '../data/form-options';
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const CategoryGrid = ({ selectedId, onSelect }: Props) => {
+  const { t } = useTranslation();
   const [listVisible, setListVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const [formMode, setFormMode] = useState<CategoryDialogueMode>('add');
@@ -45,8 +48,8 @@ const CategoryGrid = ({ selectedId, onSelect }: Props) => {
     <View style={styles.wrapper}>
       <View style={styles.header}>
         <Text style={styles.label}>
-          Category
-          <Text style={styles.star}> *</Text>
+          {t('transaction.category')}
+          <Text style={styles.star}> {t('common.required')}</Text>
         </Text>
         <TouchableOpacity
           style={styles.editButton}
@@ -54,13 +57,16 @@ const CategoryGrid = ({ selectedId, onSelect }: Props) => {
           onPress={() => setListVisible(true)}
         >
           <HugeiconsIcon icon={PencilEdit02Icon} size={16} color={colors.primary} />
-          <Text style={styles.editText}>Edit</Text>
+          <Text style={styles.editText}>{t('transaction.edit')}</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.grid}>
         {EXPENSE_CATEGORIES.map((category) => {
           const isSelected = selectedId === category.id;
+          const label = t(
+            `transaction.categories.${getCategoryLabelKey(category.id)}`
+          );
 
           return (
             <TouchableOpacity
@@ -71,7 +77,7 @@ const CategoryGrid = ({ selectedId, onSelect }: Props) => {
             >
               <HugeiconsIcon icon={category.icon} size={18} color={category.color} />
               <Text style={[styles.chipText, { color: category.color }]}>
-                {category.label}
+                {label}
               </Text>
             </TouchableOpacity>
           );
@@ -84,7 +90,7 @@ const CategoryGrid = ({ selectedId, onSelect }: Props) => {
         onPress={() => openForm('add', null)}
       >
         <HugeiconsIcon icon={Add01Icon} size={18} color={colors.primary} />
-        <Text style={styles.addChipText}>Add Category</Text>
+        <Text style={styles.addChipText}>{t('transaction.addCategory')}</Text>
       </TouchableOpacity>
 
       <EditCategoriesDialogue

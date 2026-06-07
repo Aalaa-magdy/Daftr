@@ -24,6 +24,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
+import { useAppDirection } from "@/hooks/useAppDirection";
 const patternSource = require("@/assets/images/background-pattern-decorative.png");
 
 const fieldIcon = (icon: IconSvgElement) => (
@@ -31,6 +33,8 @@ const fieldIcon = (icon: IconSvgElement) => (
 );
 
 const Signin = () => {
+  const { t } = useTranslation();
+  const { directionStyle, textAlign, writingDirection } = useAppDirection();
   const router = useRouter();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -41,7 +45,7 @@ const Signin = () => {
     return null;
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, directionStyle]}>
       <ImageBackground
         source={patternSource}
         style={styles.backgroundImage}
@@ -59,34 +63,34 @@ const Signin = () => {
         >
           <View style={{ flex: 1 }}>
             <Header
-              title={"Login In to your Account"}
-              subtitle={"Welcome back! Please enter your details."}
+              title={t("auth.signInTitle")}
+              subtitle={t("auth.signInSubtitle")}
             />
 
             <View style={styles.actions}>
               <View>
-                <Text style={styles.label}>
-                  Email <Text style={styles.star}>*</Text>
+                <Text style={[styles.label, { textAlign, writingDirection }]}>
+                  {t("common.email")} <Text style={styles.star}>{t("common.required")}</Text>
                 </Text>
                 <Input
-                  placeholder="me@exampel.com"
+                  placeholder={t("common.emailPlaceholder")}
                   keyboardType="email-address"
                   icon={fieldIcon(Mail01Icon)}
                 />
               </View>
 
               <View style={styles.passwordField}>
-                <Text style={styles.label}>
-                  Password <Text style={styles.star}>*</Text>
+                <Text style={[styles.label, { textAlign, writingDirection }]}>
+                  {t("common.password")} <Text style={styles.star}>{t("common.required")}</Text>
                 </Text>
                 <PasswordInput
-                  placeholder="........"
+                  placeholder={t("common.passwordPlaceholder")}
                   icon={fieldIcon(LockPasswordIcon)}
                   containerStyle={styles.passwordInput}
                 />
                 <View style={styles.forgetPasswordRow}>
                   <TextLinkButton
-                    title="Forget Password?"
+                    title={t("auth.forgetPassword")}
                     variant="inline"
                     onPress={() => router.push("/reset-password" as Href)}
                   />
@@ -96,16 +100,16 @@ const Signin = () => {
           </View>
 
           <View style={styles.bottomActions}>
-            <Button title={"Sign in"}    onPress={() => router.push("/set-salary" as Href)} />
-            <GoogleButton title={"in"} />
+            <Button title={t("auth.signIn")} onPress={() => router.push("/set-salary" as Href)} />
+            <GoogleButton title={t("auth.googleSignIn")} />
 
 
             <View style={styles.footerAuth}>
               <Text style={styles.footerAuthMuted}>
-                Don't have an account?
+                {t("auth.noAccount")}
               </Text>
               <TextLinkButton
-                title="Sign up"
+                title={t("auth.signUp")}
                 variant="inline"
                 onPress={() => router.push("/signup" as Href)}
               />
@@ -147,6 +151,7 @@ const styles = StyleSheet.create({
   },
   forgetPasswordRow: {
     width: '100%',
+    direction: 'ltr',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: 8,
@@ -155,10 +160,11 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   label: {
+    width: '100%',
     fontFamily: "Changa_400Regular",
     color: colors.black,
     fontSize: 16,
-    lineHeight: 10,
+    lineHeight: 24,
     marginBottom: 6,
   },
   star: {

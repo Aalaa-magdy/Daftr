@@ -1,6 +1,6 @@
 import LegalDocumentScreen from '@/features/profile/screens/LegalDocumentScreen';
-import { TERMS_CONTENT } from '@/features/profile/data/legal-documents';
+import { TERMS_CONFIG } from '@/features/profile/data/legal-documents';
 
-const TermsScreen = () => <LegalDocumentScreen document={TERMS_CONTENT} />;
+const TermsScreen = () => <LegalDocumentScreen document={TERMS_CONFIG} />;
 
 export default TermsScreen;

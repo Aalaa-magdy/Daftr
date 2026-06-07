@@ -24,6 +24,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 
 const patternSource = require('@/assets/images/background-pattern-decorative.png');
@@ -41,6 +42,7 @@ function formatPayday(date: Date): string {
 }
 
 const SetSalary = () => {
+  const { t } = useTranslation();
    const router = useRouter()
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -77,17 +79,17 @@ const SetSalary = () => {
         showsVerticalScrollIndicator={false}
       >
         <Header
-          title="Let's set your monthly salary"
-          subtitle="This helps us understand your spending and organize your finances better."
+          title={t('setSalary.title')}
+          subtitle={t('setSalary.subtitle')}
         />
 
         <View style={styles.form}>
           <View style={styles.fieldGroup}>
             <Text style={styles.label}>
-              Monthly Salary <Text style={styles.star}>*</Text>
+              {t('setSalary.monthlySalary')} <Text style={styles.star}>{t('common.required')}</Text>
             </Text>
             <Input
-              placeholder="Enter amount"
+              placeholder={t('common.amountPlaceholder')}
               keyboardType="numeric"
               value={salary}
               onChangeText={setSalary}
@@ -98,7 +100,7 @@ const SetSalary = () => {
 
           <View style={styles.fieldGroup}>
             <Text style={styles.label}>
-              Payday <Text style={styles.star}>*</Text>
+              {t('setSalary.payday')} <Text style={styles.star}>{t('common.required')}</Text>
             </Text>
             <TouchableOpacity
               activeOpacity={1}
@@ -106,7 +108,7 @@ const SetSalary = () => {
             >
               <View pointerEvents="none">
                 <Input
-                  placeholder="DD/MM/YYYY"
+                  placeholder={t('common.datePlaceholder')}
                   value={paydayDisplay}
                   icon={fieldIcon(Calendar03Icon)}
                   containerStyle={styles.fieldInput}
@@ -114,13 +116,13 @@ const SetSalary = () => {
               </View>
             </TouchableOpacity>
             <Text style={styles.helperText}>
-              Your balance resets on this day each month.
+              {t('setSalary.paydayHelper')}
             </Text>
           </View>
 
           <View style={styles.buttonWrap}>
             <Button
-              title="Continue"
+              title={t('common.continue')}
               disabled={!isFormComplete}
               onPress={() => {
                 if (!isFormComplete) return;

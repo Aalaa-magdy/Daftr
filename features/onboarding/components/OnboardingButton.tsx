@@ -3,6 +3,7 @@ import React from 'react'
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native'
 import { onboardingData } from '../data/onboardingData'
 import Button from '@/components/ui/Button';
+import { useTranslation } from 'react-i18next';
 import {
   Changa_400Regular,
   Changa_500Medium,
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const OnboardingButton = ({ currentStep, onPress, isLastStep }: Props) => {
+  const { t } = useTranslation();
    const [fontsLoaded] = useFonts({
       Changa_400Regular,
       Changa_500Medium
@@ -24,7 +26,8 @@ const OnboardingButton = ({ currentStep, onPress, isLastStep }: Props) => {
     if (!fontsLoaded) {
       return null;
     }
-  const buttonText = onboardingData[currentStep]?.buttonText ?? 'Continue';
+  const buttonTextKey = onboardingData[currentStep]?.buttonTextKey ?? 'onboarding.continue';
+  const buttonText = t(buttonTextKey);
 
   return ( 
     <View style={styles.container}>

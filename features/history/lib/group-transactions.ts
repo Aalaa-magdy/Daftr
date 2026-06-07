@@ -1,8 +1,13 @@
+import i18n from '@/lib/i18n';
 import type { HistoryTransaction } from '../data/mock-transactions';
+
+function getDateLocale() {
+  return i18n.language === 'ar' ? 'ar-EG' : 'en-GB';
+}
 
 export function formatHistoryDate(date: Date): string {
   const day = String(date.getDate()).padStart(2, '0');
-  const month = date.toLocaleDateString('en-GB', { month: 'long' });
+  const month = date.toLocaleDateString(getDateLocale(), { month: 'long' });
   const year = date.getFullYear();
 
   return `${day} ${month} ${year}`;

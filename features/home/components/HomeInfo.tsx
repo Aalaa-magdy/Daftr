@@ -13,10 +13,12 @@ import {
   useFonts,
 } from '@expo-google-fonts/changa';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MASK = '***';
 
 const HomeInfo = () => {
+  const { t } = useTranslation();
   const [amountsVisible, setAmountsVisible] = useState(true);
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -27,20 +29,25 @@ const HomeInfo = () => {
     return null;
   }
 
+  const egp = t('common.egp');
   const balanceDisplay = amountsVisible ? '15,000' : MASK;
-  const incomeDisplay = amountsVisible ? '20,000 EGP' : `${MASK} EGP`;
-  const expenseDisplay = amountsVisible ? '20,000 EGP' : `${MASK} EGP`;
-  const spentDisplay = amountsVisible ? 'spent 5,000 EGP' : `spent ${MASK} EGP`;
+  const incomeDisplay = amountsVisible ? `20,000 ${egp}` : `${MASK} ${egp}`;
+  const expenseDisplay = amountsVisible ? `20,000 ${egp}` : `${MASK} ${egp}`;
+  const spentDisplay = amountsVisible
+    ? t('home.spent', { amount: '5,000' })
+    : t('home.spent', { amount: MASK });
 
   return (
     <View style={styles.container}>
       <View style={styles.firstRow}>
-        <Text style={styles.currentBalance}>TOTAL BALANCE</Text>
+        <Text style={styles.currentBalance}>{t('home.totalBalance')}</Text>
         <TouchableOpacity
           onPress={() => setAmountsVisible((visible) => !visible)}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           accessibilityRole="button"
-          accessibilityLabel={amountsVisible ? 'Hide amounts' : 'Show amounts'}
+          accessibilityLabel={
+            amountsVisible ? t('home.hideAmounts') : t('home.showAmounts')
+          }
         >
           <HugeiconsIcon
             icon={amountsVisible ? ViewOffIcon : ViewIcon}
@@ -51,7 +58,7 @@ const HomeInfo = () => {
       </View>
       <View style={styles.secondRow}>
         <Text style={styles.balance}>{balanceDisplay}</Text>
-        <Text style={styles.currency}>EGP</Text>
+        <Text style={styles.currency}>{egp}</Text>
       </View>
       <View style={styles.thirdRow}>
         <View style={styles.item}>
@@ -63,7 +70,7 @@ const HomeInfo = () => {
             />
           </View>
           <View>
-            <Text style={styles.type}>Income</Text>
+            <Text style={styles.type}>{t('home.income')}</Text>
             <Text style={styles.amount}>{incomeDisplay}</Text>
           </View>
         </View>
@@ -76,7 +83,7 @@ const HomeInfo = () => {
             />
           </View>
           <View>
-            <Text style={styles.type}>Expense</Text>
+            <Text style={styles.type}>{t('home.expense')}</Text>
             <Text style={styles.amount}>{expenseDisplay}</Text>
           </View>
         </View>
@@ -84,7 +91,7 @@ const HomeInfo = () => {
       <View>
         <View style={styles.lastRow}>
           <Text style={styles.spans}>{spentDisplay}</Text>
-          <Text style={styles.spans}>20 days remaining</Text>
+          <Text style={styles.spans}>{t('home.daysRemaining', { count: 20 })}</Text>
         </View>
         <ProgressBar progress={0.5} color={colors.secondary} trackColor="#144718" />
       </View>

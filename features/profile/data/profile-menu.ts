@@ -9,66 +9,66 @@ import type { IconSvgElement } from '@hugeicons/react-native';
 
 export type ProfileMenuItem = {
   id: string;
-  label: string;
+  labelKey: string;
   icon: IconSvgElement;
 };
 
 export type ProfileMenuSection = {
   id: string;
-  title: string;
+  titleKey: string;
   items: ProfileMenuItem[];
 };
 
 export const PROFILE_MENU_SECTIONS: ProfileMenuSection[] = [
   {
     id: 'profile-settings',
-    title: 'Profile Settings',
+    titleKey: 'profile.sections.profileSettings',
     items: [
       {
         id: 'edit-profile',
-        label: 'Edit Profile Information',
+        labelKey: 'profile.menu.editProfile',
         icon: Settings01Icon,
       },
       {
         id: 'change-password',
-        label: 'Change Password',
+        labelKey: 'profile.menu.changePassword',
         icon: SquareLockPasswordIcon,
       },
     ],
   },
   {
     id: 'app-settings',
-    title: 'App Settings',
+    titleKey: 'profile.sections.appSettings',
     items: [
       {
         id: 'language',
-        label: 'Language',
+        labelKey: 'profile.menu.language',
         icon: LanguageCircleIcon,
       },
     ],
   },
   {
     id: 'help-support',
-    title: 'Help & Support',
+    titleKey: 'profile.sections.helpSupport',
     items: [
       {
         id: 'rate-us',
-        label: 'Rate Us',
+        labelKey: 'profile.menu.rateUs',
         icon: StarIcon,
       },
       {
         id: 'faq',
-        label: 'Frequently Asked Questions',
+        labelKey: 'profile.menu.faq',
         icon: MessageQuestionIcon,
       },
       {
         id: 'terms',
-        label: 'Terms & Conditions',
+        labelKey: 'profile.menu.terms',
         icon: File02Icon,
       },
       {
         id: 'privacy',
-        label: 'Privacy Policy',
+        labelKey: 'profile.menu.privacy',
         icon: FileSecurityIcon,
       },
     ],

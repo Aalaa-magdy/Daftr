@@ -2,6 +2,7 @@ import { colors } from '@/theme/colors';
 import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
 import Delete02Icon from '@hugeicons/core-free-icons/Delete02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface Props {
@@ -10,33 +11,37 @@ interface Props {
   onDelete?: () => void;
 }
 
-const TransactionHeader = ({ title, onBack, onDelete }: Props) => (
-  <View style={styles.header}>
-    <TouchableOpacity
-      onPress={onBack}
-      hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-      accessibilityRole="button"
-      accessibilityLabel="Go back"
-    >
-      <HugeiconsIcon icon={ArrowLeft02Icon} size={32} color={colors.textGray} />
-    </TouchableOpacity>
+const TransactionHeader = ({ title, onBack, onDelete }: Props) => {
+  const { t } = useTranslation();
 
-    <Text style={styles.title}>{title}</Text>
-
-    {onDelete ? (
+  return (
+    <View style={styles.header}>
       <TouchableOpacity
-        onPress={onDelete}
+        onPress={onBack}
         hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         accessibilityRole="button"
-        accessibilityLabel="Delete transaction"
+        accessibilityLabel={t('common.goBack')}
       >
-        <HugeiconsIcon icon={Delete02Icon} size={24} color={colors.red} />
+        <HugeiconsIcon icon={ArrowLeft02Icon} size={32} color={colors.textGray} />
       </TouchableOpacity>
-    ) : (
-      <View style={styles.spacer} />
-    )}
-  </View>
-);
+
+      <Text style={styles.title}>{title}</Text>
+
+      {onDelete ? (
+        <TouchableOpacity
+          onPress={onDelete}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          accessibilityRole="button"
+          accessibilityLabel={t('transaction.deleteTransaction')}
+        >
+          <HugeiconsIcon icon={Delete02Icon} size={24} color={colors.red} />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.spacer} />
+      )}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {

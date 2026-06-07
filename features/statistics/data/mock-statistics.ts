@@ -6,7 +6,9 @@ export type StatisticsPeriod = 'week' | 'month' | 'year';
 export type TrendVariant = 'past' | 'active' | 'placeholder';
 
 export type TrendPoint = {
-  label: string;
+  label?: string;
+  labelKey?: string;
+  labelParams?: Record<string, string | number>;
   value: number;
   variant: TrendVariant;
 };
@@ -15,7 +17,7 @@ export type CategoryStat = {
   categoryId: string;
   amount: number;
   percentage: number;
-  label?: string;
+  labelKey?: string;
   icon?: IconSvgElement;
   color?: string;
 };
@@ -25,7 +27,7 @@ export type PeriodStatistics = {
   totalSpent: number;
   totalIncome: number;
   categories: CategoryStat[];
-  trendTitle: string;
+  titleKey: string;
   trendSubtitle: string;
   trendMax: number;
   trend: TrendPoint[];
@@ -40,14 +42,14 @@ export const STATISTICS_BY_PERIOD: Record<StatisticsPeriod, PeriodStatistics> = 
       { categoryId: 'shopping', amount: 3000, percentage: 66.7 },
       { categoryId: 'education', amount: 1500, percentage: 33.3 },
     ],
-    trendTitle: 'Weekly Trend',
+    titleKey: 'statistics.weeklyTrend',
     trendSubtitle: 'May 24 – May 30',
     trendMax: 8000,
     trend: [
-      { label: 'Week #1', value: 5200, variant: 'past' },
-      { label: 'Week #2', value: 6100, variant: 'past' },
-      { label: 'Week #3', value: 4800, variant: 'past' },
-      { label: 'Week #4', value: 4500, variant: 'active' },
+      { labelKey: 'statistics.weekLabel', labelParams: { number: 1 }, value: 5200, variant: 'past' },
+      { labelKey: 'statistics.weekLabel', labelParams: { number: 2 }, value: 6100, variant: 'past' },
+      { labelKey: 'statistics.weekLabel', labelParams: { number: 3 }, value: 4800, variant: 'past' },
+      { labelKey: 'statistics.weekLabel', labelParams: { number: 4 }, value: 4500, variant: 'active' },
     ],
   },
   month: {
@@ -61,24 +63,31 @@ export const STATISTICS_BY_PERIOD: Record<StatisticsPeriod, PeriodStatistics> = 
       { categoryId: 'bills', amount: 1000, percentage: 11.4 },
       { categoryId: 'education', amount: 800, percentage: 9.1 },
       { categoryId: 'health', amount: 500, percentage: 5.7 },
-      { categoryId: 'gaming', label: 'Gaming', icon: GameController03Icon, color: '#717680', amount: 200, percentage: 2.3 },
+      {
+        categoryId: 'gaming',
+        labelKey: 'statistics.gaming',
+        icon: GameController03Icon,
+        color: '#717680',
+        amount: 200,
+        percentage: 2.3,
+      },
     ],
-    trendTitle: 'Monthly Trend',
+    titleKey: 'statistics.monthlyTrend',
     trendSubtitle: 'May 2026',
     trendMax: 12000,
     trend: [
-      { label: 'Jan', value: 4200, variant: 'past' },
-      { label: 'Feb', value: 5100, variant: 'past' },
-      { label: 'Mar', value: 6800, variant: 'past' },
-      { label: 'Apr', value: 7200, variant: 'past' },
-      { label: 'May', value: 8800, variant: 'active' },
-      { label: 'Jun', value: 0, variant: 'placeholder' },
-      { label: 'Jul', value: 0, variant: 'placeholder' },
-      { label: 'Aug', value: 0, variant: 'placeholder' },
-      { label: 'Sep', value: 0, variant: 'placeholder' },
-      { label: 'Oct', value: 0, variant: 'placeholder' },
-      { label: 'Nov', value: 0, variant: 'placeholder' },
-      { label: 'Dec', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.jan', value: 4200, variant: 'past' },
+      { labelKey: 'statistics.months.feb', value: 5100, variant: 'past' },
+      { labelKey: 'statistics.months.mar', value: 6800, variant: 'past' },
+      { labelKey: 'statistics.months.apr', value: 7200, variant: 'past' },
+      { labelKey: 'statistics.months.may', value: 8800, variant: 'active' },
+      { labelKey: 'statistics.months.jun', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.jul', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.aug', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.sep', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.oct', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.nov', value: 0, variant: 'placeholder' },
+      { labelKey: 'statistics.months.dec', value: 0, variant: 'placeholder' },
     ],
   },
   year: {
@@ -92,9 +101,16 @@ export const STATISTICS_BY_PERIOD: Record<StatisticsPeriod, PeriodStatistics> = 
       { categoryId: 'bills', amount: 6000, percentage: 12.3 },
       { categoryId: 'education', amount: 5000, percentage: 10.2 },
       { categoryId: 'health', amount: 2700, percentage: 5.5 },
-      { categoryId: 'gaming', label: 'Gaming', icon: GameController03Icon, color: '#717680', amount: 1100, percentage: 2.3 },
+      {
+        categoryId: 'gaming',
+        labelKey: 'statistics.gaming',
+        icon: GameController03Icon,
+        color: '#717680',
+        amount: 1100,
+        percentage: 2.3,
+      },
     ],
-    trendTitle: 'Yearly Trend',
+    titleKey: 'statistics.yearlyTrend',
     trendSubtitle: '2026',
     trendMax: 120000,
     trend: [

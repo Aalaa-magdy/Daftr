@@ -10,12 +10,14 @@ import {
 } from '@expo-google-fonts/changa';
 import NewReleasesIcon from '@hugeicons/core-free-icons/NewReleasesIcon';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PROFILE_USER } from '../data/profile-menu';
 
 const VerifyEmailScreen = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const { email } = useLocalSearchParams<{ email?: string }>();
   const displayEmail = email ?? PROFILE_USER.email;
 
@@ -32,8 +34,8 @@ const VerifyEmailScreen = () => {
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.content}>
         <ResetHeader
-          title="Check your email"
-          description="Enter the 4-digit verification code sent to your email: "
+          title={t('resetPassword.checkEmailTitle')}
+          description={t('resetPassword.checkEmailSubtitle')}
           icon={NewReleasesIcon}
           onBackPress={() => router.back()}
           highlightText={displayEmail}
@@ -48,11 +50,11 @@ const VerifyEmailScreen = () => {
         >
           <VerificationCodeInput />
           <View style={styles.buttonWrap}>
-            <Button title="Verify Email" onPress={() => router.back()} />
+            <Button title={t('profile.verifyEmail')} onPress={() => router.back()} />
           </View>
           <View style={styles.resendRow}>
-            <Text style={styles.resendMuted}>Didn't receive the email </Text>
-            <TextLinkButton title="Resend" variant="inline" onPress={() => {}} />
+            <Text style={styles.resendMuted}>{t('resetPassword.didntReceiveEmail')} </Text>
+            <TextLinkButton title={t('common.resend')} variant="inline" onPress={() => {}} />
           </View>
         </ScrollView>
       </View>

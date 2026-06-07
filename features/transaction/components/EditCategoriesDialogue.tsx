@@ -8,6 +8,7 @@ import {
   Changa_500Medium,
   useFonts,
 } from '@expo-google-fonts/changa';
+import { useTranslation } from 'react-i18next';
 import {
   Dimensions,
   Modal,
@@ -18,7 +19,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { EXPENSE_CATEGORIES, type ExpenseCategory } from '../data/form-options';
+import {
+  EXPENSE_CATEGORIES,
+  getCategoryLabelKey,
+  type ExpenseCategory,
+} from '../data/form-options';
 
 const LIST_MAX_HEIGHT = Dimensions.get('window').height * 0.52;
 
@@ -37,6 +42,7 @@ const EditCategoriesDialogue = ({
   onAddCategory,
   onDeleteCategory,
 }: Props) => {
+  const { t } = useTranslation();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -58,7 +64,7 @@ const EditCategoriesDialogue = ({
 
         <View style={styles.sheet}>
           <View style={styles.handle} />
-          <Text style={styles.title}>Edit Categories</Text>
+          <Text style={styles.title}>{t('transaction.editCategories')}</Text>
 
           <ScrollView
             style={styles.list}
@@ -66,47 +72,53 @@ const EditCategoriesDialogue = ({
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
-            {EXPENSE_CATEGORIES.map((category) => (
-              <View key={category.id} style={styles.row}>
-                <View style={styles.rowLeft}>
-                  <HugeiconsIcon
-                    icon={category.icon}
-                    size={20}
-                    color={category.color}
-                  />
-                  <Text style={[styles.rowLabel, { color: category.color }]}>
-                    {category.label}
-                  </Text>
-                </View>
+            {EXPENSE_CATEGORIES.map((category) => {
+              const label = t(
+                `transaction.categories.${getCategoryLabelKey(category.id)}`
+              );
 
-                <View style={styles.rowActions}>
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    activeOpacity={0.85}
-                    onPress={() => onEditCategory(category)}
-                    accessibilityLabel={`Edit ${category.label}`}
-                  >
+              return (
+                <View key={category.id} style={styles.row}>
+                  <View style={styles.rowLeft}>
                     <HugeiconsIcon
-                      icon={PencilEdit02Icon}
+                      icon={category.icon}
                       size={20}
-                      color={colors.textGray}
+                      color={category.color}
                     />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    activeOpacity={0.85}
-                    onPress={() => onDeleteCategory?.(category)}
-                    accessibilityLabel={`Delete ${category.label}`}
-                  >
-                    <HugeiconsIcon
-                      icon={Delete02Icon}
-                      size={20}
-                      color={colors.red}
-                    />
-                  </TouchableOpacity>
+                    <Text style={[styles.rowLabel, { color: category.color }]}>
+                      {label}
+                    </Text>
+                  </View>
+
+                  <View style={styles.rowActions}>
+                    <TouchableOpacity
+                      style={styles.actionButton}
+                      activeOpacity={0.85}
+                      onPress={() => onEditCategory(category)}
+                      accessibilityLabel={t('transaction.editCategoryA11y', { name: label })}
+                    >
+                      <HugeiconsIcon
+                        icon={PencilEdit02Icon}
+                        size={20}
+                        color={colors.textGray}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.actionButton}
+                      activeOpacity={0.85}
+                      onPress={() => onDeleteCategory?.(category)}
+                      accessibilityLabel={t('transaction.deleteCategoryA11y', { name: label })}
+                    >
+                      <HugeiconsIcon
+                        icon={Delete02Icon}
+                        size={20}
+                        color={colors.red}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </ScrollView>
 
           <TouchableOpacity
@@ -115,7 +127,7 @@ const EditCategoriesDialogue = ({
             onPress={onAddCategory}
           >
             <HugeiconsIcon icon={Add01Icon} size={18} color={colors.primary} />
-            <Text style={styles.addChipText}>Add Category</Text>
+            <Text style={styles.addChipText}>{t('transaction.addCategory')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -123,7 +135,7 @@ const EditCategoriesDialogue = ({
             activeOpacity={0.85}
             onPress={onClose}
           >
-            <Text style={styles.cancelText}>Cancel</Text>
+            <Text style={styles.cancelText}>{t('common.cancel')}</Text>
           </TouchableOpacity>
         </View>
       </View>

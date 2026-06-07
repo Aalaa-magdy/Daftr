@@ -15,7 +15,12 @@ import {
   Changa_500Medium
 } from '@expo-google-fonts/changa';
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { useAppDirection } from "@/hooks/useAppDirection";
+
 const LastOnboarding = () => {
+  const { t } = useTranslation();
+  const { directionStyle } = useAppDirection();
   const router = useRouter()
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -27,17 +32,17 @@ const LastOnboarding = () => {
   }
  
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, directionStyle]}>
       <ImageBackground source={patternSource} style={styles.backgroundImage} resizeMode="cover" />
       <View style={styles.content}>
         <Header
-          title={"Start your financial journey"}
-          subtitle={"Track expenses, manage your budget, and stay organized every day."}
+          title={t("onboarding.lastTitle")}
+          subtitle={t("onboarding.lastDescription")}
         />
 
         <View style={styles.actions}>
-          <Button title={"Sign up"} onPress={()=>router.push('/signup')} />
-          <GoogleButton title={"up"} />
+          <Button title={t("auth.signUp")} onPress={()=>router.push('/signup')} />
+          <GoogleButton title={t("auth.googleSignUp")} />
 
           <TouchableOpacity
             accessibilityRole="button"
@@ -45,10 +50,10 @@ const LastOnboarding = () => {
             activeOpacity={0.8}
             onPress={()=>router.push('/signin')}
           >
-            <Text style={styles.secondaryButtonText}>Sign in</Text>
+            <Text style={styles.secondaryButtonText}>{t("auth.signIn")}</Text>
           </TouchableOpacity>
 
-          <TextLinkButton title="Continue as Guest" variant="block" />
+          <TextLinkButton title={t("onboarding.continueAsGuest")} variant="block" />
         </View>
       </View>
     </SafeAreaView>

@@ -5,11 +5,13 @@ import {
 } from '@expo-google-fonts/changa';
 import { colors } from '@/theme/colors';
 import SoloLogo from '@/assets/images/SoloLogo.svg';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 const profile = require('@/assets/images/profile.jpg');
 
 const HomeHeader = () => {
+  const { t } = useTranslation();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -26,7 +28,7 @@ const HomeHeader = () => {
           <Image source={profile} style={styles.image} />
         </View>
         <View style={styles.profileInfo}>
-          <Text style={styles.welcome}>Welcome Back,</Text>
+          <Text style={styles.welcome}>{t('home.welcomeBack')}</Text>
           <Text style={styles.name}>Salma Gamal</Text>
         </View>
       </View>
