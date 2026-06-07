@@ -1,5 +1,5 @@
 import { colors } from '@/theme/colors';
-import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
+import { useDirectionalIcons } from '@/hooks/useDirectionalIcons';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import {
   Changa_400Regular,
@@ -37,6 +37,7 @@ const ResetHeader = ({
   whiteBackground = false,
 }: Props) => {
   const { t } = useTranslation();
+  const { isRTL, backIcon } = useDirectionalIcons();
   const insets = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -59,13 +60,17 @@ const ResetHeader = ({
         <TouchableOpacity
           accessibilityRole="button"
           accessibilityLabel={t('common.goBack')}
-          style={[styles.backButton, { top: Math.max(insets.top, 8) }]}
+          style={[
+            styles.backButton,
+            { top: Math.max(insets.top, 8) },
+            isRTL ? styles.backButtonRtl : styles.backButtonLtr,
+          ]}
           onPress={onBackPress}
           activeOpacity={0.7}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         >
           <HugeiconsIcon
-            icon={ArrowLeft02Icon}
+            icon={backIcon}
             size={28}
             color={colors.textGray}
           />
@@ -107,9 +112,14 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    left: 16,
     zIndex: 10,
     paddingVertical: 8,
+  },
+  backButtonLtr: {
+    left: 16,
+  },
+  backButtonRtl: {
+    right: 16,
   },
   centerContent: {
     width: '100%',

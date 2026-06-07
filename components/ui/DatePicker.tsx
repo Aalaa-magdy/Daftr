@@ -1,7 +1,6 @@
 import { colors } from '@/theme/colors';
+import { useDirectionalIcons } from '@/hooks/useDirectionalIcons';
 import ArrowDown01Icon from '@hugeicons/core-free-icons/ArrowDown01Icon';
-import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
-import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -75,6 +74,7 @@ function buildCalendarDays(year: number, month: number): (number | null)[] {
 
 const DatePicker = ({ value, onChange }: Props) => {
   const { t } = useTranslation();
+  const { previousIcon, nextIcon } = useDirectionalIcons();
   const today = useMemo(() => new Date(), []);
   const initial = value ?? today;
 
@@ -177,7 +177,7 @@ const DatePicker = ({ value, onChange }: Props) => {
             accessibilityLabel={t('datePicker.previousMonth')}
           >
             <HugeiconsIcon
-              icon={ArrowLeft02Icon}
+              icon={previousIcon}
               size={18}
               color={colors.black}
             />
@@ -189,7 +189,7 @@ const DatePicker = ({ value, onChange }: Props) => {
             accessibilityLabel={t('datePicker.nextMonth')}
           >
             <HugeiconsIcon
-              icon={ArrowRight02Icon}
+              icon={nextIcon}
               size={18}
               color={colors.black}
             />

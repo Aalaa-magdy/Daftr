@@ -195,7 +195,7 @@
     }
   },
   "profile": {
-    "title": "الملف الشخصي",
+    "title": "البروفايل",
     "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح.",
     "logout": "تسجيل الخروج",
     "logoutA11y": "تسجيل الخروج",

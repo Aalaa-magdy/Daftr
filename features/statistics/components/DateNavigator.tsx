@@ -1,6 +1,5 @@
 import { colors } from '@/theme/colors';
-import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
-import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
+import { useDirectionalIcons } from '@/hooks/useDirectionalIcons';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -11,6 +10,7 @@ interface Props {
 
 const DateNavigator = ({ label }: Props) => {
   const { t } = useTranslation();
+  const { previousIcon, nextIcon } = useDirectionalIcons();
 
   return (
     <View style={styles.row}>
@@ -20,7 +20,7 @@ const DateNavigator = ({ label }: Props) => {
         accessibilityRole="button"
         accessibilityLabel={t('statistics.previousPeriod')}
       >
-        <HugeiconsIcon icon={ArrowLeft02Icon} size={20} color={colors.textSecondary} />
+        <HugeiconsIcon icon={previousIcon} size={20} color={colors.textSecondary} />
       </TouchableOpacity>
 
       <Text style={styles.label}>{label}</Text>
@@ -31,7 +31,7 @@ const DateNavigator = ({ label }: Props) => {
         accessibilityRole="button"
         accessibilityLabel={t('statistics.nextPeriod')}
       >
-        <HugeiconsIcon icon={ArrowRight02Icon} size={20} color={colors.textSecondary} />
+        <HugeiconsIcon icon={nextIcon} size={20} color={colors.textSecondary} />
       </TouchableOpacity>
     </View>
   );

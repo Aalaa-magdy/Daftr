@@ -1,5 +1,5 @@
 import { colors } from '@/theme/colors';
-import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
+import { useDirectionalIcons } from '@/hooks/useDirectionalIcons';
 import Delete02Icon from '@hugeicons/core-free-icons/Delete02Icon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ interface Props {
 
 const TransactionHeader = ({ title, onBack, onDelete }: Props) => {
   const { t } = useTranslation();
+  const { backIcon } = useDirectionalIcons();
 
   return (
     <View style={styles.header}>
@@ -22,7 +23,7 @@ const TransactionHeader = ({ title, onBack, onDelete }: Props) => {
         accessibilityRole="button"
         accessibilityLabel={t('common.goBack')}
       >
-        <HugeiconsIcon icon={ArrowLeft02Icon} size={32} color={colors.textGray} />
+        <HugeiconsIcon icon={backIcon} size={32} color={colors.textGray} />
       </TouchableOpacity>
 
       <Text style={styles.title}>{title}</Text>

@@ -1,6 +1,8 @@
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { colors } from '@/theme/colors';
+import MoneyBag01Icon from '@hugeicons/core-free-icons/MoneyBag01Icon';
+import GridViewIcon from '@hugeicons/core-free-icons/GridViewIcon';
 import {
   Changa_400Regular,
   Changa_500Medium,
@@ -58,6 +60,7 @@ const CategoryDialogue = ({
   );
   const [selectedIcon, setSelectedIcon] =
     useState<IconSvgElement>(DEFAULT_CATEGORY_ICON);
+  const [hasChosenIcon, setHasChosenIcon] = useState(false);
   const [showIconPicker, setShowIconPicker] = useState(false);
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
@@ -79,12 +82,14 @@ const CategoryDialogue = ({
       );
       setSelectedColor(category.color);
       setSelectedIcon(category.icon);
+      setHasChosenIcon(true);
       return;
     }
 
     setName('');
     setSelectedColor(CATEGORY_COLOR_OPTIONS[0]);
     setSelectedIcon(DEFAULT_CATEGORY_ICON);
+    setHasChosenIcon(false);
   }, [visible, isEdit, category, t]);
 
   const canSave = useMemo(() => name.trim().length > 0, [name]);
@@ -105,6 +110,7 @@ const CategoryDialogue = ({
 
   const handleSelectIcon = (icon: IconSvgElement) => {
     setSelectedIcon(icon);
+    setHasChosenIcon(true);
     setShowIconPicker(false);
   };
 
@@ -129,11 +135,9 @@ const CategoryDialogue = ({
               onChangeText={setName}
               icon={
                 <HugeiconsIcon
-                  icon={selectedIcon}
+                  icon={MoneyBag01Icon}
                   size={22}
-                  color={
-                    name.trim().length > 0 ? selectedColor : colors.captionMuted
-                  }
+                  color={colors.captionMuted}
                 />
               }
               containerStyle={styles.fieldInput}
@@ -188,9 +192,11 @@ const CategoryDialogue = ({
                     value=""
                     icon={
                       <HugeiconsIcon
-                        icon={selectedIcon}
+                        icon={hasChosenIcon ? selectedIcon : GridViewIcon}
                         size={22}
-                        color={colors.primary}
+                        color={
+                          hasChosenIcon ? selectedColor : colors.captionMuted
+                        }
                       />
                     }
                     containerStyle={styles.fieldInput}
