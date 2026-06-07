@@ -1,0 +1,358 @@
+{
+  "common": {
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "saveChanges": "حفظ التغييرات",
+    "continue": "متابعة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "name": "الاسم",
+    "optional": "اختياري",
+    "required": "*",
+    "egp": "ج.م",
+    "datePlaceholder": "يوم/شهر/سنة",
+    "passwordPlaceholder": "........",
+    "emailPlaceholder": "me@example.com",
+    "amountPlaceholder": "أدخل المبلغ",
+    "goBack": "رجوع",
+    "dismiss": "إغلاق",
+    "yesDelete": "نعم، احذف",
+    "noCancel": "لا، إلغاء",
+    "expense": "مصروف",
+    "income": "دخل",
+    "all": "الكل",
+    "monthly": "شهري",
+    "oneTime": "مرة واحدة",
+    "resend": "إعادة الإرسال",
+    "verified": "موثّق",
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "auth": {
+    "signInTitle": "تسجيل الدخول إلى حسابك",
+    "signInSubtitle": "مرحبًا بعودتك! يرجى إدخال بياناتك.",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "forgetPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "signUpTitle": "إنشاء حساب",
+    "signUpSubtitle": "أنشئ حسابًا لحفظ تقدمك ومزامنة بياناتك.",
+    "confirmPasswordLabel": "تأكيد كلمة المرور",
+    "enterYourName": "أدخل اسمك",
+    "createAccount": "إنشاء حساب",
+    "googleSignIn": "تسجيل الدخول عبر Google",
+    "googleSignUp": "إنشاء حساب عبر Google"
+  },
+  "onboarding": {
+    "skip": "تخطي",
+    "brand": "دفتر",
+    "continue": "متابعة",
+    "tapToContinue": "اضغط للمتابعة",
+    "getStarted": "ابدأ الآن",
+    "slide1Title": "ابقَ على اطلاع بمصروفاتك",
+    "slide1Description": "تتبّع مصروفاتك اليومية بسهولة وابنِ عادات مالية أفضل مع مرور الوقت.",
+    "slide2Title": "اعرف أين تذهب أموالك",
+    "slide2Description": "اطّلع على تفاصيل واضحة لإنفاقك حسب الفئة من خلال تحليلات بصرية بسيطة.",
+    "slide3Title": "اتخذ قرارات أذكى",
+    "slide3Description": "حدّد الميزانيات، تتبّع تقدمك، واحصل على تذكيرات لطيفة لمساعدتك على الادخار أكثر كل شهر.",
+    "lastTitle": "ابدأ رحلتك المالية",
+    "lastDescription": "تتبّع المصروفات، أدِر ميزانيتك، وابقَ منظمًا كل يوم.",
+    "continueAsGuest": "المتابعة كضيف"
+  },
+  "resetPassword": {
+    "forgotTitle": "نسيت كلمة المرور؟",
+    "forgotSubtitle": "لا تقلق، سنرسل لك تعليمات إعادة التعيين.",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "checkEmailTitle": "تحقق من بريدك الإلكتروني",
+    "checkEmailSubtitle": "أدخل رمز التحقق المكوّن من 4 أرقام المرسل إلى بريدك الإلكتروني: ",
+    "verifyEmail": "توثيق البريد الإلكتروني",
+    "didntReceiveEmail": "لم تصلك الرسالة",
+    "setNewPasswordTitle": "تعيين كلمة مرور جديدة",
+    "setNewPasswordSubtitle": "عيّن كلمة مرور جديدة لحسابك.",
+    "resetPasswordButton": "إعادة تعيين كلمة المرور"
+  },
+  "setSalary": {
+    "title": "لنحدّد راتبك الشهري",
+    "subtitle": "يساعدنا ذلك على فهم إنفاقك وتنظيم شؤونك المالية بشكل أفضل.",
+    "monthlySalary": "الراتب الشهري",
+    "payday": "يوم الراتب",
+    "paydayHelper": "يتم إعادة ضبط رصيدك في هذا اليوم من كل شهر."
+  },
+  "home": {
+    "welcomeBack": "مرحبًا بعودتك،",
+    "totalBalance": "إجمالي الرصيد",
+    "income": "الدخل",
+    "expense": "المصروف",
+    "spent": "تم إنفاق {{amount}} ج.م",
+    "daysRemaining": "متبقٍ {{count}} يوم",
+    "hideAmounts": "إخفاء المبالغ",
+    "showAmounts": "إظهار المبالغ",
+    "addExpense": "إضافة مصروف",
+    "addIncome": "إضافة دخل",
+    "history": "السجل",
+    "viewAll": "عرض الكل",
+    "defaultTransactionTitle": "تسوق",
+    "defaultRepeat": "شهري",
+    "defaultNote": "دورة React Native"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "history": "السجل",
+    "statistics": "الإحصائيات",
+    "profile": "الملف الشخصي",
+    "addTransaction": "إضافة معاملة"
+  },
+  "history": {
+    "title": "السجل",
+    "filterTransactions": "تصفية المعاملات",
+    "filterTitle": "تصفية كل السجل",
+    "customRange": "أو اختر نطاقًا مخصصًا",
+    "from": "من",
+    "to": "إلى",
+    "category": "الفئة",
+    "thisWeek": "هذا الأسبوع",
+    "thisMonth": "هذا الشهر",
+    "lastMonth": "الشهر الماضي",
+    "thisYear": "هذا العام"
+  },
+  "statistics": {
+    "title": "الإحصائيات",
+    "totalSpent": "إجمالي المصروف",
+    "totalIncome": "إجمالي الدخل",
+    "week": "أسبوع",
+    "month": "شهر",
+    "year": "سنة",
+    "previousPeriod": "الفترة السابقة",
+    "nextPeriod": "الفترة التالية",
+    "byCategory": "حسب الفئة",
+    "categoriesSummary": "{{count}} فئات · {{amount}} ج.م إجمالي",
+    "weeklyTrend": "الاتجاه الأسبوعي",
+    "monthlyTrend": "الاتجاه الشهري",
+    "yearlyTrend": "الاتجاه السنوي",
+    "weekLabel": "الأسبوع {{number}}",
+    "months": {
+      "jan": "ينا",
+      "feb": "فبر",
+      "mar": "مار",
+      "apr": "أبر",
+      "may": "ماي",
+      "jun": "يون",
+      "jul": "يول",
+      "aug": "أغس",
+      "sep": "سبت",
+      "oct": "أكت",
+      "nov": "نوف",
+      "dec": "ديس"
+    }
+  },
+  "transaction": {
+    "editTitle": "تعديل المعاملات",
+    "addTitle": "إضافة معاملات",
+    "incomeType": "نوع الدخل",
+    "chooseIncomeType": "اختر نوع الدخل",
+    "amount": "المبلغ",
+    "payday": "يوم الراتب",
+    "paydayHelper": "يتم إعادة ضبط رصيدك في هذا اليوم من كل شهر.",
+    "repeat": "التكرار",
+    "date": "التاريخ",
+    "note": "ملاحظة",
+    "saveIncome": "حفظ الدخل",
+    "saveExpense": "حفظ المصروف",
+    "deleteTransaction": "حذف المعاملة",
+    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا {{type}}؟",
+    "category": "الفئة",
+    "edit": "تعديل",
+    "addCategory": "إضافة فئة",
+    "editCategory": "تعديل الفئة",
+    "categoryName": "اسم الفئة",
+    "enterCategoryName": "أدخل اسم الفئة",
+    "icon": "الأيقونة",
+    "chooseIcon": "اختر أيقونة",
+    "color": "اللون",
+    "editCategories": "تعديل الفئات",
+    "editCategoryA11y": "تعديل {{name}}",
+    "deleteCategoryA11y": "حذف {{name}}",
+    "categories": {
+      "food": "طعام",
+      "bills": "فواتير",
+      "family": "عائلة",
+      "health": "صحة",
+      "work": "عمل",
+      "shopping": "تسوق",
+      "transportation": "مواصلات",
+      "selfCare": "العناية الذاتية",
+      "housing": "سكن",
+      "education": "تعليم"
+    },
+    "incomeTypes": {
+      "partTime": "دوام جزئي",
+      "freelance": "عمل حر",
+      "bonus": "مكافأة",
+      "other": "أخرى"
+    }
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح.",
+    "logout": "تسجيل الخروج",
+    "logoutA11y": "تسجيل الخروج",
+    "editProfileTitle": "تعديل معلومات الملف الشخصي",
+    "changeProfilePicture": "تغيير صورة الملف الشخصي",
+    "changeProfilePictureA11y": "تغيير صورة الملف الشخصي",
+    "verifyEmail": "توثيق البريد الإلكتروني",
+    "verifyEmailA11y": "توثيق البريد الإلكتروني",
+    "deleteAccount": "حذف الحساب",
+    "deleteAccountA11y": "حذف الحساب",
+    "currentPassword": "كلمة المرور الحالية",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+    "updatePassword": "تحديث كلمة المرور",
+    "languageTitle": "اللغة",
+    "languageNoteTitle": "ملاحظة مهمة",
+    "languageNoteBody": "سيتم تطبيق اللغة المختارة على كامل التطبيق. قد تحتاج إلى إعادة تشغيل التطبيق حتى تصبح جميع التغييرات سارية بالكامل.",
+    "faqTitle": "الأسئلة الشائعة",
+    "faqSubtitle": "اعثر على إجابات لأكثر الأسئلة شيوعًا حول التطبيق.",
+    "logoutConfirmTitle": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "logoutConfirmSubtitle": "يمكنك تسجيل الدخول مرة أخرى في أي وقت.",
+    "yesLogout": "نعم، تسجيل الخروج",
+    "deleteAccountConfirmTitle": "هل أنت متأكد أنك تريد حذف حسابك؟",
+    "deleteAccountConfirmSubtitle": "سيتم حذف بياناتك وتقدمك نهائيًا. لا يمكن التراجع عن هذا الإجراء.",
+    "yesDeleteAccount": "نعم، احذف الحساب",
+    "sections": {
+      "profileSettings": "إعدادات الملف الشخصي",
+      "appSettings": "إعدادات التطبيق",
+      "helpSupport": "المساعدة والدعم"
+    },
+    "menu": {
+      "editProfile": "تعديل معلومات الملف الشخصي",
+      "changePassword": "تغيير كلمة المرور",
+      "language": "اللغة",
+      "rateUs": "قيّمنا",
+      "faq": "الأسئلة الشائعة",
+      "terms": "الشروط والأحكام",
+      "privacy": "سياسة الخصوصية"
+    },
+    "faq": {
+      "whatIsDaftr": {
+        "question": "ما هو دفتر؟",
+        "answer": "دفتر هو تطبيق للمالية الشخصية يساعدك على تتبّع دخلك ومصروفاتك وعادات الإنفاق بطريقة بسيطة."
+      },
+      "addExpense": {
+        "question": "كيف أضيف مصروفًا؟",
+        "answer": "اضغط على زر '+' من الشاشة الرئيسية، أدخل المبلغ، اختر فئة، ثم احفظ المصروف."
+      },
+      "editDeleteExpenses": {
+        "question": "هل يمكنني تعديل أو حذف المصروفات؟",
+        "answer": "نعم، يمكنك تعديل أو حذف أي مصروف بالضغط على بطاقته. جميع مصروفاتك متاحة أيضًا في شاشة المعاملات ضمن تبويب المصروفات."
+      },
+      "paydayFeature": {
+        "question": "كيف تعمل ميزة يوم الراتب؟",
+        "answer": "يتم إعادة ضبط رصيدك تلقائيًا كل شهر بناءً على يوم الراتب الذي اخترته أثناء الإعداد."
+      },
+      "extraIncome": {
+        "question": "هل يمكنني إضافة دخل إضافي؟",
+        "answer": "نعم، يمكنك إضافة مصادر دخل إضافية مثل العمل الحر أو المكافآت أو أي دخل مخصص."
+      },
+      "dataSaved": {
+        "question": "هل يتم حفظ بياناتي؟",
+        "answer": "إذا استخدمت دفتر كضيف، تُخزَّن بياناتك على جهازك فقط. إذا حذفت التطبيق أو سجّلت الخروج، سيتم حذف جميع بيانات الضيف نهائيًا. للحفاظ على بياناتك بأمان ومزامنتها، تحتاج إلى إنشاء حساب أو تسجيل الدخول."
+      }
+    },
+    "terms": {
+      "headerTitle": "الشروط والأحكام",
+      "documentTitle": "الشروط والأحكام – تطبيق دفتر",
+      "intro": "مرحبًا بك في دفتر. باستخدامك لهذا التطبيق، فإنك توافق على هذه الشروط والأحكام. يرجى قراءتها بعناية قبل استخدام التطبيق.",
+      "sections": {
+        "usage": {
+          "title": "الاستخدام",
+          "bullet": "يمكنك استخدام التطبيق فقط لأغراض تتبّع الشؤون المالية الشخصية."
+        },
+        "accountResponsibility": {
+          "title": "مسؤولية الحساب",
+          "bullet": "أنت مسؤول عن الحفاظ على أمان معلومات حسابك."
+        },
+        "dataAccuracy": {
+          "title": "دقة البيانات",
+          "bullet": "يساعدك دفتر على تنظيم بياناتك المالية، لكن المستخدم مسؤول عن دقة المعلومات المدخلة."
+        },
+        "updates": {
+          "title": "التحديثات",
+          "bullet": "قد نقوم بتحديث الميزات أو تعديل تجربة التطبيق في أي وقت لتحسين الخدمة."
+        },
+        "acceptance": {
+          "title": "الموافقة",
+          "bullet": "بمتابعة استخدام التطبيق، فإنك توافق على هذه الشروط."
+        }
+      }
+    },
+    "privacy": {
+      "headerTitle": "سياسة الخصوصية",
+      "documentTitle": "سياسة الخصوصية – تطبيق دفتر",
+      "intro": "في دفتر، نُقدّر خصوصيتك. باستخدامك للتطبيق، فإنك توافق على جمع بياناتك واستخدامها لتحسين تجربة تتبّع شؤونك المالية.",
+      "sections": {
+        "informationWeCollect": {
+          "title": "المعلومات التي نجمعها",
+          "bullets": {
+            "name": "الاسم",
+            "email": "عنوان البريد الإلكتروني",
+            "financialData": "بيانات الدخل والمصروف"
+          }
+        },
+        "howWeUseYourData": {
+          "title": "كيف نستخدم بياناتك",
+          "intro": "تُستخدم بياناتك من أجل:",
+          "bullets": {
+            "trackExpenses": "تتبّع المصروفات",
+            "generateStatistics": "إنشاء الإحصائيات",
+            "improveExperience": "تحسين تجربتك"
+          }
+        },
+        "dataSecurity": {
+          "title": "أمان البيانات",
+          "bullet": "نستخدم طرقًا آمنة لحماية معلوماتك الشخصية وسجلاتك المالية."
+        },
+        "dataSharing": {
+          "title": "مشاركة البيانات",
+          "bullet": "لا نبيع أو نشارك بياناتك الشخصية مع أطراف ثالثة."
+        },
+        "userControl": {
+          "title": "تحكم المستخدم",
+          "bullet": "يمكنك تعديل أو حذف بياناتك المالية في أي وقت داخل التطبيق."
+        }
+      }
+    }
+  },
+  "datePicker": {
+    "weekdays": {
+      "sun": "ح",
+      "mon": "ن",
+      "tue": "ث",
+      "wed": "ر",
+      "thu": "خ",
+      "fri": "ج",
+      "sat": "س"
+    },
+    "months": {
+      "january": "يناير",
+      "february": "فبراير",
+      "march": "مارس",
+      "april": "أبريل",
+      "may": "مايو",
+      "june": "يونيو",
+      "july": "يوليو",
+      "august": "أغسطس",
+      "september": "سبتمبر",
+      "october": "أكتوبر",
+      "november": "نوفمبر",
+      "december": "ديسمبر"
+    },
+    "chooseMonth": "اختر الشهر",
+    "previousMonth": "الشهر السابق",
+    "nextMonth": "الشهر التالي"
+  },
+  "accessibility": {
+    "togglePasswordVisibility": "إظهار/إخفاء كلمة المرور"
+  }
+}

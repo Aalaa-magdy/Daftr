@@ -2,20 +2,22 @@ import { colors } from '@/theme/colors';
 import NoteIcon from '@hugeicons/core-free-icons/NoteIcon';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
-const LanguageNoteCard = () => (
+const LanguageNoteCard = () => {
+  const { t } = useTranslation();
+
+  return (
   <View style={styles.card}>
     <HugeiconsIcon icon={NoteIcon} size={20} color={colors.primary} />
 
     <View style={styles.content}>
-      <Text style={styles.title}>Important Note</Text>
-      <Text style={styles.body}>
-        The selected language will be applied throughout the app. You may need to
-        restart the app for all changes to take effect completely.
-      </Text>
+      <Text style={styles.title}>{t('profile.languageNoteTitle')}</Text>
+      <Text style={styles.body}>{t('profile.languageNoteBody')}</Text>
     </View>
   </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   card: {

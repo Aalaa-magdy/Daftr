@@ -1,5 +1,6 @@
 import Button from '@/components/ui/Button';
 import TransactionHeader from '@/features/transaction/components/TransactionHeader';
+import { changeAppLanguage } from '@/lib/i18n';
 import { colors } from '@/theme/colors';
 import {
   Changa_400Regular,
@@ -7,27 +8,58 @@ import {
   useFonts,
 } from '@expo-google-fonts/changa';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, DevSettings, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LanguageNoteCard from '@/features/profile/components/LanguageNoteCard';
 import LanguageOptionRow from '@/features/profile/components/LanguageOptionRow';
 import { LANGUAGE_OPTIONS, type LanguageId } from '@/features/profile/data/languages';
+import i18n from '@/lib/i18n';
 
 const LanguageScreen = () => {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageId>('en');
+  const { t } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageId>(
+    i18n.language === 'ar' ? 'ar' : 'en',
+  );
 
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
   });
 
+  useEffect(() => {
+    setSelectedLanguage(i18n.language === 'ar' ? 'ar' : 'en');
+  }, []);
+
   if (!fontsLoaded) {
     return null;
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const needsReload = await changeAppLanguage(selectedLanguage);
+
+    if (needsReload) {
+      Alert.alert(
+        t('profile.languageNoteTitle'),
+        t('profile.languageNoteBody'),
+        [
+          {
+            text: t('common.continue'),
+            onPress: () => {
+              if (__DEV__) {
+                DevSettings.reload();
+                return;
+              }
+              router.back();
+            },
+          },
+        ],
+      );
+      return;
+    }
+
     router.back();
   };
 
@@ -38,7 +70,10 @@ const LanguageScreen = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <TransactionHeader title="Language" onBack={() => router.back()} />
+        <TransactionHeader
+          title={t('profile.languageTitle')}
+          onBack={() => router.back()}
+        />
 
         <LanguageNoteCard />
 
@@ -46,7 +81,7 @@ const LanguageScreen = () => {
           {LANGUAGE_OPTIONS.map((option, index) => (
             <LanguageOptionRow
               key={option.id}
-              label={option.label}
+              label={t(option.labelKey)}
               selected={selectedLanguage === option.id}
               onPress={() => setSelectedLanguage(option.id)}
               showDivider={index < LANGUAGE_OPTIONS.length - 1}
@@ -56,7 +91,7 @@ const LanguageScreen = () => {
       </ScrollView>
 
       <View style={styles.footer}>
-        <Button title="Save Changes" onPress={handleSave} />
+        <Button title={t('common.saveChanges')} onPress={handleSave} />
       </View>
     </SafeAreaView>
   );

@@ -1,5 +1,9 @@
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { initI18n } from '@/lib/i18n';
+import { colors } from '@/theme/colors';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -8,6 +12,35 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  const [i18nReady, setI18nReady] = useState(false);
+
+  useEffect(() => {
+    initI18n()
+      .then(() => {
+        setI18nReady(true);
+        SplashScreen.hideAsync();
+      })
+      .catch(() => {
+        setI18nReady(true);
+        SplashScreen.hideAsync();
+      });
+  }, []);
+
+  if (!i18nReady) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: colors.white,
+        }}
+      >
+        <ActivityIndicator color={colors.primary} />
+      </View>
+    );
+  }
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
