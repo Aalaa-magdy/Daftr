@@ -1,3 +1,4 @@
+import { useAppDirection } from '@/hooks/useAppDirection';
 import { colors } from '@/theme/colors';
 import {
   Changa_400Regular,
@@ -55,6 +56,7 @@ const Navbar = ({
   onAddPress,
 }: Props) => {
   const { t } = useTranslation();
+  const { isRTL } = useAppDirection();
   const insets = useSafeAreaInsets();
   const [selectedTab, setSelectedTab] = useState<NavTab>(activeTab);
   const [fontsLoaded] = useFonts({
@@ -103,6 +105,9 @@ const Navbar = ({
     );
   };
 
+  const leftTabs = isRTL ? [TABS[3], TABS[2]] : [TABS[0], TABS[1]];
+  const rightTabs = isRTL ? [TABS[1], TABS[0]] : [TABS[2], TABS[3]];
+
   return (
     <View
       style={[
@@ -114,13 +119,11 @@ const Navbar = ({
 
       <View style={styles.bar}>
         <View style={styles.sideGroup}>
-          {renderTab(TABS[0])}
-          {renderTab(TABS[1])}
+          {leftTabs.map((tab) => renderTab(tab))}
         </View>
         <View style={styles.centerSlot} />
         <View style={styles.sideGroup}>
-          {renderTab(TABS[2])}
-          {renderTab(TABS[3])}
+          {rightTabs.map((tab) => renderTab(tab))}
         </View>
       </View>
 
