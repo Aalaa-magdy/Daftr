@@ -15,6 +15,7 @@ import LockPasswordIcon from "@hugeicons/core-free-icons/SquareLockPasswordIcon"
 import User03Icon from "@hugeicons/core-free-icons/User03Icon";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react-native";
 import { useRouter, type Href } from "expo-router";
+import { useState } from "react";
 import {
   ImageBackground,
   Keyboard,
@@ -27,6 +28,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTranslation } from "react-i18next";
 import { useAppDirection } from "@/hooks/useAppDirection";
+import { useSignup } from "@/features/signup/hooks/useSignup";
+import {
+  mapSignupFieldErrors,
+  type SignupField,
+  type SignupFieldErrors,
+} from "@/features/signup/lib/signup-errors";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 const patternSource = require("@/assets/images/background-pattern-decorative.png");
 
@@ -38,11 +46,93 @@ const Signup = () => {
   const { t } = useTranslation();
   const { directionStyle, textAlign, writingDirection } = useAppDirection();
   const router = useRouter();
+  const { mutate: signup, isPending } = useSignup();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState<SignupFieldErrors>({});
 
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
   });
+
+  const clearFieldError = (field: SignupField) => {
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
+
+  const handleFieldChange = (field: SignupField, value: string) => {
+    switch (field) {
+      case "name":
+        setName(value);
+        break;
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      case "confirmPassword":
+        setConfirmPassword(value);
+        break;
+    }
+    clearFieldError(field);
+  };
+
+  const validateForm = (): boolean => {
+    const nextErrors: SignupFieldErrors = {};
+
+    if (!name.trim()) {
+      nextErrors.name = t("auth.nameRequired");
+    }
+
+    if (!email.trim()) {
+      nextErrors.email = t("auth.emailRequired");
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      nextErrors.email = t("auth.invalidEmail");
+    }
+
+    if (!password) {
+      nextErrors.password = t("auth.passwordRequired");
+    } else if (password.length < 6) {
+      nextErrors.password = t("auth.passwordMinLength");
+    }
+
+    if (!confirmPassword) {
+      nextErrors.confirmPassword = t("auth.confirmPasswordRequired");
+    } else if (password !== confirmPassword) {
+      nextErrors.confirmPassword = t("auth.passwordsDoNotMatch");
+    }
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleSignup = () => {
+    if (!validateForm()) return;
+
+    signup(
+      {
+        name: name.trim(),
+        email: email.trim(),
+        password,
+      },
+      {
+        onError: (error) => {
+          const errorMessage = getApiErrorMessage(error);
+          setErrors(mapSignupFieldErrors(errorMessage));
+          console.error("Signup error:", errorMessage);
+        },
+      },
+    );
+  };
 
   if (!fontsLoaded) return null;
 
@@ -78,6 +168,9 @@ const Signup = () => {
               <Input
                 placeholder={t("auth.enterYourName")}
                 icon={fieldIcon(User03Icon)}
+                value={name}
+                onChangeText={(text) => handleFieldChange("name", text)}
+                error={errors.name}
               />
             </View>
 
@@ -89,6 +182,9 @@ const Signup = () => {
                 placeholder={t("common.emailPlaceholder")}
                 keyboardType="email-address"
                 icon={fieldIcon(Mail01Icon)}
+                value={email}
+                onChangeText={(text) => handleFieldChange("email", text)}
+                error={errors.email}
               />
             </View>
 
@@ -99,6 +195,9 @@ const Signup = () => {
               <PasswordInput
                 placeholder={t("common.passwordPlaceholder")}
                 icon={fieldIcon(LockPasswordIcon)}
+                value={password}
+                onChangeText={(text) => handleFieldChange("password", text)}
+                error={errors.password}
               />
             </View>
 
@@ -109,10 +208,17 @@ const Signup = () => {
               <PasswordInput
                 placeholder={t("common.passwordPlaceholder")}
                 icon={fieldIcon(LockPasswordIcon)}
+                value={confirmPassword}
+                onChangeText={(text) => handleFieldChange("confirmPassword", text)}
+                error={errors.confirmPassword}
               />
             </View>
 
-            <Button title={t("auth.createAccount")} />
+            <Button
+              title={t("auth.createAccount")}
+              onPress={handleSignup}
+              disabled={isPending}
+            />
             <GoogleButton title={t("auth.googleSignUp")} />
 
             <View style={styles.footerAuth}>

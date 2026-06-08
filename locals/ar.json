@@ -43,7 +43,16 @@
     "enterYourName": "أدخل اسمك",
     "createAccount": "إنشاء حساب",
     "googleSignIn": "تسجيل الدخول عبر Google",
-    "googleSignUp": "إنشاء حساب عبر Google"
+    "googleSignUp": "إنشاء حساب عبر Google",
+    "validationError": "خطأ في التحقق",
+    "fillAllFields": "يرجى ملء جميع الحقول المطلوبة.",
+    "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين.",
+    "nameRequired": "يرجى إدخال اسمك.",
+    "emailRequired": "يرجى إدخال بريدك الإلكتروني.",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صالح.",
+    "passwordRequired": "يرجى إدخال كلمة المرور.",
+    "passwordMinLength": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.",
+    "confirmPasswordRequired": "يرجى تأكيد كلمة المرور."
   },
   "onboarding": {
     "skip": "تخطي",

@@ -43,7 +43,16 @@
     "enterYourName": "Enter your Name",
     "createAccount": "Create account",
     "googleSignIn": "Sign in with Google",
-    "googleSignUp": "Sign up with Google"
+    "googleSignUp": "Sign up with Google",
+    "validationError": "Validation Error",
+    "fillAllFields": "Please fill in all required fields.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "nameRequired": "Please enter your name.",
+    "emailRequired": "Please enter your email address.",
+    "invalidEmail": "Please enter a valid email address.",
+    "passwordRequired": "Please enter a password.",
+    "passwordMinLength": "Password must be at least 6 characters.",
+    "confirmPasswordRequired": "Please confirm your password."
   },
   "onboarding": {
     "skip": "Skip",

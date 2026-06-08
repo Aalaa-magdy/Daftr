@@ -15,11 +15,15 @@ import {
 
 /** Leading/trailing icons + placeholder (unfocused) — tweak only here. */
 const INPUT_MUTED = '#A4A7AE';
+const INPUT_ERROR = 'red';
 
-function withInputMutedIconColor(node: React.ReactNode): React.ReactNode {
+function withInputIconColor(
+  node: React.ReactNode,
+  hasError: boolean,
+): React.ReactNode {
   if (node == null || !React.isValidElement(node)) return node;
   return React.cloneElement(node as React.ReactElement<{ color?: string }>, {
-    color: INPUT_MUTED,
+    color: hasError ? INPUT_ERROR : INPUT_MUTED,
   });
 }
 
@@ -80,19 +84,25 @@ const Input: React.FC<InputProps> = ({
         style={[
           styles.inputWrapper,
           { direction: isRTL ? 'rtl' : 'ltr' },
-          isFocused && styles.inputWrapperFocused,
+          isFocused && !error && styles.inputWrapperFocused,
           error && styles.inputWrapperError,
         ]}
       >
         {icon ? (
-          <View style={styles.leadingIcon}>{withInputMutedIconColor(icon)}</View>
+          <View style={styles.leadingIcon}>
+            {withInputIconColor(icon, Boolean(error))}
+          </View>
         ) : null}
 
         <TextInput
           style={[
             styles.input,
             multiline && styles.inputMultiline,
-            useMutedTextColor ? styles.inputTextMuted : styles.inputTextTyped,
+            error && hasText
+              ? styles.inputTextError
+              : useMutedTextColor
+                ? styles.inputTextMuted
+                : styles.inputTextTyped,
             icon ? styles.inputWithLeadingIcon : null,
             rightIcon ? styles.inputWithTrailingIcon : null,
             { textAlign: inputTextAlign, writingDirection },
@@ -117,12 +127,19 @@ const Input: React.FC<InputProps> = ({
             accessibilityRole="button"
             accessibilityLabel={t('accessibility.togglePasswordVisibility')}
           >
-            {withInputMutedIconColor(rightIcon)}
+            {withInputIconColor(rightIcon, Boolean(error))}
           </TouchableOpacity>
         ) : null}
       </View>
 
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? (
+        <View style={styles.errorRow}>
+          <View style={styles.errorIconCircle}>
+            <Text style={styles.errorIconMark}>i</Text>
+          </View>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -178,6 +195,9 @@ const styles = StyleSheet.create({
   inputTextTyped: {
     color: colors.black,
   },
+  inputTextError: {
+    color: INPUT_ERROR,
+  },
   inputWithLeadingIcon: {
     paddingStart: 8,
     paddingEnd: 12,
@@ -204,11 +224,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  errorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 6,
+  },
+  errorIconCircle: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    borderWidth: 1.5,
+    borderColor: INPUT_ERROR,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorIconMark: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: INPUT_ERROR,
+    lineHeight: 12,
+  },
   errorText: {
-    fontSize: 12,
-    lineHeight: 18,
-    color: 'red',
-    marginTop: 4,
+    flex: 1,
+    fontSize: 14,
+    lineHeight: 20,
+    color: INPUT_ERROR,
+    fontFamily: 'Changa_400Regular',
   },
 });
 
