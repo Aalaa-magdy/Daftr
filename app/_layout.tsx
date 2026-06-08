@@ -2,9 +2,9 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { initI18n } from '@/lib/i18n';
+import i18n, { initI18n } from '@/lib/i18n';
 import { queryClient } from '@/lib/query-client';
 import { colors } from '@/theme/colors';
 
@@ -33,7 +33,8 @@ export default function RootLayout() {
   const isRTL = i18n.language === 'ar';
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
       {!i18nReady ? (
         <View
           style={{
@@ -73,6 +74,7 @@ export default function RootLayout() {
           </Stack>
         </View>
       )}
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </I18nextProvider>
   );
 }

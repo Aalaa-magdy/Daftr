@@ -31,6 +31,7 @@ import { useAppDirection } from "@/hooks/useAppDirection";
 import { useSignup } from "@/features/signup/hooks/useSignup";
 import {
   mapSignupFieldErrors,
+  resolveSignupFieldError,
   type SignupField,
   type SignupFieldErrors,
 } from "@/features/signup/lib/signup-errors";
@@ -90,25 +91,25 @@ const Signup = () => {
     const nextErrors: SignupFieldErrors = {};
 
     if (!name.trim()) {
-      nextErrors.name = t("auth.nameRequired");
+      nextErrors.name = "auth.nameRequired";
     }
 
     if (!email.trim()) {
-      nextErrors.email = t("auth.emailRequired");
+      nextErrors.email = "auth.emailRequired";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      nextErrors.email = t("auth.invalidEmail");
+      nextErrors.email = "auth.invalidEmail";
     }
 
     if (!password) {
-      nextErrors.password = t("auth.passwordRequired");
+      nextErrors.password = "auth.passwordRequired";
     } else if (password.length < 6) {
-      nextErrors.password = t("auth.passwordMinLength");
+      nextErrors.password = "auth.passwordMinLength";
     }
 
     if (!confirmPassword) {
-      nextErrors.confirmPassword = t("auth.confirmPasswordRequired");
+      nextErrors.confirmPassword = "auth.confirmPasswordRequired";
     } else if (password !== confirmPassword) {
-      nextErrors.confirmPassword = t("auth.passwordsDoNotMatch");
+      nextErrors.confirmPassword = "auth.passwordsDoNotMatch";
     }
 
     setErrors(nextErrors);
@@ -170,7 +171,7 @@ const Signup = () => {
                 icon={fieldIcon(User03Icon)}
                 value={name}
                 onChangeText={(text) => handleFieldChange("name", text)}
-                error={errors.name}
+                error={resolveSignupFieldError(errors.name, t)}
               />
             </View>
 
@@ -184,7 +185,7 @@ const Signup = () => {
                 icon={fieldIcon(Mail01Icon)}
                 value={email}
                 onChangeText={(text) => handleFieldChange("email", text)}
-                error={errors.email}
+                error={resolveSignupFieldError(errors.email, t)}
               />
             </View>
 
@@ -197,7 +198,7 @@ const Signup = () => {
                 icon={fieldIcon(LockPasswordIcon)}
                 value={password}
                 onChangeText={(text) => handleFieldChange("password", text)}
-                error={errors.password}
+                error={resolveSignupFieldError(errors.password, t)}
               />
             </View>
 
@@ -210,7 +211,7 @@ const Signup = () => {
                 icon={fieldIcon(LockPasswordIcon)}
                 value={confirmPassword}
                 onChangeText={(text) => handleFieldChange("confirmPassword", text)}
-                error={errors.confirmPassword}
+                error={resolveSignupFieldError(errors.confirmPassword, t)}
               />
             </View>
 

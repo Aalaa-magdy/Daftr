@@ -24,7 +24,7 @@ function formatMessageValue(value: string | string[] | undefined): string | unde
   return trimmed || undefined;
 }
 
-export function getApiErrorMessage(
+export function getApiErrorMessage( 
   error: unknown,
   fallback = 'Something went wrong',
 ): string {
