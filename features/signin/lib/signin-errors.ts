@@ -4,11 +4,13 @@ export type SigninField = 'email' | 'password';
 
 export type SigninFieldErrors = Partial<Record<SigninField, string>>;
 
+export const INVALID_CREDENTIALS_KEY = 'auth.invalidCredentials';
+
 const CLIENT_ERROR_KEYS = new Set([
   'auth.emailRequired',
   'auth.invalidEmail',
   'auth.passwordRequired',
-  'auth.invalidCredentials',
+  INVALID_CREDENTIALS_KEY,
 ]);
 
 export function resolveSigninFieldError(
@@ -31,7 +33,8 @@ export function mapSigninFieldErrors(errorMessage: string): SigninFieldErrors {
     lower.includes('wrong password') ||
     lower.includes('invalid password')
   ) {
-    errors.password = 'auth.invalidCredentials';
+    errors.email = INVALID_CREDENTIALS_KEY;
+    errors.password = INVALID_CREDENTIALS_KEY;
     return errors;
   }
 

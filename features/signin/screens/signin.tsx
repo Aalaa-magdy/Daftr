@@ -32,6 +32,7 @@ import { useSignin } from "../hooks/useSignin";
 import {
   mapSigninFieldErrors,
   resolveSigninFieldError,
+  INVALID_CREDENTIALS_KEY,
   type SigninField, 
   type SigninFieldErrors,
 } from "../lib/signin-errors";
@@ -119,6 +120,10 @@ const Signin = () => {
 
   if (!fontsLoaded) return null;
 
+  const hasInvalidCredentials =
+    errors.email === INVALID_CREDENTIALS_KEY &&
+    errors.password === INVALID_CREDENTIALS_KEY;
+
   return (
     <SafeAreaView style={[styles.container, directionStyle]}>
       <ImageBackground
@@ -155,7 +160,12 @@ const Signin = () => {
                   icon={fieldIcon(Mail01Icon)}
                   value={email}
                   onChangeText={(text) => handleFieldChange("email", text)}
-                  error={resolveSigninFieldError(errors.email, t)}
+                  invalid={Boolean(errors.email)}
+                  error={
+                    hasInvalidCredentials
+                      ? undefined
+                      : resolveSigninFieldError(errors.email, t)
+                  }
                 />
               </View>
 
@@ -169,6 +179,7 @@ const Signin = () => {
                   containerStyle={styles.passwordInput}
                   value={password}
                   onChangeText={(text) => handleFieldChange("password", text)}
+                  invalid={Boolean(errors.password)}
                   error={resolveSigninFieldError(errors.password, t)}
                 />
                 <View style={styles.forgetPasswordRow}>

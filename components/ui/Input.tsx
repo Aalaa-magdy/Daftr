@@ -33,6 +33,7 @@ interface InputProps {
   value?: string;
   onChangeText?: (text: string) => void;
   error?: string;
+  invalid?: boolean;
   secureTextEntry?: boolean;
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
   icon?: React.ReactNode;
@@ -48,6 +49,7 @@ const Input: React.FC<InputProps> = ({
   value,
   onChangeText,
   error,
+  invalid = false,
   secureTextEntry = false,
   keyboardType = 'default',
   icon,
@@ -66,6 +68,7 @@ const Input: React.FC<InputProps> = ({
 
   /** Unfocused + empty: align typed `color` with placeholder so Android does not tint hint wrong vs icons. */
   const useMutedTextColor = !isFocused && !hasText;
+  const hasError = Boolean(error) || invalid;
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -84,13 +87,13 @@ const Input: React.FC<InputProps> = ({
         style={[
           styles.inputWrapper,
           { direction: isRTL ? 'rtl' : 'ltr' },
-          isFocused && !error && styles.inputWrapperFocused,
-          error && styles.inputWrapperError,
+          isFocused && !hasError && styles.inputWrapperFocused,
+          hasError && styles.inputWrapperError,
         ]}
       >
         {icon ? (
           <View style={styles.leadingIcon}>
-            {withInputIconColor(icon, Boolean(error))}
+            {withInputIconColor(icon, hasError)}
           </View>
         ) : null}
 
@@ -98,7 +101,7 @@ const Input: React.FC<InputProps> = ({
           style={[
             styles.input,
             multiline && styles.inputMultiline,
-            error && hasText
+            hasError && hasText
               ? styles.inputTextError
               : useMutedTextColor
                 ? styles.inputTextMuted
@@ -127,7 +130,7 @@ const Input: React.FC<InputProps> = ({
             accessibilityRole="button"
             accessibilityLabel={t('accessibility.togglePasswordVisibility')}
           >
-            {withInputIconColor(rightIcon, Boolean(error))}
+            {withInputIconColor(rightIcon, hasError)}
           </TouchableOpacity>
         ) : null}
       </View>
