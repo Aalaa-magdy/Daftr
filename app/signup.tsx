@@ -1,4 +1,4 @@
-import Signup from "@/features/signup/screens/Signup";
+import Signup from "@/features/auth/signup/screens/Signup";
 
 
 export default Signup

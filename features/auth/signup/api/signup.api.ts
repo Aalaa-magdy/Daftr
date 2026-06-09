@@ -1,6 +1,5 @@
-// src/features/auth/api/authApi.ts
-import { apiClient } from '../../../lib/axios';
-import { SignupRequest, AuthResponse } from '../types/signup.types';
+import { apiClient } from '@/lib/axios';
+import { SignupRequest, AuthResponse } from '@/features/auth/signup/types/signup.types';
 
 export const signupApi = {
   signup: async (data: SignupRequest): Promise<AuthResponse> => {

@@ -1,3 +1,3 @@
-import Signin from "@/features/signin/screens/signin";
+import Signin from "@/features/auth/signin/screens/Signin";
 
 export default Signin

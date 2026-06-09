@@ -1,4 +1,3 @@
-// src/features/signin/screens/Signin.tsx
 import Button from "@/components/ui/Button";
 import GoogleButton from "@/components/ui/GoogleButton";
 import Header from "@/components/ui/Header";
@@ -28,14 +27,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTranslation } from "react-i18next";
 import { useAppDirection } from "@/hooks/useAppDirection";
-import { useSignin } from "../hooks/useSignin";
+import { useSignin } from "@/features/auth/signin/hooks/useSignin";
 import {
   mapSigninFieldErrors,
   resolveSigninFieldError,
   INVALID_CREDENTIALS_KEY,
-  type SigninField, 
+  type SigninField,
   type SigninFieldErrors,
-} from "../lib/signin-errors";
+} from "@/features/auth/lib/signin-errors";
 import { getApiErrorMessage } from "@/lib/api-error";
 
 const patternSource = require("@/assets/images/background-pattern-decorative.png");

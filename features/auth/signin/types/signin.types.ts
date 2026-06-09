@@ -1,6 +1,4 @@
-// src/features/auth/types/authTypes.ts
-export interface SignupRequest {
-    name: string;
+export interface SigninRequest {
     email: string;
     password: string;
   }
@@ -30,4 +28,3 @@ export interface SignupRequest {
   export function isAuthSuccess(response: AuthResponse): response is AuthSuccessResponse {
     return 'accessToken' in response;
   }
-  

@@ -1,5 +1,3 @@
-// src/features/signin/lib/signin-errors.ts
-
 export type SigninField = 'email' | 'password';
 
 export type SigninFieldErrors = Partial<Record<SigninField, string>>;
@@ -45,7 +43,6 @@ export function mapSigninFieldErrors(errorMessage: string): SigninFieldErrors {
   }
 
   if (!Object.keys(errors).length && errorMessage) {
-    // Fallback: show on email field
     errors.email = errorMessage;
   }
 

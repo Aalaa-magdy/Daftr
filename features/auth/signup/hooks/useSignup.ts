@@ -1,8 +1,7 @@
-// src/features/auth/hooks/useSignup.ts
 import { useMutation } from '@tanstack/react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { signupApi } from '../api/signup.api';
-import { SignupRequest, AuthResponse, isAuthSuccess } from '../types/signup.types';
+import { signupApi } from '@/features/auth/signup/api/signup.api';
+import { SignupRequest, AuthResponse, isAuthSuccess } from '@/features/auth/signup/types/signup.types';
 import { AxiosError } from 'axios';
 
 export const useSignup = () => {

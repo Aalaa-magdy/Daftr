@@ -28,13 +28,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useTranslation } from "react-i18next";
 import { useAppDirection } from "@/hooks/useAppDirection";
-import { useSignup } from "@/features/signup/hooks/useSignup";
+import { useSignup } from "@/features/auth/signup/hooks/useSignup";
 import {
   mapSignupFieldErrors,
   resolveSignupFieldError,
   type SignupField,
   type SignupFieldErrors,
-} from "@/features/signup/lib/signup-errors";
+} from "@/features/auth/lib/signup-errors";
 import { getApiErrorMessage } from "@/lib/api-error";
 
 const patternSource = require("@/assets/images/background-pattern-decorative.png");
