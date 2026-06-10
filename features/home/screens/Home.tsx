@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { screenLayout } from '@/theme/screen-layout';
 import HomeHeader from '../components/HomeHeader';
 import HomeInfo from '../components/HomeInfo';
 import { colors } from '@/theme/colors';
@@ -32,7 +33,7 @@ const Home = () => {
   }
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.safe} edges={[ 'left', 'right']}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}

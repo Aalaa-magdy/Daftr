@@ -8,6 +8,7 @@ import {
 } from '@expo-google-fonts/changa';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { screenLayout } from '@/theme/screen-layout';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CategoryBreakdown from '../components/CategoryBreakdown';
@@ -47,13 +48,14 @@ const Statistics = () => {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+      <View style={screenLayout.header}>
+        <Text style={screenLayout.title}>{t('statistics.title')}</Text>
+      </View>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>{t('statistics.title')}</Text>
-
         <PeriodToggle value={period} onChange={setPeriod} />
 
         <DateNavigator label={stats.dateLabel} />
@@ -91,23 +93,14 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-    marginTop: 10,
   },
   scroll: {
     flex: 1,
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 8,
     paddingBottom: 96,
     gap: 16,
-  },
-  title: {
-    fontFamily: 'Changa_500Medium',
-    fontSize: 18,
-    lineHeight: 28,
-    color: colors.black,
-    marginBottom: 8,
   },
 });
 

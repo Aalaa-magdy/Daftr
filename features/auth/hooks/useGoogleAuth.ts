@@ -8,6 +8,10 @@ import {
   getGoogleAuthRequestConfig,
   isGoogleAuthConfigured,
 } from '@/features/auth/lib/google-auth-config';
+import {
+  getNativeGoogleSignInErrorMessage,
+  signInWithNativeGoogle,
+} from '@/features/auth/lib/native-google-signin';
 import { storeAuthTokens } from '@/features/auth/lib/auth-storage';
 import { getApiErrorMessage } from '@/lib/api-error';
 
@@ -17,15 +21,28 @@ type UseGoogleAuthOptions = {
   onSuccess?: () => void;
 };
 
+async function completeGoogleAuth(idToken: string, onSuccess?: () => void) {
+  const data = await authApi.googleAuth({ idToken });
+  await storeAuthTokens(data);
+  onSuccess?.();
+}
+
 export const useGoogleAuth = ({ onSuccess }: UseGoogleAuthOptions = {}) => {
   const [isPending, setIsPending] = useState(false);
   const googleConfig = getGoogleAuthRequestConfig();
+  const useBrowserFlow = Platform.OS === 'web';
 
   const [request, response, promptAsync] = Google.useAuthRequest(googleConfig);
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      const idToken = response.authentication?.idToken;
+    if (!useBrowserFlow || !response) return;
+
+    if (response.type === 'success') {
+      const idToken =
+        response.authentication?.idToken ??
+        (typeof response.params?.id_token === 'string'
+          ? response.params.id_token
+          : undefined);
 
       if (!idToken) {
         setIsPending(false);
@@ -33,30 +50,26 @@ export const useGoogleAuth = ({ onSuccess }: UseGoogleAuthOptions = {}) => {
         return;
       }
 
-      authApi
-        .googleAuth({ idToken })
-        .then(async (data) => {
-          await storeAuthTokens(data);
-          setIsPending(false);
-          onSuccess?.();
-        })
+      completeGoogleAuth(idToken, onSuccess)
         .catch((error) => {
-          setIsPending(false);
           Alert.alert('Error', getApiErrorMessage(error));
+        })
+        .finally(() => {
+          setIsPending(false);
         });
-    } else if (response?.type === 'error') {
+    } else if (response.type === 'error') {
       setIsPending(false);
       Alert.alert('Error', response.error?.message ?? 'Google sign-in failed. Please try again.');
-    } else if (response?.type === 'dismiss' || response?.type === 'cancel') {
+    } else if (response.type === 'dismiss' || response.type === 'cancel') {
       setIsPending(false);
     }
-  }, [response, onSuccess]);
+  }, [response, onSuccess, useBrowserFlow]);
 
   const signInWithGoogle = useCallback(async () => {
     if (Constants.appOwnership === 'expo' && Platform.OS === 'android') {
       Alert.alert(
         'Development build required',
-        'Google sign-in does not work in Expo Go on Android because the app runs as host.exp.exponent, not com.daftr.\n\nRun: npx expo run:android\n\nThen use your Android OAuth client (package com.daftr + SHA-1).',
+        'Google sign-in does not work in Expo Go on Android. Run: npx expo run:android',
       );
       return;
     }
@@ -64,8 +77,24 @@ export const useGoogleAuth = ({ onSuccess }: UseGoogleAuthOptions = {}) => {
     if (!isGoogleAuthConfigured()) {
       Alert.alert(
         'Error',
-        'Google sign-in is not configured. Add EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID and EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID to .env.local.',
+        'Google sign-in is not configured. Add EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID to .env.local.',
       );
+      return;
+    }
+
+    if (Platform.OS !== 'web') {
+      try {
+        setIsPending(true);
+        const idToken = await signInWithNativeGoogle();
+        await completeGoogleAuth(idToken, onSuccess);
+      } catch (error) {
+        const message = getNativeGoogleSignInErrorMessage(error);
+        if (message) {
+          Alert.alert('Error', message);
+        }
+      } finally {
+        setIsPending(false);
+      }
       return;
     }
 
@@ -76,12 +105,12 @@ export const useGoogleAuth = ({ onSuccess }: UseGoogleAuthOptions = {}) => {
 
     try {
       setIsPending(true);
-      await promptAsync();
+      await promptAsync({ showInRecents: true });
     } catch {
       setIsPending(false);
       Alert.alert('Error', 'Could not open Google sign-in. Please try again.');
     }
-  }, [request, promptAsync]);
+  }, [request, promptAsync, onSuccess]);
 
   return {
     signInWithGoogle,

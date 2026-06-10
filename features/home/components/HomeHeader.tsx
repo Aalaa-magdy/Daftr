@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-around", // Changed from "space-around" to "space-between"
-        width: "100%", // Ensure container takes full width
+        justifyContent: "space-around",
+        width: "100%",
     },
     header: {
         flexDirection: "row",
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     profileInfo: {
-        justifyContent: "center", 
-        marginTop:10,
-        marginLeft:4,
+        justifyContent: "center",
+        marginTop: 10,
+        marginLeft: 4,
     },
     welcome: {
         fontSize: 13,

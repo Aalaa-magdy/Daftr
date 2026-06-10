@@ -11,11 +11,13 @@ import { HugeiconsIcon } from '@hugeicons/react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { screenLayout } from '@/theme/screen-layout';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LogoutDialogue from '../components/LogoutDialogue';
@@ -80,13 +82,14 @@ const Profile = () => {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+      <View style={screenLayout.header}>
+        <Text style={screenLayout.title}>{t('profile.title')}</Text>
+      </View>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>{t('profile.title')}</Text>
-
         <ProfileSuccessBanner
           visible={showSuccessBanner}
           message={t('profile.passwordChangedSuccess')}
@@ -143,18 +146,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: colors.white,
     paddingHorizontal: 10,
-    paddingTop: 8,
     paddingBottom: 96,
     gap: 20,
-  },
-  title: {
-    fontFamily: 'Changa_500Medium',
-    fontSize: 18,
-    lineHeight: 28,
-    color: colors.black,
-    marginBottom: 4,
-    marginLeft: 4,
-    marginTop: 10,
   },
   logoutButton: {
     flexDirection: 'row',

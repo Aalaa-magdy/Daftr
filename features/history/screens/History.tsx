@@ -15,6 +15,7 @@ import TransactionTypeToggle, {
 } from '@/features/transaction/components/TransactionTypeToggle';
 
 import { colors } from '@/theme/colors';
+import { screenLayout } from '@/theme/screen-layout';
 
 import {
 
@@ -113,9 +114,8 @@ const History = () => {
 
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
 
-      <View style={styles.header}>
-
-        <Text style={styles.title}>{t('history.title')}</Text>
+      <View style={screenLayout.header}>
+        <Text style={screenLayout.title}>{t('history.title')}</Text>
 
         <TouchableOpacity
 
@@ -262,36 +262,6 @@ const styles = StyleSheet.create({
     flex: 1,
 
     backgroundColor: colors.background,
-
-  },
-
-  header: {
-
-    width: '100%',
-
-    flexDirection: 'row',
-
-    alignItems: 'center',
-
-    justifyContent: 'space-between',
-
-    paddingHorizontal: 20,
-
-    paddingTop: 8,
-
-    paddingBottom: 4,
-
-  },
-
-  title: {
-
-    fontFamily: 'Changa_500Medium',
-
-    fontSize: 22,
-
-    lineHeight: 28,
-
-    color: colors.black,
 
   },
 
