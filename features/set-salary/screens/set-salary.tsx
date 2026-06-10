@@ -1,5 +1,5 @@
 import Button from '@/components/ui/Button';
-import DatePicker from '@/components/ui/DatePicker';
+import DatePickerDialogue from '@/components/ui/DatePickerDialogue';
 import Header from '@/components/ui/Header';
 import Input from '@/components/ui/Input';
 import { colors } from '@/theme/colors';
@@ -14,18 +14,15 @@ import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react-native';
 import React, { useMemo, useState } from 'react';
 import {
   ImageBackground,
-  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-
 
 const patternSource = require('@/assets/images/background-pattern-decorative.png');
 
@@ -34,7 +31,6 @@ const fieldIcon = (icon: IconSvgElement) => (
 );
 
 function formatPayday(date: Date): string {
- 
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
@@ -43,7 +39,7 @@ function formatPayday(date: Date): string {
 
 const SetSalary = () => {
   const { t } = useTranslation();
-   const router = useRouter()
+  const router = useRouter();
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium,
@@ -57,7 +53,7 @@ const SetSalary = () => {
 
   const isFormComplete = useMemo(
     () => salary.trim().length > 0 && payday !== null,
-    [salary, payday]
+    [salary, payday],
   );
 
   if (!fontsLoaded) {
@@ -65,104 +61,100 @@ const SetSalary = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <ImageBackground
-        source={patternSource}
-        style={styles.backgroundImage}
-        resizeMode="cover"
-      />
-
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.content}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <Header
-          title={t('setSalary.title')}
-          subtitle={t('setSalary.subtitle')}
+    <View style={styles.root}>
+      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+        <ImageBackground
+          source={patternSource}
+          style={styles.backgroundImage}
+          resizeMode="cover"
         />
 
-        <View style={styles.form}>
-          <View style={styles.fieldGroup}>
-            <Text style={styles.label}>
-              {t('setSalary.monthlySalary')} <Text style={styles.star}>{t('common.required')}</Text>
-            </Text>
-            <Input
-              placeholder={t('common.amountPlaceholder')}
-              keyboardType="numeric"
-              value={salary}
-              onChangeText={setSalary}
-              icon={fieldIcon(MoneyBag01Icon)}
-              containerStyle={styles.fieldInput}
-            />
-          </View>
-
-          <View style={styles.fieldGroup}>
-            <Text style={styles.label}>
-              {t('setSalary.payday')} <Text style={styles.star}>{t('common.required')}</Text>
-            </Text>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => setShowDatePicker((open) => !open)}
-            >
-              <View pointerEvents="none">
-                <Input
-                  placeholder={t('common.datePlaceholder')}
-                  value={paydayDisplay}
-                  icon={fieldIcon(Calendar03Icon)}
-                  containerStyle={styles.fieldInput}
-                />
-              </View>
-            </TouchableOpacity>
-            <Text style={styles.helperText}>
-              {t('setSalary.paydayHelper')}
-            </Text>
-          </View>
-
-          <View style={styles.buttonWrap}>
-            <Button
-              title={t('common.continue')}
-              disabled={!isFormComplete}
-              onPress={() => {
-                if (!isFormComplete) return;
-                router.push("/home")
-                // TODO: persist salary + payday and navigate onward
-              }}
-            />
-          </View>
-        </View>
-      </ScrollView>
-
-      <Modal
-        visible={showDatePicker}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setShowDatePicker(false)}
-      >
-        <View style={styles.pickerModalRoot}>
-          <Pressable
-            style={styles.pickerBackdrop}
-            onPress={() => setShowDatePicker(false)}
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <Header
+            title={t('setSalary.title')}
+            subtitle={t('setSalary.subtitle')}
           />
-          <View style={styles.pickerOverlay} pointerEvents="box-none">
-            <DatePicker
-              value={payday}
-              onChange={(date) => {
-                setPayday(date);
-              }}
-            />
+
+          <View style={styles.form}>
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>
+                {t('setSalary.monthlySalary')}{' '}
+                <Text style={styles.star}>{t('common.required')}</Text>
+              </Text>
+              <Input
+                placeholder={t('common.amountPlaceholder')}
+                keyboardType="numeric"
+                value={salary}
+                onChangeText={setSalary}
+                icon={fieldIcon(MoneyBag01Icon)}
+                containerStyle={styles.fieldInput}
+              />
+            </View>
+
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>
+                {t('setSalary.payday')}{' '}
+                <Text style={styles.star}>{t('common.required')}</Text>
+              </Text>
+              <Pressable
+                onPress={() => setShowDatePicker(true)}
+                accessibilityRole="button"
+                accessibilityLabel={t('setSalary.payday')}
+              >
+                <View pointerEvents="none">
+                  <Input
+                    placeholder={t('common.datePlaceholder')}
+                    value={paydayDisplay}
+                    editable={false}
+                    icon={fieldIcon(Calendar03Icon)}
+                    containerStyle={styles.fieldInput}
+                  />
+                </View>
+              </Pressable>
+              <Text style={styles.helperText}>
+                {t('setSalary.paydayHelper')}
+              </Text>
+            </View>
+
+            <View style={styles.buttonWrap}>
+              <Button
+                title={t('common.continue')}
+                disabled={!isFormComplete}
+                onPress={() => {
+                  if (!isFormComplete) return;
+                  router.push('/home');
+                  // TODO: persist salary + payday and navigate onward
+                }}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+
+      <DatePickerDialogue
+        visible={showDatePicker}
+        value={payday}
+        topOffset={200}
+        useOverlay
+        onClose={() => setShowDatePicker(false)}
+        onChange={setPayday}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  container: {
+    flex: 1,
   },
   scroll: {
     flex: 1,
@@ -196,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     marginBottom: 4,
-    marginTop:8,
+    marginTop: 8,
   },
   star: {
     color: 'red',
@@ -210,21 +202,6 @@ const styles = StyleSheet.create({
   buttonWrap: {
     marginTop: 16,
     width: '100%',
-  },
-  pickerModalRoot: {
-    flex: 1,
-  },
-  pickerBackdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(8, 27, 10, 0.25)',
-  },
-  pickerOverlay: {
-    position: 'absolute',
-    top: '30%',
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    paddingHorizontal: 20,
   },
 });
 

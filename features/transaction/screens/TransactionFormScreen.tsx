@@ -205,6 +205,7 @@ const TransactionFormScreen = () => {
                   <Input
                     placeholder={t('common.datePlaceholder')}
                     value={dateDisplay}
+                    editable={false}
                     icon={fieldIcon(Calendar03Icon)}
                     containerStyle={styles.fieldInput}
                   />
@@ -257,6 +258,7 @@ const TransactionFormScreen = () => {
                   <Input
                     placeholder={t('common.datePlaceholder')}
                     value={dateDisplay}
+                    editable={false}
                     icon={fieldIcon(Calendar03Icon)}
                     containerStyle={styles.fieldInput}
                   />

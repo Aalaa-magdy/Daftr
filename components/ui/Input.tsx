@@ -41,6 +41,8 @@ interface InputProps {
   onRightIconPress?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
   multiline?: boolean;
+  /** When false, field is display-only (e.g. opens a date picker on press). */
+  editable?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -57,6 +59,7 @@ const Input: React.FC<InputProps> = ({
   onRightIconPress,
   containerStyle,
   multiline = false,
+  editable = true,
 }) => {
   const { t } = useTranslation();
   const { isRTL, writingDirection } = useAppDirection();
@@ -89,7 +92,9 @@ const Input: React.FC<InputProps> = ({
           { direction: isRTL ? 'rtl' : 'ltr' },
           isFocused && !hasError && styles.inputWrapperFocused,
           hasError && styles.inputWrapperError,
+          !editable && styles.inputWrapperReadOnly,
         ]}
+        pointerEvents={editable ? 'auto' : 'box-none'}
       >
         {icon ? (
           <View style={styles.leadingIcon}>
@@ -117,6 +122,11 @@ const Input: React.FC<InputProps> = ({
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           multiline={multiline}
+          editable={editable}
+          focusable={editable}
+          pointerEvents={editable ? 'auto' : 'none'}
+          showSoftInputOnFocus={editable}
+          caretHidden={!editable}
           textAlignVertical={multiline ? 'top' : 'center'}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -176,6 +186,9 @@ const styles = StyleSheet.create({
   },
   inputWrapperError: {
     borderColor: 'red',
+  },
+  inputWrapperReadOnly: {
+    backgroundColor: colors.white,
   },
   input: {
     flex: 1,
