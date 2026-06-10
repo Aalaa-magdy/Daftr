@@ -22,11 +22,9 @@ export default function RootLayout() {
     initI18n()
       .then(() => {
         setI18nReady(true);
-        SplashScreen.hideAsync();
       })
       .catch(() => {
         setI18nReady(true);
-        SplashScreen.hideAsync();
       });
   }, []);
 
@@ -41,7 +39,7 @@ export default function RootLayout() {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: colors.white,
+            backgroundColor: colors.background,
           }}
         >
           <ActivityIndicator color={colors.primary} />

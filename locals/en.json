@@ -43,7 +43,7 @@
     "enterYourName": "Enter your Name",
     "createAccount": "Create account",
     "googleSignIn": "Sign in with Google",
-    "googleSignUp": "Sign up with Google",
+    "googleSignUp": "Continue with Google",
     "validationError": "Validation Error",
     "fillAllFields": "Please fill in all required fields.",
     "passwordsDoNotMatch": "Passwords do not match.",
@@ -54,6 +54,9 @@
     "passwordMinLength": "Password must be at least 6 characters.",
     "confirmPasswordRequired": "Please confirm your password.",
     "invalidCredentials": "Invalid email or password."
+  },
+  "splash": {
+    "tagline": "Simple Expense Tracking"
   },
   "onboarding": {
     "skip": "Skip",

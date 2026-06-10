@@ -1,88 +1,90 @@
-import { useCallback } from 'react';
-import { Alert } from 'react-native';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useCallback, useEffect, useState } from 'react';
+import { Alert, Platform } from 'react-native';
+import Constants from 'expo-constants';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 import { authApi } from '@/features/auth/api/auth.api';
 import {
-  getGoogleSignin,
-  getGoogleSigninHelpers,
-} from '../lib/google-signin';
+  getGoogleAuthRequestConfig,
+  isGoogleAuthConfigured,
+} from '@/features/auth/lib/google-auth-config';
 import { storeAuthTokens } from '@/features/auth/lib/auth-storage';
-import { AuthResponse } from '@/features/auth/types/auth.types';
 import { getApiErrorMessage } from '@/lib/api-error';
+
+WebBrowser.maybeCompleteAuthSession();
 
 type UseGoogleAuthOptions = {
   onSuccess?: () => void;
 };
 
-async function getGoogleErrorMessage(error: unknown): Promise<string> {
-  const { isErrorWithCode, statusCodes } = await getGoogleSigninHelpers();
-
-  if (isErrorWithCode(error)) {
-    const code = (error as { code: string }).code;
-    switch (code) {
-      case statusCodes.SIGN_IN_CANCELLED:
-      case statusCodes.IN_PROGRESS:
-        return '';
-      case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-        return 'Google Play Services not available on this device.';
-      default:
-        return 'Google sign-in failed. Please try again.';
-    }
-  }
-
-  if (error instanceof AxiosError) {
-    return getApiErrorMessage(error);
-  }
-
-  if (error instanceof Error) {
-    if (error.message.includes('Native module')) {
-      return 'Google sign-in requires a development build. It is not available in Expo Go.';
-    }
-    if (error.message) {
-      return error.message;
-    }
-  }
-
-  return 'Something went wrong. Please try again.';
-}
-
 export const useGoogleAuth = ({ onSuccess }: UseGoogleAuthOptions = {}) => {
-  const mutation = useMutation<AuthResponse, Error, void>({
-    mutationFn: async () => {
-      const GoogleSignin = await getGoogleSignin();
+  const [isPending, setIsPending] = useState(false);
+  const googleConfig = getGoogleAuthRequestConfig();
 
-      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-      await GoogleSignin.signOut();
+  const [request, response, promptAsync] = Google.useAuthRequest(googleConfig);
 
-      const result = await GoogleSignin.signIn();
-      const idToken = result.data?.idToken;
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const idToken = response.authentication?.idToken;
 
       if (!idToken) {
-        throw new Error('Google sign-in did not return an idToken.');
+        setIsPending(false);
+        Alert.alert('Error', 'Google sign-in did not return a token. Please try again.');
+        return;
       }
 
-      return authApi.googleAuth({ idToken });
-    },
-    onSuccess: async (data) => {
-      await storeAuthTokens(data);
-      onSuccess?.();
-    },
-  });
+      authApi
+        .googleAuth({ idToken })
+        .then(async (data) => {
+          await storeAuthTokens(data);
+          setIsPending(false);
+          onSuccess?.();
+        })
+        .catch((error) => {
+          setIsPending(false);
+          Alert.alert('Error', getApiErrorMessage(error));
+        });
+    } else if (response?.type === 'error') {
+      setIsPending(false);
+      Alert.alert('Error', response.error?.message ?? 'Google sign-in failed. Please try again.');
+    } else if (response?.type === 'dismiss' || response?.type === 'cancel') {
+      setIsPending(false);
+    }
+  }, [response, onSuccess]);
 
   const signInWithGoogle = useCallback(async () => {
-    try {
-      await mutation.mutateAsync();
-    } catch (error) {
-      const message = await getGoogleErrorMessage(error);
-      if (message) {
-        Alert.alert('Error', message);
-      }
+    if (Constants.appOwnership === 'expo' && Platform.OS === 'android') {
+      Alert.alert(
+        'Development build required',
+        'Google sign-in does not work in Expo Go on Android because the app runs as host.exp.exponent, not com.daftr.\n\nRun: npx expo run:android\n\nThen use your Android OAuth client (package com.daftr + SHA-1).',
+      );
+      return;
     }
-  }, [mutation]);
+
+    if (!isGoogleAuthConfigured()) {
+      Alert.alert(
+        'Error',
+        'Google sign-in is not configured. Add EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID and EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID to .env.local.',
+      );
+      return;
+    }
+
+    if (!request) {
+      Alert.alert('Error', 'Google sign-in is not ready yet. Please try again.');
+      return;
+    }
+
+    try {
+      setIsPending(true);
+      await promptAsync();
+    } catch {
+      setIsPending(false);
+      Alert.alert('Error', 'Could not open Google sign-in. Please try again.');
+    }
+  }, [request, promptAsync]);
 
   return {
     signInWithGoogle,
-    isPending: mutation.isPending,
+    isPending,
   };
 };

@@ -55,6 +55,9 @@
     "confirmPasswordRequired": "يرجى تأكيد كلمة المرور.",
     "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
   },
+  "splash": {
+    "tagline": "تتبّع مصروفاتك ببساطة"
+  },
   "onboarding": {
     "skip": "تخطي",
     "brand": "دفتر",

@@ -1,4 +1,3 @@
-
 export interface SignupRequest {
   name: string;
   email: string;

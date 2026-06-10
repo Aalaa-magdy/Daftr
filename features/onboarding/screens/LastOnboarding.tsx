@@ -14,14 +14,18 @@ import {
   Changa_400Regular,
   Changa_500Medium
 } from '@expo-google-fonts/changa';
-import { useRouter } from "expo-router";
+import { useRouter, type Href } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useAppDirection } from "@/hooks/useAppDirection";
+import { useGoogleAuth } from "@/features/auth/hooks";
 
 const LastOnboarding = () => {
   const { t } = useTranslation();
   const { directionStyle } = useAppDirection();
-  const router = useRouter()
+  const router = useRouter();
+  const { signInWithGoogle, isPending } = useGoogleAuth({
+    onSuccess: () => router.replace("/set-salary" as Href),
+  });
   const [fontsLoaded] = useFonts({
     Changa_400Regular,
     Changa_500Medium
@@ -41,8 +45,12 @@ const LastOnboarding = () => {
         />
 
         <View style={styles.actions}>
-          <Button title={t("auth.signUp")} onPress={()=>router.push('/signup')} />
-          <GoogleButton title={t("auth.googleSignUp")} />
+          <Button title={t("auth.signUp")} onPress={() => router.push("/signup")} />
+          <GoogleButton
+            title={t("auth.googleSignUp")}
+            onPress={signInWithGoogle}
+            disabled={isPending}
+          />
 
           <TouchableOpacity
             accessibilityRole="button"
