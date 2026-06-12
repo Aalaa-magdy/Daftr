@@ -1,5 +1,4 @@
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { I18nextProvider, useTranslation } from 'react-i18next';
@@ -8,10 +7,8 @@ import i18n, { initI18n } from '@/lib/i18n';
 import { queryClient } from '@/lib/query-client';
 import { colors } from '@/theme/colors';
 
-SplashScreen.preventAutoHideAsync();
-
 export const unstable_settings = {
-  initialRouteName: 'index',
+  initialRouteName: 'onboarding',
 };
 
 export default function RootLayout() {
@@ -50,15 +47,7 @@ export default function RootLayout() {
           style={{ flex: 1, direction: isRTL ? 'rtl' : 'ltr' }}
         >
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="index"
-              options={{
-                contentStyle: {
-                  backgroundColor: colors.white,
-                  direction: 'ltr',
-                },
-              }}
-            />
+            <Stack.Screen name="index" />
             <Stack.Screen name="onboarding" />
             <Stack.Screen name="lastOnboarding" />
             <Stack.Screen name="signup" />

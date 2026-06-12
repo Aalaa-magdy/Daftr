@@ -28,18 +28,6 @@
           "iosUrlScheme": "com.googleusercontent.apps.844310048230-u84nq3eptks8dn1jvvbquke8n39rvb98"
         }
       ],
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 64,
-          "resizeMode": "contain",
-          "backgroundColor": "#F7FAF8",
-          "dark": {
-            "backgroundColor": "#F7FAF8"
-          }
-        }
-      ],
       "expo-font",
       "@react-native-community/datetimepicker",
       "expo-web-browser",
